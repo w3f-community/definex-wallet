@@ -33,6 +33,7 @@ export default function RepayBorrowForm(props) {
   const [status, setStatus] = useState(null);
   const accountPair = props.accountPair;
   const item = props.item;
+  const hideModal = props.hideModal;
 
   useEffect(() => {
     let unsubscribeAll = null;
@@ -44,13 +45,13 @@ export default function RepayBorrowForm(props) {
     return () => unsubscribeAll && unsubscribeAll();
   }, [accountPair.address, api.query.genericAsset, item.borrow_asset_id])
 
-  //hide modal when completed
+  // hide modal when completed
   useEffect(() => {
-    if (status == 'complete') {
+    if (status === 'complete') {
       hideModal()
     }
-  }, [status])
-  
+  }, [status, hideModal]);
+
   return (
     <form>
       <Form.Item

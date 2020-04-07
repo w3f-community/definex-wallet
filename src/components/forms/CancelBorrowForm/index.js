@@ -27,19 +27,19 @@ const formItemLayout = {
   },
 }
 
-
 export default function CancelBorrowForm(props) {
   const { api } = useSubstrate();
   const [status, setStatus] = useState(null);
   const accountPair = props.accountPair;
   const item = props.item;
+  const hideModal = props.hideModal;
 
-  //hide modal when completed
+  // hide modal when completed
   useEffect(() => {
-    if (status == 'complete') {
+    if (status === 'complete') {
       hideModal()
     }
-  }, [status])
+  }, [status, hideModal])
 
   return (
     <form>

@@ -51,7 +51,7 @@ export default function MakeBorrowForm(props) {
       console.log('trading pairs', JSON.parse(res)[0])
       setTradingPairs(JSON.parse(res)[0])
     })
-  }, [api.query.pToP.tradingPairs])
+  }, [api.query.pToP])
 
   // get balance
   useEffect(() => {
@@ -66,12 +66,12 @@ export default function MakeBorrowForm(props) {
     }
   }, [accountPair.address, api.query.genericAsset, tradingPairs])
 
-  //hide modal when completed
-  useEffect(()=>{
-    if(status == 'complete'){
+  // hide modal when completed
+  useEffect(() => {
+    if (status === 'complete') {
       hideModal()
     }
-  }, [status])
+  }, [status, hideModal])
 
   return (
     <form>

@@ -164,7 +164,7 @@ export default function P2p(props) {
                 onCancel={() => { setMakeModal(false) }}
                 footer={null}
             >
-                <MakeBorrowForm hideModal={()=>{setMakeModal(false)}} accountPair={accountPair} item={selectingItem} symbolsMapping={symbolsMapping} />
+                <MakeBorrowForm hideModal={() => { setMakeModal(false) }} accountPair={accountPair} item={selectingItem} symbolsMapping={symbolsMapping} />
             </Modal>}
             {addModalVisible && <Modal
                 title={'Add'}
@@ -173,7 +173,7 @@ export default function P2p(props) {
                 onCancel={() => { setAddModal(false) }}
                 footer={null}
             >
-                <AddBorrowForm hideModal={()=>{setAddModal(false)}} accountPair={accountPair} item={selectingItem} />
+                <AddBorrowForm hideModal={() => { setAddModal(false) }} accountPair={accountPair} item={selectingItem} />
             </Modal>}
             {lendModalVisible && <Modal
                 title={'Lend'}
@@ -182,7 +182,7 @@ export default function P2p(props) {
                 onCancel={() => { setLendModal(false) }}
                 footer={null}
             >
-                <LendBorrowForm hideModal={()=>{setLendModal(false)}} accountPair={accountPair} item={selectingItem} />
+                <LendBorrowForm hideModal={() => { setLendModal(false) }} accountPair={accountPair} item={selectingItem} />
             </Modal>}
             {repayModalVisible && <Modal
                 title={'Repay'}
@@ -191,7 +191,7 @@ export default function P2p(props) {
                 onCancel={() => { setRepayModal(false) }}
                 footer={null}
             >
-                <RepayBorrowForm hideModal={()=>{setBorrowModal(false)}} accountPair={accountPair} item={selectingItem} />
+                <RepayBorrowForm hideModal={() => { setRepayModal(false) }} accountPair={accountPair} item={selectingItem} />
             </Modal>}
             {cancelModalVisible && <Modal
                 title={'Cancel'}
@@ -200,7 +200,7 @@ export default function P2p(props) {
                 onCancel={() => { setCancelModal(false) }}
                 footer={null}
             >
-                <CancelBorrowForm hideModal={()=>{setCancelModal(false)}} accountPair={accountPair} item={selectingItem} />
+                <CancelBorrowForm hideModal={() => { setCancelModal(false) }} accountPair={accountPair} item={selectingItem} />
             </Modal>}
         </div>
     );
