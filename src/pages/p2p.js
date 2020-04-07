@@ -2,6 +2,9 @@ import React, { useEffect, useState } from 'react';
 import { Table, Button, Divider, Modal, Tooltip } from 'antd';
 import { useSubstrate } from '../substrate-lib';
 import AddBorrowForm from '../components/forms/AddBorrowForm';
+import LendBorrowForm from '../components/forms/LendBorrowForm';
+import RepayBorrowForm from '../components/forms/RepayBorrowForm';
+import CancelBorrowForm from '../components/forms/CancelBorrowForm';
 // import Pagination from '../components/pagination'
 
 export default function P2p(props) {
@@ -155,6 +158,33 @@ export default function P2p(props) {
                 footer={null}
             >
                 <AddBorrowForm accountPair={accountPair} item={selectingItem} />
+            </Modal>}
+            {lendModalVisible && <Modal
+                title={'Lend'}
+                visible={true}
+                closable
+                onCancel={() => { setLendModal(false) }}
+                footer={null}
+            >
+                <LendBorrowForm accountPair={accountPair} item={selectingItem} />
+            </Modal>}
+            {repayModalVisible && <Modal
+                title={'Repay'}
+                visible={true}
+                closable
+                onCancel={() => { setRepayModal(false) }}
+                footer={null}
+            >
+                <RepayBorrowForm accountPair={accountPair} item={selectingItem} />
+            </Modal>}
+            {cancelModalVisible && <Modal
+                title={'Cancel'}
+                visible={true}
+                closable
+                onCancel={() => { setCancelModal(false) }}
+                footer={null}
+            >
+                <CancelBorrowForm accountPair={accountPair} item={selectingItem} />
             </Modal>}
         </div>
     );
