@@ -46,6 +46,7 @@ export default function CancelBorrowForm(props) {
         <TxButton
           accountPair={accountPair}
           label='Cancel'
+          loading={status == 'loading'}
           setStatus={setStatus}
           type='TRANSACTION'
           attrs={{
@@ -54,8 +55,6 @@ export default function CancelBorrowForm(props) {
           }}
         />
       </Form.Item>
-      <div style={{ overflowWrap: 'break-word' }}>{status}</div>
-
     </form>
   )
 }

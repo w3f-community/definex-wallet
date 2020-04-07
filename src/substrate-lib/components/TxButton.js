@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button } from 'antd';
+import { Button, message } from 'antd';
 import { web3FromSource } from '@polkadot/extension-dapp';
 
 import { useSubstrate } from '../';
@@ -7,10 +7,11 @@ import { useSubstrate } from '../';
 export default function TxButton({
   accountPair = null,
   label,
-  setStatus,
+  setStatus,// loading, error, complete
   style = null,
   type = null,
   attrs = null,
+  loading = false,
   disabled = false
 }) {
   const { api } = useSubstrate();
@@ -32,7 +33,9 @@ export default function TxButton({
     } else {
       fromParam = accountPair;
     }
-    setStatus('Sending...');
+
+    setStatus('loading');
+    message.info('Sending...');
 
     let txExecute;
     try {
@@ -44,21 +47,23 @@ export default function TxButton({
       }
     } catch (e) {
       console.error('ERROR forming transaction:', e);
-      setStatus(e.toString());
+      setStatus('error');
+      message.error(e.toString());
     }
 
     if (txExecute) {
       txExecute
         .signAndSend(fromParam, ({ status }) => {
-          console.log(status, 'ddddd')
-          status.isFinalized
-            ? setStatus(
-              `Completed at block hash #${status.asFinalized.toString()}`
-            )
-            : setStatus(`Current transaction status: ${status.type}`);
+          if (status.isFinalized) {
+            setStatus('complete');
+            message.success(`Completed at block hash #${status.asFinalized.toString()}`)
+          } else {
+            message.info(`Status: ${status.type}`);
+          }
         })
         .catch(e => {
-          setStatus(':( transaction failed');
+          setStatus('error');
+          message.error(':( transaction failed');
           console.error('ERROR transaction:', e);
         });
     }
@@ -66,16 +71,19 @@ export default function TxButton({
 
   const query = async () => {
     try {
+      setStatus('loading');
       const result = await tx(...params);
-      setStatus(result.toString());
+      setStatus('complete');
+      message.info(result.toString());
     } catch (e) {
       console.error('ERROR query:', e);
-      setStatus(e.toString());
+      setStatus('error');
+      message.error(e.toString());
     }
   };
 
   return (
-    <Button type={'primary'} style={style} onClick={isQuery() ? query : transaction} disabled={disabled || !tx || (!isQuery() && !accountPair)}>
+    <Button loading={loading} type={'primary'} style={style} onClick={isQuery() ? query : transaction} disabled={disabled || !tx || (!isQuery() && !accountPair)}>
       {label}
     </Button>
   );

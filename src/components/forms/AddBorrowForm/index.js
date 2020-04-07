@@ -64,6 +64,7 @@ export default function AddBorrowForm(props) {
         <TxButton
           accountPair={accountPair}
           label='Add'
+          loading={status == 'loading'}
           setStatus={setStatus}
           type='TRANSACTION'
           attrs={{
@@ -72,8 +73,6 @@ export default function AddBorrowForm(props) {
           }}
         />
       </Form.Item>
-      <div style={{ overflowWrap: 'break-word' }}>{status}</div>
-
     </form>
   )
 }
