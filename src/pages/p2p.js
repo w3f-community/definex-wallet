@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Table, Button, Divider, Modal } from 'antd';
+import { Table, Button, Divider, Modal, Tooltip } from 'antd';
 import { useSubstrate } from '../substrate-lib';
 import AddBorrowForm from '../components/forms/AddBorrowForm';
 // import Pagination from '../components/pagination'
@@ -49,6 +49,13 @@ export default function P2p(props) {
         title: 'Who',
         dataIndex: 'who',
         key: 'who',
+        ellipsis: true,
+        width: '120px',
+        render: (props, record) => (
+            <Tooltip placement="left" title={record.who}>
+                <span>{record.who}</span>
+            </Tooltip>
+        )
     }, {
         title: 'Status',
         dataIndex: 'status',
@@ -112,19 +119,23 @@ export default function P2p(props) {
     {
         title: 'Action',
         key: 'action',
-        width: '400px',
+        width: '360px',
         render: (props, record) => {
             return (
                 <div>
-                    <div style={{ paddingRight: '10px' }}>
-                        <Button onClick={() => { setSelectingItem(record); setAddModal(true) }}>Add</Button>
-                        <Divider type="vertical" />
-                        <Button onClick={() => { setSelectingItem(record); setLendModal(true) }}>Lend</Button>
-                        <Divider type="vertical" />
-                        <Button onClick={() => { setSelectingItem(record); setRepayModal(true) }}>Repay</Button>
-                        <Divider type="vertical" />
-                        <Button onClick={() => { setSelectingItem(record); setCancelModal(true) }}>Cancel</Button>
-                    </div>
+                    {
+                        record.who === accountPair.address && (
+                            <div>
+                                <Button onClick={() => { setSelectingItem(record); setAddModal(true) }}>Add</Button>
+                                <Divider type="vertical" />
+                            </div>
+                        )
+                    }
+                    <Button onClick={() => { setSelectingItem(record); setLendModal(true) }}>Lend</Button>
+                    <Divider type="vertical" />
+                    <Button onClick={() => { setSelectingItem(record); setRepayModal(true) }}>Repay</Button>
+                    <Divider type="vertical" />
+                    <Button onClick={() => { setSelectingItem(record); setCancelModal(true) }}>Cancel</Button>
                 </div>
             )
         }
@@ -134,7 +145,7 @@ export default function P2p(props) {
     return (
         <div>
             <h2>Borrow List</h2>
-            <Button type={'primary'}>Make</Button>
+            <Button type={'primary'} style={{ margin: '24px auto 12px' }}>Make</Button>
             <Table columns={columns} rowKey={'id'} dataSource={borrowList} pagination={false} />
             {addModalVisible && <Modal
                 title={'Add'}

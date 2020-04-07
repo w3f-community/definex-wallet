@@ -4,7 +4,6 @@ import {
   Menu,
   Dropdown,
   Container,
-  Icon,
   Label
 } from 'semantic-ui-react';
 
@@ -121,12 +120,12 @@ function BalanceAnnotation (props) {
   }, [accountSelected, api.query.system]);
 
   return accountSelected ? (
-    <Label pointing='left'>
-      <Icon
+    <Label pointing='left' style={{ lineHeight: 'unset' }}>
+      {/* <Icon
         name='money bill alternate'
         color={accountBalance > 0 ? 'green' : 'red'}
-      />
-      {accountBalance}
+      /> */}
+      Balance: {accountBalance}
     </Label>
   ) : null;
 }
