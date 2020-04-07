@@ -44,6 +44,13 @@ export default function RepayBorrowForm(props) {
     return () => unsubscribeAll && unsubscribeAll();
   }, [accountPair.address, api.query.genericAsset, item.borrow_asset_id])
 
+  //hide modal when completed
+  useEffect(() => {
+    if (status == 'complete') {
+      hideModal()
+    }
+  }, [status])
+  
   return (
     <form>
       <Form.Item

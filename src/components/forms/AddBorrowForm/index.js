@@ -45,6 +45,13 @@ export default function AddBorrowForm(props) {
     return () => unsubscribeAll && unsubscribeAll();
   }, [accountPair.address, api.query.genericAsset, item.collateral_asset_id])
 
+  //hide modal when completed
+  useEffect(() => {
+    if (status == 'complete') {
+      hideModal()
+    }
+  }, [status])
+
   return (
     <form>
       <Form.Item

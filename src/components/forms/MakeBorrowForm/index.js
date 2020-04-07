@@ -42,6 +42,7 @@ export default function MakeBorrowForm(props) {
   const [status, setStatus] = useState(null);
   const accountPair = props.accountPair;
   const symbolsMapping = props.symbolsMapping;
+  const hideModal = props.hideModal;
 
   // get trading pair
   useEffect(() => {
@@ -64,6 +65,13 @@ export default function MakeBorrowForm(props) {
       return () => unsubscribeAll && unsubscribeAll();
     }
   }, [accountPair.address, api.query.genericAsset, tradingPairs])
+
+  //hide modal when completed
+  useEffect(()=>{
+    if(status == 'complete'){
+      hideModal()
+    }
+  }, [status])
 
   return (
     <form>
@@ -105,7 +113,7 @@ export default function MakeBorrowForm(props) {
       </Form.Item>
       <Form.Item
         {...formItemLayout}
-        label={'Amont'}
+        label={'Borrow Amont'}
       >
         <Input value={amount} onChange={event => setAmount(event.target.value)} />
       </Form.Item>
@@ -133,7 +141,7 @@ export default function MakeBorrowForm(props) {
             params: [Number(collateralBalance * (10 ** 8)), { trading_pair: tradingPairs }, {
               borrow_options: {
                 amount: Number(amount * (10 ** 8)),
-                terms: Number(terms * (10 ** 8)),
+                terms: Number(terms),
                 interest_rate: Number(interestRate * (10 ** 8))
               }
             }],

@@ -1,6 +1,6 @@
 # Definex Wallet
 
-### Install
+## Install
 
 ```bash
 yarn install
@@ -16,3 +16,7 @@ yarn start
 ```bash
 yarn build
 ```
+
+### TODO
+
+1. apply decimal.js

@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Form } from 'antd'
 import { TxButton } from '../../../substrate-lib/components';
 import { useSubstrate } from '../../../substrate-lib';
@@ -27,11 +27,19 @@ const formItemLayout = {
   },
 }
 
+
 export default function CancelBorrowForm(props) {
   const { api } = useSubstrate();
   const [status, setStatus] = useState(null);
   const accountPair = props.accountPair;
   const item = props.item;
+
+  //hide modal when completed
+  useEffect(() => {
+    if (status == 'complete') {
+      hideModal()
+    }
+  }, [status])
 
   return (
     <form>
