@@ -1,0 +1,78 @@
+{
+  "name": "Definex Wallet",
+  "version": "0.1.1",
+  "private": true,
+  "license": "Unlicense",
+  "dependencies": {
+    "@polkadot/api": "^1.6.0-beta.26",
+    "@polkadot/extension-dapp": "^0.21.1",
+    "@polkadot/keyring": "^2.7.1",
+    "@polkadot/react-identicon": "^0.49.1",
+    "@polkadot/ui-keyring": "^0.49.1",
+    "@polkadot/util": "^2.6.2",
+    "@polkadot/util-crypto": "^2.6.2",
+    "antd": "^4.1.1",
+    "big.js": "^5.2.2",
+    "prop-types": "^15.7.2",
+    "query-string": "^6.11.0",
+    "react": "^16.13.1",
+    "react-dom": "^16.13.1",
+    "react-router-dom": "^5.1.2",
+    "react-scripts": "3.2.0",
+    "semantic-ui-css": "^2.4.1",
+    "semantic-ui-react": "^0.88.0",
+    "toformat": "^2.0.0"
+  },
+  "devDependencies": {
+    "eslint-config-standard": "^14.1.0",
+    "eslint-plugin-import": "^2.18.2",
+    "eslint-plugin-node": "^10.0.0",
+    "eslint-plugin-only-warn": "^1.0.1",
+    "eslint-plugin-promise": "^4.2.1",
+    "eslint-plugin-standard": "^4.0.1",
+    "gh-pages": "^2.1.1"
+  },
+  "scripts": {
+    "start": "PORT=8000 react-scripts start",
+    "build": "react-scripts build",
+    "test": "CI=true react-scripts test --env=jsdom",
+    "eject": "react-scripts eject",
+    "lint": "eslint src/**",
+    "lint:ci": "eslint src/** --max-warnings=0",
+    "lint:fix": "eslint --fix src/**",
+    "predeploy": "yarn build",
+    "deploy": "gh-pages -d build -m '[ci skip] Updates'"
+  },
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "standard"
+    ],
+    "plugins": [
+      "only-warn"
+    ],
+    "rules": {
+      "indent":"off",
+      "comma-dangle":"off",
+      "semi": "off",
+      "space-before-function-paren":"off",
+      "no-extra-semi": 1
+    }
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "homepage": "https://github.com/y2labs-0sh/definex-wallet",
+  "bugs": {
+    "url": "https://github.com/y2labs-0sh/definex-wallet/issues"
+  }
+}
