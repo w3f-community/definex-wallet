@@ -46,7 +46,7 @@ export default function CancelBorrowForm(props) {
         <TxButton
           accountPair={accountPair}
           label='Cancel'
-          loading={status == 'loading'}
+          loading={status === 'loading'}
           setStatus={setStatus}
           type='TRANSACTION'
           attrs={{

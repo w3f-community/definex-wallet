@@ -76,7 +76,7 @@ export default function RepayBorrowForm(props) {
         <TxButton
           accountPair={accountPair}
           label='Repay'
-          loading={status == 'loading'}
+          loading={status === 'loading'}
           setStatus={setStatus}
           type='TRANSACTION'
           attrs={{

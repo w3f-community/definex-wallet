@@ -32,7 +32,7 @@ export default function MakeBorrowForm(props) {
 
   const [balance, setBalance] = useState(0);
 
-  //for form
+  // for form
   const [collateralBalance, setCollateralBalance] = useState(0);
   const [amount, setAmount] = useState(0);
   const [terms, setTerms] = useState(0);
@@ -42,7 +42,6 @@ export default function MakeBorrowForm(props) {
   const [status, setStatus] = useState(null);
   const accountPair = props.accountPair;
   const symbolsMapping = props.symbolsMapping;
-  console.log('mappping is', symbolsMapping)
 
   // get trading pair
   useEffect(() => {
@@ -102,7 +101,7 @@ export default function MakeBorrowForm(props) {
         {...formItemLayout}
         label={'Collateral Balance'}
       >
-        <Input value={collateralBalance} onChange={event => setCollateralBalance(event.target.value)} />
+        <Input value={collateralBalance} onChange={event => { setCollateralBalance(event.target.value) }} />
       </Form.Item>
       <Form.Item
         {...formItemLayout}
@@ -127,15 +126,15 @@ export default function MakeBorrowForm(props) {
         <TxButton
           accountPair={accountPair}
           label='Make'
-          loading={status == 'loading'}
+          loading={status === 'loading'}
           setStatus={setStatus}
           type='TRANSACTION'
           attrs={{
-            params: [collateralBalance, { trading_pair: tradingPairs }, {
+            params: [Number(collateralBalance * (10 ** 8)), { trading_pair: tradingPairs }, {
               borrow_options: {
-                amount: amount,
-                terms: terms,
-                interest_rate: interestRate * (10 ** 8)
+                amount: Number(amount * (10 ** 8)),
+                terms: Number(terms * (10 ** 8)),
+                interest_rate: Number(interestRate * (10 ** 8))
               }
             }],
             tx: api.tx.pToP.make

@@ -50,7 +50,7 @@ function Main() {
         </Sticky>
         <Container>
           <Switch>
-            <Route path="/p2p">
+            <Route path="/" exact>
               <P2p accountPair={accountPair} />
             </Route>
             <Route path="/test">

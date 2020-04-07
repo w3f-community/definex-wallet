@@ -76,7 +76,7 @@ export default function LendBorrowForm(props) {
         <TxButton
           accountPair={accountPair}
           label='Lend'
-          loading={status == 'loading'}
+          loading={status === 'loading'}
           setStatus={setStatus}
           type='TRANSACTION'
           attrs={{

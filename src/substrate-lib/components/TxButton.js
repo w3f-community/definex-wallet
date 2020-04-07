@@ -7,7 +7,7 @@ import { useSubstrate } from '../';
 export default function TxButton({
   accountPair = null,
   label,
-  setStatus,// loading, error, complete
+  setStatus, // loading, error, complete
   style = null,
   type = null,
   attrs = null,
@@ -40,6 +40,7 @@ export default function TxButton({
     let txExecute;
     try {
       // Check if tx has params
+      console.log('paaaaaaramsss', ...params)
       if (!params) {
         txExecute = !sudo ? tx() : tx.sudo();
       } else {

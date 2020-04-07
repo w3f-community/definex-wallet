@@ -64,11 +64,11 @@ export default function AddBorrowForm(props) {
         <TxButton
           accountPair={accountPair}
           label='Add'
-          loading={status == 'loading'}
+          loading={status === 'loading'}
           setStatus={setStatus}
           type='TRANSACTION'
           attrs={{
-            params: [item.id, collateralAmount],
+            params: [item.id, Number(collateralAmount * (10 ** 8))],
             tx: api.tx.pToP.add
           }}
         />
