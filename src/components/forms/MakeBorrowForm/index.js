@@ -138,13 +138,13 @@ export default function MakeBorrowForm(props) {
           setStatus={setStatus}
           type='TRANSACTION'
           attrs={{
-            params: [Number(collateralBalance * (10 ** 8)), { trading_pair: tradingPairs }, {
-              borrow_options: {
-                amount: Number(amount * (10 ** 8)),
-                terms: Number(terms),
-                interest_rate: Number(interestRate * (10 ** 8))
-              }
-            }],
+            params: [Number(collateralBalance * (10 ** 8)), tradingPairs,
+            {
+              amount: Number(amount * (10 ** 8)),
+              terms: Number(terms),
+              interest_rate: Number(interestRate * (10 ** 8))
+            }
+            ],
             tx: api.tx.pToP.make
           }}
         />

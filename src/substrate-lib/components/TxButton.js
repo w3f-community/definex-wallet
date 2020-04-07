@@ -40,7 +40,6 @@ export default function TxButton({
     let txExecute;
     try {
       // Check if tx has params
-      console.log('paaaaaaramsss', ...params)
       if (!params) {
         txExecute = !sudo ? tx() : tx.sudo();
       } else {
