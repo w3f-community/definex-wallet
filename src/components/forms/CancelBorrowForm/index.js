@@ -27,7 +27,7 @@ const formItemLayout = {
   },
 }
 
-export default function LendBorrowForm(props) {
+export default function CancelBorrowForm(props) {
   const { api } = useSubstrate();
   const [status, setStatus] = useState(null);
   const accountPair = props.accountPair;

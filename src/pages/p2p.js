@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Table, Button, Divider, Modal, Tooltip } from 'antd';
 import { useSubstrate } from '../substrate-lib';
+import MakeBorrowForm from '../components/forms/MakeBorrowForm';
 import AddBorrowForm from '../components/forms/AddBorrowForm';
 import LendBorrowForm from '../components/forms/LendBorrowForm';
 import RepayBorrowForm from '../components/forms/RepayBorrowForm';
@@ -11,6 +12,7 @@ export default function P2p(props) {
     const { api } = useSubstrate();
     console.log('api is', api);
     const [borrowList, setBorrowList] = useState(0);
+    const [symbolsMapping, setSymbolsMapping] = useState({});
     const [selectingItem, setSelectingItem] = useState(0);
     const [addModalVisible, setAddModal] = useState(false);
     const [lendModalVisible, setLendModal] = useState(false);
@@ -23,22 +25,27 @@ export default function P2p(props) {
     useEffect(() => {
         api.rpc.genericAsset.symbolsList().then(res => {
             const symbolsArray = JSON.parse(res)
-            const symbolsMapping = {}
+            const symbolsObj = {}
             symbolsArray.forEach(item => {
-                symbolsMapping[item[0]] = item[1]
+                symbolsObj[item[0]] = item[1]
             })
-            api.rpc.pToP.borrows(10, 0).then(res => {
-                const borrowArray = JSON.parse(res)
-                borrowArray.forEach(item => {
-                    item.borrow_asset_symbol = symbolsMapping[item.borrow_asset_id]
-                    item.collateral_asset_symbol = symbolsMapping[item.collateral_asset_id]
-                })
-                setBorrowList(borrowArray);
-            }).catch(error => {
-                console.log('errrr', error);
-            })
+            setSymbolsMapping(symbolsObj)
         })
     }, [api.rpc.pToP, api.rpc.genericAsset]);
+
+    useEffect(() => {
+        api.rpc.pToP.aliveBorrows(10, 0).then(res => {
+            const borrowArray = JSON.parse(res)
+            borrowArray.forEach(item => {
+                item.borrow_asset_symbol = symbolsMapping[item.borrow_asset_id]
+                item.collateral_asset_symbol = symbolsMapping[item.collateral_asset_id]
+            })
+            setBorrowList(borrowArray);
+            console.log('borrow array is', borrowArray)
+        }).catch(error => {
+            console.log('errrr', error);
+        })
+    }, [symbolsMapping, api.rpc.pToP])
 
     const columns = [{
         title: 'Id',
@@ -148,8 +155,17 @@ export default function P2p(props) {
     return (
         <div>
             <h2>Borrow List</h2>
-            <Button type={'primary'} style={{ margin: '24px auto 12px' }}>Make</Button>
+            <Button type={'primary'} style={{ margin: '24px auto 12px' }} onClick={() => { setMakeModal(true) }}>Make</Button>
             <Table columns={columns} rowKey={'id'} dataSource={borrowList} pagination={false} />
+            {makeModalVisible && <Modal
+                title={'Make'}
+                visible={true}
+                closable
+                onCancel={() => { setMakeModal(false) }}
+                footer={null}
+            >
+                <MakeBorrowForm accountPair={accountPair} item={selectingItem} symbolsMapping={symbolsMapping} />
+            </Modal>}
             {addModalVisible && <Modal
                 title={'Add'}
                 visible={true}

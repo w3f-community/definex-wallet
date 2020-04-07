@@ -42,7 +42,7 @@ export default function LendBorrowForm(props) {
       unsubscribeAll = unsub;
     })
     return () => unsubscribeAll && unsubscribeAll();
-  }, [accountPair.address, api.query.genericAsset, item.collateral_asset_id])
+  }, [accountPair.address, api.query.genericAsset, item.borrow_asset_id])
 
   return (
     <form>

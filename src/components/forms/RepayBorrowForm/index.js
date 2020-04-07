@@ -27,7 +27,7 @@ const formItemLayout = {
   },
 }
 
-export default function LendBorrowForm(props) {
+export default function RepayBorrowForm(props) {
   const { api } = useSubstrate();
   const [borrowBalance, setborrowBalance] = useState(0);
   const [status, setStatus] = useState(null);
@@ -42,7 +42,7 @@ export default function LendBorrowForm(props) {
       unsubscribeAll = unsub;
     })
     return () => unsubscribeAll && unsubscribeAll();
-  }, [accountPair.address, api.query.genericAsset, item.collateral_asset_id])
+  }, [accountPair.address, api.query.genericAsset, item.borrow_asset_id])
 
   return (
     <form>

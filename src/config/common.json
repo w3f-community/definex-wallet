@@ -61,7 +61,7 @@
       "id": "P2PBorrowId",
       "lock_id": "u128",
       "who": "AccountId",
-      "status": "P2PBorrowStatus",
+      "status": "BorrowStatus",
       "borrow_asset_id": "AssetId",
       "collateral_asset_id": "AssetId",
       "borrow_balance": "Balance",
@@ -172,7 +172,67 @@
         ],
         "type": "Vec<P2PBorrow>"
       },
+      "userBorrows": {
+        "params": [
+          {
+            "name": "who",
+            "type": "AccountId"
+          },
+          {
+            "name": "size",
+            "type": "Option<u64>"
+          },
+          {
+            "name": "offset",
+            "type": "Option<u64>"
+          }
+        ],
+        "type": "Vec<P2PBorrow>"
+      },
+      "aliveBorrows": {
+        "params": [
+          {
+            "name": "size",
+            "type": "Option<u64>"
+          },
+          {
+            "name": "offset",
+            "type": "Option<u64>"
+          }
+        ],
+        "type": "Vec<P2PBorrow>"
+      },
       "loans": {
+        "params": [
+          {
+            "name": "size",
+            "type": "Option<u64>"
+          },
+          {
+            "name": "offset",
+            "type": "Option<u64>"
+          }
+        ],
+        "type": "Vec<P2PLoan>"
+      },
+      "userLoans": {
+        "params": [
+          {
+            "name": "who",
+            "type": "AccountId"
+          },
+          {
+            "name": "size",
+            "type": "Option<u64>"
+          },
+          {
+            "name": "offset",
+            "type": "Option<u64>"
+          }
+        ],
+        "type": "Vec<P2PLoan>"
+      },
+      "aliveLoans": {
         "params": [
           {
             "name": "size",
