@@ -3,8 +3,7 @@ import { Container, Dimmer, Loader, Sticky } from 'semantic-ui-react';
 import {
   BrowserRouter as Router,
   Switch,
-  Route,
-  Link
+  Route
 } from 'react-router-dom';
 
 // imoprt pages here
