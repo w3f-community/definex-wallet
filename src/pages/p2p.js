@@ -34,6 +34,7 @@ export default function P2p(props) {
     }, [api.rpc.pToP, api.rpc.genericAsset]);
 
     useEffect(() => {
+        let unsubscribeAll = null;
         api.rpc.pToP.aliveBorrows(10, 0).then(res => {
             const borrowArray = JSON.parse(res)
             borrowArray.forEach(item => {
@@ -42,9 +43,12 @@ export default function P2p(props) {
             })
             setBorrowList(borrowArray);
             console.log('borrow array is', borrowArray)
+        }).then(unsub => {
+            unsubscribeAll = unsub;
         }).catch(error => {
             console.log('errrr', error);
         })
+        return () => unsubscribeAll && unsubscribeAll();
     }, [symbolsMapping, api.rpc.pToP])
 
     const columns = [{

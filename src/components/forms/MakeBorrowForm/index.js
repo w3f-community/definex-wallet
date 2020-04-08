@@ -127,7 +127,7 @@ export default function MakeBorrowForm(props) {
         {...formItemLayout}
         label={'Interest Rate'}
       >
-        <Input value={interestRate} onChange={event => setInterestRate(event.target.value)} suffix="Per Day" />
+        <Input value={interestRate} onChange={event => setInterestRate(event.target.value)} suffix="% Per Day" />
       </Form.Item>
 
       <Form.Item {...tailFormItemLayout}>
@@ -142,7 +142,7 @@ export default function MakeBorrowForm(props) {
             {
               amount: Number(amount * (10 ** 8)),
               terms: Number(terms),
-              interest_rate: Number(interestRate * (10 ** 8))
+              interest_rate: Number(interestRate * (10 ** 6))
             }
             ],
             tx: api.tx.pToP.make
