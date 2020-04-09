@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { Form } from 'antd'
+import { Form, Spin } from 'antd'
 import { TxButton } from '../../../substrate-lib/components';
 import { useSubstrate } from '../../../substrate-lib';
 
@@ -53,46 +53,47 @@ export default function RepayBorrowForm(props) {
   }, [status, hideModal]);
 
   return (
-    <form>
-      <Form.Item
-        {...formItemLayout}
-        label={'Balance'}
-      >
-        <span className="ant-form-text">{borrowBalance} {item.borrow_asset_symbol}</span>
-      </Form.Item>
+    <Spin spinning={status === 'loading'}>
+      <form>
+        <Form.Item
+          {...formItemLayout}
+          label={'Balance'}
+        >
+          <span className="ant-form-text">{borrowBalance} {item.borrow_asset_symbol}</span>
+        </Form.Item>
 
-      <Form.Item
-        {...formItemLayout}
-        label={'Return'}
-      >
-        <span className="ant-form-text">{item.borrow_balance}</span>
-      </Form.Item>
-      <Form.Item
-        {...formItemLayout}
-        label={'Interest'}
-      >
-        <span className="ant-form-text">{item.interest_rate}</span>
-      </Form.Item>
-      <Form.Item
-        {...formItemLayout}
-        label={'Fee'}
-      >
-        <span className="ant-form-text">{item.borrow_balance * item.interest_rate}</span>
-      </Form.Item>
+        <Form.Item
+          {...formItemLayout}
+          label={'Return'}
+        >
+          <span className="ant-form-text">{item.borrow_balance}</span>
+        </Form.Item>
+        <Form.Item
+          {...formItemLayout}
+          label={'Interest'}
+        >
+          <span className="ant-form-text">{item.interest_rate}</span>
+        </Form.Item>
+        <Form.Item
+          {...formItemLayout}
+          label={'Fee'}
+        >
+          <span className="ant-form-text">{item.borrow_balance * item.interest_rate}</span>
+        </Form.Item>
 
-      <Form.Item {...tailFormItemLayout}>
-        <TxButton
-          accountPair={accountPair}
-          label='Repay'
-          loading={status === 'loading'}
-          setStatus={setStatus}
-          type='TRANSACTION'
-          attrs={{
-            params: [item.id],
-            tx: api.tx.pToP.repay
-          }}
-        />
-      </Form.Item>
-    </form>
+        <Form.Item {...tailFormItemLayout}>
+          <TxButton
+            accountPair={accountPair}
+            label='Repay'
+            setStatus={setStatus}
+            type='TRANSACTION'
+            attrs={{
+              params: [item.id],
+              tx: api.tx.pToP.repay
+            }}
+          />
+        </Form.Item>
+      </form>
+    </Spin>
   )
 }

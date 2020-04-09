@@ -8,7 +8,10 @@ import {
 } from 'react-router-dom';
 
 // imoprt pages here
-import P2p from './pages/p2p';
+import AliveBorrows from './pages/p2p/AliveBorrows';
+import MyBorrows from './pages/p2p/MyBorrows';
+import AliveLoans from './pages/p2p/AliveLoans';
+import MyLoans from './pages/p2p/AliveBorrows';
 import Assets from './pages/assets';
 import Test from './pages/test'
 
@@ -52,14 +55,24 @@ function Main() {
         <Container>
           <Switch>
             <Route path="/" exact>
-              <Redirect to="/p2p"/>
-            </Route>
-            <Route path="/p2p">
-              <P2p accountPair={accountPair} />
+              <Redirect to="/assets"/>
             </Route>
             <Route path="/assets" exact>
               <Assets accountPair={accountPair} />
             </Route>
+            <Route path="/alive-borrows">
+              <AliveBorrows accountPair={accountPair} />
+            </Route>
+            <Route path="/my-borrows">
+              <MyBorrows accountPair={accountPair} />
+            </Route>
+            <Route path="/alive-loans">
+              <AliveLoans accountPair={accountPair} />
+            </Route>
+            <Route path="/my-loans">
+              <MyLoans accountPair={accountPair} />
+            </Route>
+          
             <Route path="/test">
               <Test accountPair={accountPair} />
             </Route>

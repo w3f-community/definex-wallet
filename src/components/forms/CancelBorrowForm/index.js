@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { Form } from 'antd'
+import { Form, Spin } from 'antd'
 import { TxButton } from '../../../substrate-lib/components';
 import { useSubstrate } from '../../../substrate-lib';
 
@@ -42,27 +42,28 @@ export default function CancelBorrowForm(props) {
   }, [status, hideModal])
 
   return (
-    <form>
-      <Form.Item
-        {...formItemLayout}
-        label={'Cancel'}
-      >
-        <span className="ant-form-text">Are you sure to cancel borrow_id {item.id}?</span>
-      </Form.Item>
+    <Spin spinning={status === 'loading'}>
+      <form>
+        <Form.Item
+          {...formItemLayout}
+          label={'Cancel'}
+        >
+          <span className="ant-form-text">Are you sure to cancel borrow_id {item.id}?</span>
+        </Form.Item>
 
-      <Form.Item {...tailFormItemLayout}>
-        <TxButton
-          accountPair={accountPair}
-          label='Cancel'
-          loading={status === 'loading'}
-          setStatus={setStatus}
-          type='TRANSACTION'
-          attrs={{
-            params: [item.id],
-            tx: api.tx.pToP.cancel
-          }}
-        />
-      </Form.Item>
-    </form>
+        <Form.Item {...tailFormItemLayout}>
+          <TxButton
+            accountPair={accountPair}
+            label='Cancel'
+            setStatus={setStatus}
+            type='TRANSACTION'
+            attrs={{
+              params: [item.id],
+              tx: api.tx.pToP.cancel
+            }}
+          />
+        </Form.Item>
+      </form>
+    </Spin>
   )
 }

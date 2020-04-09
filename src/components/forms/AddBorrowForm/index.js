@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { Form, Input } from 'antd'
+import { Form, Input, Spin } from 'antd'
 import { TxButton } from '../../../substrate-lib/components';
 import { useSubstrate } from '../../../substrate-lib';
 
@@ -54,33 +54,34 @@ export default function AddBorrowForm(props) {
   }, [status, hideModal])
 
   return (
-    <form>
-      <Form.Item
-        {...formItemLayout}
-        label={'Balance'}
-      >
-        <span className="ant-form-text">{collateralBalance} {item.collateral_asset_symbol}</span>
-      </Form.Item>
-      <Form.Item
-        {...formItemLayout}
-        label={'Add Collateral'}
-      >
-        <Input value={collateralAmount} onChange={event => setCollateralAmount(event.target.value)} />
-      </Form.Item>
+    <Spin spinning={status === 'loading'}>
+      <form>
+        <Form.Item
+          {...formItemLayout}
+          label={'Balance'}
+        >
+          <span className="ant-form-text">{collateralBalance} {item.collateral_asset_symbol}</span>
+        </Form.Item>
+        <Form.Item
+          {...formItemLayout}
+          label={'Add Collateral'}
+        >
+          <Input value={collateralAmount} onChange={event => setCollateralAmount(event.target.value)} />
+        </Form.Item>
 
-      <Form.Item {...tailFormItemLayout}>
-        <TxButton
-          accountPair={accountPair}
-          label='Add'
-          loading={status === 'loading'}
-          setStatus={setStatus}
-          type='TRANSACTION'
-          attrs={{
-            params: [item.id, Number(collateralAmount * (10 ** 8))],
-            tx: api.tx.pToP.add
-          }}
-        />
-      </Form.Item>
-    </form>
+        <Form.Item {...tailFormItemLayout}>
+          <TxButton
+            accountPair={accountPair}
+            label='Add'
+            setStatus={setStatus}
+            type='TRANSACTION'
+            attrs={{
+              params: [item.id, Number(collateralAmount * (10 ** 8))],
+              tx: api.tx.pToP.add
+            }}
+          />
+        </Form.Item>
+      </form>
+    </Spin>
   )
 }

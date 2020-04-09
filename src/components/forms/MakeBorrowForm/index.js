@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { Form, Input } from 'antd'
+import { Form, Input, Spin } from 'antd'
 import { TxButton } from '../../../substrate-lib/components';
 import { useSubstrate } from '../../../substrate-lib';
 
@@ -74,81 +74,83 @@ export default function MakeBorrowForm(props) {
   }, [status, hideModal])
 
   return (
-    <form>
-      {tradingPairs && (
-        <Form.Item
-          {...formItemLayout}
-          label={'Collateral'}
-        >
-          <span className="ant-form-text">
-            {symbolsMapping[tradingPairs.collateral]}
-          </span>
-        </Form.Item>
-      )}
-      {
-        tradingPairs && (
+    <Spin spinning={status === 'loading'}>
+      <form>
+        {tradingPairs && (
           <Form.Item
             {...formItemLayout}
-            label={'Borrow'}
+            label={'Collateral'}
           >
             <span className="ant-form-text">
-              {symbolsMapping[tradingPairs.borrow]}
+              {symbolsMapping[tradingPairs.collateral]}
             </span>
           </Form.Item>
-        )
-      }
-      <Form.Item
-        {...formItemLayout}
-        label={'Balance'}
-      >
-        <span className="ant-form-text">
-          {balance} {symbolsMapping[tradingPairs.collateral]}
-        </span>
-      </Form.Item>
-      <Form.Item
-        {...formItemLayout}
-        label={'Collateral Balance'}
-      >
-        <Input value={collateralBalance} onChange={event => { setCollateralBalance(event.target.value) }} />
-      </Form.Item>
-      <Form.Item
-        {...formItemLayout}
-        label={'Borrow Amont'}
-      >
-        <Input value={amount} onChange={event => setAmount(event.target.value)} />
-      </Form.Item>
-      <Form.Item
-        {...formItemLayout}
-        label={'Terms'}
-      >
-        <Input value={terms} onChange={event => setTerms(event.target.value)} suffix="Days" />
-      </Form.Item>
-      <Form.Item
-        {...formItemLayout}
-        label={'Interest Rate'}
-      >
-        <Input value={interestRate} onChange={event => setInterestRate(event.target.value)} suffix="% Per Day" />
-      </Form.Item>
+        )}
+        {
+          tradingPairs && (
+            <Form.Item
+              {...formItemLayout}
+              label={'Borrow'}
+            >
+              <span className="ant-form-text">
+                {symbolsMapping[tradingPairs.borrow]}
+              </span>
+            </Form.Item>
+          )
+        }
+        <Form.Item
+          {...formItemLayout}
+          label={'Balance'}
+        >
+          <span className="ant-form-text">
+            {balance} {symbolsMapping[tradingPairs.collateral]}
+          </span>
+        </Form.Item>
+        <Form.Item
+          {...formItemLayout}
+          label={'Collateral Balance'}
+        >
+          <Input value={collateralBalance} onChange={event => { setCollateralBalance(event.target.value) }} />
+        </Form.Item>
+        <Form.Item
+          {...formItemLayout}
+          label={'Borrow Amont'}
+        >
+          <Input value={amount} onChange={event => setAmount(event.target.value)} />
+        </Form.Item>
+        <Form.Item
+          {...formItemLayout}
+          label={'Terms'}
+        >
+          <Input value={terms} onChange={event => setTerms(event.target.value)} suffix="Days" />
+        </Form.Item>
+        <Form.Item
+          {...formItemLayout}
+          label={'Interest Rate'}
+        >
+          <Input value={interestRate} onChange={event => setInterestRate(event.target.value)} suffix="% Per Day" />
+        </Form.Item>
+        <Form.Item {...tailFormItemLayout}>
+          <TxButton
+            accountPair={accountPair}
+            label='Make'
+            setStatus={setStatus}
+            type='TRANSACTION'
+            attrs={{
+              params: [Number(collateralBalance * (10 ** 8)), tradingPairs,
+              {
+                amount: Number(amount * (10 ** 8)),
+                terms: Number(terms),
+                interest_rate: Number(interestRate * (10 ** 6))
+              }
+              ],
+              tx: api.tx.pToP.make
+            }}
+          />
+        </Form.Item>
+      </form>
 
-      <Form.Item {...tailFormItemLayout}>
-        <TxButton
-          accountPair={accountPair}
-          label='Make'
-          loading={status === 'loading'}
-          setStatus={setStatus}
-          type='TRANSACTION'
-          attrs={{
-            params: [Number(collateralBalance * (10 ** 8)), tradingPairs,
-            {
-              amount: Number(amount * (10 ** 8)),
-              terms: Number(terms),
-              interest_rate: Number(interestRate * (10 ** 6))
-            }
-            ],
-            tx: api.tx.pToP.make
-          }}
-        />
-      </Form.Item>
-    </form>
+    </Spin>
+
   )
 }

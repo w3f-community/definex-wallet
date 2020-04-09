@@ -11,7 +11,6 @@ export default function TxButton({
   style = null,
   type = null,
   attrs = null,
-  loading = false,
   disabled = false
 }) {
   const { api } = useSubstrate();
@@ -63,8 +62,8 @@ export default function TxButton({
         })
         .catch(e => {
           setStatus('error');
-          message.error(':( transaction failed');
-          console.error('ERROR transaction:', e);
+          message.error(e.toString());
+          console.error(e);
         });
     }
   };
@@ -83,7 +82,7 @@ export default function TxButton({
   };
 
   return (
-    <Button loading={loading} type={'primary'} style={style} onClick={isQuery() ? query : transaction} disabled={disabled || !tx || (!isQuery() && !accountPair)}>
+    <Button type={'primary'} style={style} onClick={isQuery() ? query : transaction} disabled={disabled || !tx || (!isQuery() && !accountPair)}>
       {label}
     </Button>
   );

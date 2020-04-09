@@ -66,9 +66,24 @@ function Main(props) {
           <AntMenu.Item key="assets">
             <Link to="/assets" style={{ color: '#fff' }}>Assets</Link>
           </AntMenu.Item>
-          <AntMenu.Item key="p2p">
-            <Link to="/p2p" style={{ color: '#fff' }}>P2P</Link>
-          </AntMenu.Item>
+          <AntMenu.SubMenu title={'P2P'} style={{ color: '#fff' }}>
+            <AntMenu.ItemGroup title="Borrows">
+              <AntMenu.Item key="aliveBorrows">
+                <Link to="/alive-borrows">Alive Borrows</Link>
+              </AntMenu.Item>
+              <AntMenu.Item key="myBorrows">
+                <Link to="/my-borrows">My Borrows</Link>
+              </AntMenu.Item>
+            </AntMenu.ItemGroup>
+            <AntMenu.ItemGroup title="Loans">
+              <AntMenu.Item key="aliveLoans">
+                <Link to="/alive-loans">Alive Loans</Link>
+              </AntMenu.Item>
+              <AntMenu.Item key="myLoans">
+                <Link to="/my-loans">My Loans</Link>
+              </AntMenu.Item>
+            </AntMenu.ItemGroup>
+          </AntMenu.SubMenu>
         </AntMenu>
 
         <Menu.Menu position='right'>

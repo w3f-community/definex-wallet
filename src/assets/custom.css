@@ -1,3 +1,7 @@
+/*
+  override default styles
+*/
+
 body{
     background: #fafafa;
 }
@@ -11,6 +15,10 @@ body{
 .card-title{
     color: rgba(0,0,0,.65);
     font-size: 17px;
+}
+
+.ant-menu-submenu .ant-menu-submenu-title:hover{
+    color: #fff;
 }
 
 @media only screen and (min-width: 1200px){
