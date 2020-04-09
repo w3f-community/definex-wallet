@@ -20,3 +20,4 @@ yarn build
 ### TODO
 
 1. apply decimal.js
+2. remember user account

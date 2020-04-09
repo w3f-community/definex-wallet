@@ -1,5 +1,20 @@
+body{
+    background: #fafafa;
+}
+
+.card-head{
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+.card-title{
+    color: rgba(0,0,0,.65);
+    font-size: 17px;
+}
+
 @media only screen and (min-width: 1200px){
     .ui.container{
-        width: 85%;
+        width: 95%;
     }
 }

@@ -4,15 +4,18 @@ import {
   Menu,
   Dropdown,
   Container,
-  Label
 } from 'semantic-ui-react';
+
+import { Menu as AntMenu } from 'antd'
+import { Link, useLocation } from 'react-router-dom'
 
 import { useSubstrate } from './substrate-lib';
 
-function Main (props) {
-  const { api, keyring } = useSubstrate();
+function Main(props) {
+  const { keyring } = useSubstrate();
   const { setAccountAddress } = props;
   const [accountSelected, setAccountSelected] = useState('');
+  const currentLocation = useLocation()
 
   // Get the list of accounts we possess the private key for
   const keyringOptions = keyring.getPairs().map(account => ({
@@ -42,10 +45,9 @@ function Main (props) {
       attached='top'
       tabular
       style={{
-        backgroundColor: '#fff',
+        backgroundColor: '#000',
         borderColor: '#fff',
-        paddingTop: '1em',
-        paddingBottom: '1em'
+        alignItems: 'center',
       }}
     >
       <Container>
@@ -54,9 +56,21 @@ function Main (props) {
             fontSize: '18px',
             fontWeight: 'bold'
           }}>
-            Definex
+            {/* TODO: change a way to import */}
+            <Link to="/assets">
+              <img src="/logo.png" alt="logo" style={{ width: '100px', marginRight: '12px' }} />
+            </Link>
           </div>
         </Menu.Menu>
+        <AntMenu mode="horizontal" selectedKeys={currentLocation.pathname} style={{ background: '#000', borderBottom: 'unset' }}>
+          <AntMenu.Item key="assets">
+            <Link to="/assets" style={{ color: '#fff' }}>Assets</Link>
+          </AntMenu.Item>
+          <AntMenu.Item key="p2p">
+            <Link to="/p2p" style={{ color: '#fff' }}>P2P</Link>
+          </AntMenu.Item>
+        </AntMenu>
+
         <Menu.Menu position='right'>
           {!accountSelected ? (
             <span>
@@ -87,50 +101,50 @@ function Main (props) {
             }}
             value={accountSelected}
           />
-          {api.query.system && api.query.system.account ? (
+          {/* {api.query.system && api.query.system.account ? (
             <BalanceAnnotation accountSelected={accountSelected} />
-          ) : null}
+          ) : null} */}
         </Menu.Menu>
       </Container>
     </Menu>
   );
 }
 
-function BalanceAnnotation (props) {
-  const { accountSelected } = props;
-  const { api } = useSubstrate();
-  const [accountBalance, setAccountBalance] = useState(0);
+// function BalanceAnnotation(props) {
+//   const { accountSelected } = props;
+//   const { api } = useSubstrate();
+//   const [accountBalance, setAccountBalance] = useState(0);
 
-  // When account address changes, update subscriptions
-  useEffect(() => {
-    let unsubscribe;
+//   // When account address changes, update subscriptions
+//   useEffect(() => {
+//     let unsubscribe;
 
-    // If the user has selected an address, create a new subscription
-    accountSelected &&
-      api.query.system
-        .account(accountSelected, ({ data: { free: balance } }) => {
-          setAccountBalance(balance.toString());
-        })
-        .then(unsub => {
-          unsubscribe = unsub;
-        })
-        .catch(console.error);
+//     // If the user has selected an address, create a new subscription
+//     accountSelected &&
+//       api.query.system
+//         .account(accountSelected, ({ data: { free: balance } }) => {
+//           setAccountBalance(balance.toString());
+//         })
+//         .then(unsub => {
+//           unsubscribe = unsub;
+//         })
+//         .catch(console.error);
 
-    return () => unsubscribe && unsubscribe();
-  }, [accountSelected, api.query.system]);
+//     return () => unsubscribe && unsubscribe();
+//   }, [accountSelected, api.query.system]);
 
-  return accountSelected ? (
-    <Label pointing='left' style={{ lineHeight: 'unset' }}>
-      {/* <Icon
-        name='money bill alternate'
-        color={accountBalance > 0 ? 'green' : 'red'}
-      /> */}
-      Balance: {accountBalance}
-    </Label>
-  ) : null;
-}
+//   return accountSelected ? (
+//     <Label pointing='left' style={{ lineHeight: 'unset' }}>
+//       {/* <Icon
+//         name='money bill alternate'
+//         color={accountBalance > 0 ? 'green' : 'red'}
+//       /> */}
+//       Balance: {accountBalance}
+//     </Label>
+//   ) : null;
+// }
 
-export default function AccountSelector (props) {
-  const { api, keyring } = useSubstrate();
-  return keyring.getPairs && api.query ? <Main {...props} /> : null;
+export default function AccountSelector(props) {
+  const { keyring } = useSubstrate();
+  return keyring.getPairs ? <Main {...props} /> : null;
 }

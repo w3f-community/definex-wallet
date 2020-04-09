@@ -3,11 +3,13 @@ import { Container, Dimmer, Loader, Sticky } from 'semantic-ui-react';
 import {
   BrowserRouter as Router,
   Switch,
+  Redirect,
   Route
 } from 'react-router-dom';
 
 // imoprt pages here
 import P2p from './pages/p2p';
+import Assets from './pages/assets';
 import Test from './pages/test'
 
 import 'semantic-ui-css/semantic.min.css';
@@ -50,7 +52,13 @@ function Main() {
         <Container>
           <Switch>
             <Route path="/" exact>
+              <Redirect to="/p2p"/>
+            </Route>
+            <Route path="/p2p">
               <P2p accountPair={accountPair} />
+            </Route>
+            <Route path="/assets" exact>
+              <Assets accountPair={accountPair} />
             </Route>
             <Route path="/test">
               <Test accountPair={accountPair} />

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Table, Button, Divider, Modal, Tooltip } from 'antd';
+import { Table, Button, Divider, Modal, Tooltip, Card } from 'antd';
 import { useSubstrate } from '../substrate-lib';
 import MakeBorrowForm from '../components/forms/MakeBorrowForm';
 import AddBorrowForm from '../components/forms/AddBorrowForm';
@@ -12,6 +12,7 @@ export default function P2p(props) {
     const { api } = useSubstrate();
     console.log('api is', api);
     const [borrowList, setBorrowList] = useState(0);
+    const [userBorrowList, setUserBorrowList] = useState(0);
     const [symbolsMapping, setSymbolsMapping] = useState({});
     const [selectingItem, setSelectingItem] = useState(0);
     const [addModalVisible, setAddModal] = useState(false);
@@ -21,6 +22,8 @@ export default function P2p(props) {
     const [makeModalVisible, setMakeModal] = useState(false);
 
     const accountPair = props.accountPair;
+
+    console.log('account pair', accountPair)
 
     useEffect(() => {
         api.rpc.genericAsset.symbolsList().then(res => {
@@ -34,32 +37,46 @@ export default function P2p(props) {
     }, [api.rpc.pToP, api.rpc.genericAsset]);
 
     useEffect(() => {
-        let unsubscribeAll = null;
-        api.rpc.pToP.aliveBorrows(10, 0).then(res => {
-            const borrowArray = JSON.parse(res)
-            borrowArray.forEach(item => {
-                item.borrow_asset_symbol = symbolsMapping[item.borrow_asset_id]
-                item.collateral_asset_symbol = symbolsMapping[item.collateral_asset_id]
+        if (accountPair) {
+            api.rpc.pToP.aliveBorrows(10, 0).then(res => {
+                const borrowArray = JSON.parse(res)
+                borrowArray.forEach((item, index) => {
+                    item.borrow_asset_symbol = symbolsMapping[item.borrow_asset_id]
+                    item.collateral_asset_symbol = symbolsMapping[item.collateral_asset_id]
+                    // remove self
+                    if (item.who === accountPair.address) {
+                        borrowArray.splice(index, 1);
+                    }
+                })
+                setBorrowList(borrowArray);
+            }).catch(error => {
+                console.log('errrr', error);
             })
-            setBorrowList(borrowArray);
-            console.log('borrow array is', borrowArray)
-        }).then(unsub => {
-            unsubscribeAll = unsub;
-        }).catch(error => {
-            console.log('errrr', error);
-        })
-        return () => unsubscribeAll && unsubscribeAll();
-    }, [symbolsMapping, api.rpc.pToP])
+        }
+    }, [symbolsMapping, api.rpc.pToP, accountPair])
+
+    useEffect(() => {
+        if (accountPair) {
+            api.rpc.pToP.userBorrows(accountPair.address, 10, 0).then(res => {
+                const borrowArray = JSON.parse(res)
+                borrowArray.forEach(item => {
+                    item.borrow_asset_symbol = symbolsMapping[item.borrow_asset_id]
+                    item.collateral_asset_symbol = symbolsMapping[item.collateral_asset_id]
+                })
+                console.log(borrowArray, '123123123')
+                setUserBorrowList(borrowArray);
+            }).catch(error => {
+                console.log('errrr', error);
+            })
+        }
+    }, [symbolsMapping, api.rpc.pToP, accountPair])
 
     const columns = [{
         title: 'Id',
         dataIndex: 'id',
         key: 'id',
-    }, {
-        title: 'Lock Id',
-        dataIndex: 'lock_id',
-        key: 'lock_id',
-    }, {
+    },
+    {
         title: 'Who',
         dataIndex: 'who',
         key: 'who',
@@ -79,27 +96,11 @@ export default function P2p(props) {
         )
     },
     {
-        title: 'Borrow Asset Symbol',
-        dataIndex: 'borrow_asset_symbol',
-        key: 'borrow_asset_symbol',
-        render: (props, record) => (
-            <span>{record.borrow_asset_symbol}</span>
-        )
-    },
-    {
-        title: 'Collateral Asset Symbol',
-        dataIndex: 'collateral_asset_symbol',
-        key: 'collateral_asset_symbol',
-        render: (props, record) => (
-            <span>{record.collateral_asset_symbol}</span>
-        )
-    },
-    {
         title: 'Borrow Balance',
         dataIndex: 'borrow_balance',
         key: 'borrow_balance',
         render: (props, record) => (
-            <span>{record.borrow_balance / (10 ** 8)}</span>
+            <span>{record.borrow_balance / (10 ** 8)} {record.borrow_asset_symbol}</span>
         )
     },
     {
@@ -107,7 +108,7 @@ export default function P2p(props) {
         dataIndex: 'collateral_balance',
         key: 'collateral_balance',
         render: (props, record) => (
-            <span>{record.collateral_balance / (10 ** 8)}</span>
+            <span>{record.collateral_balance / (10 ** 8)} {record.collateral_asset_symbol}</span>
         )
     },
     {
@@ -119,11 +120,9 @@ export default function P2p(props) {
         title: 'Interest Rate',
         dataIndex: 'interest_rate',
         key: 'interest_rate',
-    },
-    {
-        title: 'Dead After',
-        dataIndex: 'dead_after',
-        key: 'dead_after',
+        render: (props, record) => (<div>
+            {record.interest_rate / (10 ** 6)} %
+        </div>)
     },
     {
         title: 'Loan Id',
@@ -133,34 +132,63 @@ export default function P2p(props) {
     {
         title: 'Action',
         key: 'action',
-        width: '360px',
+        width: '300px',
         render: (props, record) => {
-            return (
-                <div>
-                    {
-                        record.who === accountPair.address && (
-                            <div>
-                                <Button onClick={() => { setSelectingItem(record); setAddModal(true) }}>Add</Button>
-                                <Divider type="vertical" />
-                            </div>
-                        )
-                    }
+            if (record.who === accountPair.address) {
+                return (
+                    <div>
+                        {
+                            (record.status === 'Taken' || record.status === 'Alive') && (
+                                <span>
+                                    <Button onClick={() => { setSelectingItem(record); setAddModal(true) }}>Add</Button>
+                                </span>
+                            )
+                        }
+                        {
+                            record.status === 'Taken' && (
+                                <span>
+                                    <Divider type="vertical" />
+                                    <Button onClick={() => { setSelectingItem(record); setRepayModal(true) }}>Repay</Button>
+                                </span>
+                            )
+                        }
+                        {
+                            record.status === 'Alive' && (
+                                <span>
+                                    <Divider type="vertical" />
+                                    <Button onClick={() => { setSelectingItem(record); setCancelModal(true) }}>Cancel</Button>
+                                </span>
+                            )
+                        }
+                    </div>
+                )
+            } else {
+                return (
                     <Button onClick={() => { setSelectingItem(record); setLendModal(true) }}>Lend</Button>
-                    <Divider type="vertical" />
-                    <Button onClick={() => { setSelectingItem(record); setRepayModal(true) }}>Repay</Button>
-                    <Divider type="vertical" />
-                    <Button onClick={() => { setSelectingItem(record); setCancelModal(true) }}>Cancel</Button>
-                </div>
-            )
+                )
+            }
         }
     }
     ]
 
+    const myBorrowColumns = JSON.parse(JSON.stringify(columns))
+    myBorrowColumns.splice(1, 1)
+
     return (
         <div>
-            <h2>Borrow List</h2>
-            <Button type={'primary'} style={{ margin: '24px auto 12px' }} onClick={() => { setMakeModal(true) }}>Make</Button>
-            <Table columns={columns} rowKey={'id'} dataSource={borrowList} pagination={false} />
+            <Card style={{ margin: '32px auto' }}>
+                <div className={'card-head'}>
+                    <div className={'card-title'}>Alive Borrow List</div>
+                    <Button type={'primary'} onClick={() => { setMakeModal(true) }}>Make</Button>
+                </div>
+                <Table columns={columns} rowKey={'id'} dataSource={borrowList} pagination={false} />
+            </Card>
+            <Card style={{ margin: '32px auto' }}>
+                <div className={'card-head'}>
+                    <div className={'card-title'}>My Borrow List</div>
+                </div>
+                <Table columns={myBorrowColumns} rowKey={'id'} dataSource={userBorrowList} pagination={false} />
+            </Card>
             {makeModalVisible && <Modal
                 title={'Make'}
                 visible={true}
