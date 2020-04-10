@@ -71,7 +71,8 @@
       "status": "P2PLoanHealth",
       "interest_rate": "u64",
       "liquidation_type": "LiquidationType",
-      "can_be_liquidate": "bool"
+      "can_be_liquidate": "bool",
+      "due_height": "BlockNumber"
     },
     "P2PBorrow": {
       "id": "P2PBorrowId",

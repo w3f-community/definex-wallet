@@ -32,9 +32,9 @@ export default function P2p(props) {
                     item.loan_asset_symbol = symbolsMapping[item.loan_asset_id]
                     item.collateral_asset_symbol = symbolsMapping[item.collateral_asset_id]
                     // give borrow value
-                    item.borrow_asset_symbol = symbolsMapping[item.loan_asset_id]
-                    item.borrow_asset_id = item.loan_asset_id
-                    item.borrow_balance = item.loan_balance
+                    // item.borrow_asset_symbol = symbolsMapping[item.loan_asset_id]
+                    // item.borrow_asset_id = item.loan_asset_id
+                    // item.borrow_balance = item.loan_balance
                 })
                 setLoanList(loanArray);
             }).catch(error => {
@@ -121,11 +121,11 @@ export default function P2p(props) {
             {new Date(record.secs_left * 1000 + (new Date().valueOf())).toUTCString()}
         </div>)
     },
-    {
-        title: 'Liquidation Type',
-        dataIndex: 'liquidation_type',
-        key: 'liquidation_type'
-    },
+    // {
+    //     title: 'Liquidation Type',
+    //     dataIndex: 'liquidation_type',
+    //     key: 'liquidation_type'
+    // },
     {
         title: 'Action',
         key: 'action',

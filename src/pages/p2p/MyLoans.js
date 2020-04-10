@@ -122,11 +122,11 @@ export default function P2p(props) {
                 {new Date(record.secs_left * 1000 + (new Date().valueOf())).toUTCString()}
             </div>)
         },
-        {
-            title: 'Liquidation Type',
-            dataIndex: 'liquidation_type',
-            key: 'liquidation_type'
-        },
+        // {
+        //     title: 'Liquidation Type',
+        //     dataIndex: 'liquidation_type',
+        //     key: 'liquidation_type'
+        // },
         {
             title: 'Action',
             key: 'action',
