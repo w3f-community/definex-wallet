@@ -1,16 +1,15 @@
 import React, { useEffect, useState } from 'react';
-import { Table, Button, Modal, Tooltip, Card, Divider } from 'antd';
+import { Table, Button, Modal, Tooltip, Card } from 'antd';
 import { useSubstrate } from '../../substrate-lib';
-import AddBorrowForm from '../../components/forms/AddBorrowForm';
-import RepayBorrowForm from '../../components/forms/RepayBorrowForm';
+import LiquidateBorrowForm from '../../components/forms/LiquidateBorrowForm';
 
 export default function P2p(props) {
     const { api } = useSubstrate();
     const [loanList, setLoanList] = useState(0);
     const [symbolsMapping, setSymbolsMapping] = useState({});
     const [selectingItem, setSelectingItem] = useState(0);
-    const [addModalVisible, setAddModal] = useState(false);
-    const [repayModalVisible, setRepayModal] = useState(false);
+    const [liquidateModalVisible, setLiquidateModal] = useState(false);
+
     console.log(api)
 
     const accountPair = props.accountPair;
@@ -34,9 +33,9 @@ export default function P2p(props) {
                     item.loan_asset_symbol = symbolsMapping[item.loan_asset_id]
                     item.collateral_asset_symbol = symbolsMapping[item.collateral_asset_id]
                     // give borrow value
-                    item.borrow_asset_symbol = symbolsMapping[item.loan_asset_id]
-                    item.borrow_asset_id = item.loan_asset_id
-                    item.borrow_balance = item.loan_balance
+                    // item.borrow_asset_symbol = symbolsMapping[item.loan_asset_id]
+                    // item.borrow_asset_id = item.loan_asset_id
+                    // item.borrow_balance = item.loan_balance
                 })
                 setLoanList(loanArray);
             }).catch(error => {
@@ -81,7 +80,7 @@ export default function P2p(props) {
             )
         },
         {
-            title: 'Due',
+            title: 'Due Height',
             dataIndex: 'due',
             key: 'due'
         },
@@ -111,7 +110,16 @@ export default function P2p(props) {
             dataIndex: 'interest_rate',
             key: 'interest_rate',
             render: (props, record) => (<div>
-                {record.interest_rate / (10 ** 6)} %
+                {record.interest_rate / (10 ** 8)} ‱
+            </div>)
+        },
+        {
+            title: 'Expire Time',
+            dataIndex: 'secs_left',
+            key: 'secs_left',
+            width: '260px',
+            render: (props, record) => (<div>
+                {new Date(record.secs_left * 1000 + (new Date().valueOf())).toUTCString()}
             </div>)
         },
         {
@@ -125,9 +133,9 @@ export default function P2p(props) {
             width: '300px',
             render: (props, record) => (
                 <div>
-                    <Button onClick={() => { setSelectingItem(record); setAddModal(true) }}>Add</Button>
-                    <Divider type="vertical" />
-                    <Button onClick={() => { setSelectingItem(record); setRepayModal(true) }}>Repay</Button>
+                    {record.can_be_liquidate && (
+                        <Button onClick={() => { setSelectingItem(record); setLiquidateModal(true) }}>Liquidate</Button>
+                    )}
                 </div>
             )
         }
@@ -141,23 +149,14 @@ export default function P2p(props) {
                 </div>
                 <Table columns={columns} rowKey={'id'} dataSource={loanList} pagination={false} />
             </Card>
-            {addModalVisible && <Modal
-                title={'Add'}
+            {liquidateModalVisible && <Modal
+                title={'Liquidate'}
                 visible={true}
                 closable
-                onCancel={() => { setAddModal(false) }}
+                onCancel={() => { setLiquidateModal(false) }}
                 footer={null}
             >
-                <AddBorrowForm hideModal={() => { setAddModal(false) }} accountPair={accountPair} item={selectingItem} />
-            </Modal>}
-            {repayModalVisible && <Modal
-                title={'Repay'}
-                visible={true}
-                closable
-                onCancel={() => { setRepayModal(false) }}
-                footer={null}
-            >
-                <RepayBorrowForm hideModal={() => { setRepayModal(false) }} accountPair={accountPair} item={selectingItem} />
+                <LiquidateBorrowForm hideModal={() => { setLiquidateModal(false) }} accountPair={accountPair} item={selectingItem} />
             </Modal>}
         </div>
     );

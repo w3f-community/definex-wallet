@@ -6,6 +6,7 @@ import {
   Redirect,
   Route
 } from 'react-router-dom';
+import { message } from 'antd'
 
 // imoprt pages here
 import AliveBorrows from './pages/p2p/AliveBorrows';
@@ -20,6 +21,11 @@ import { SubstrateContextProvider, useSubstrate } from './substrate-lib';
 
 import AccountSelector from './AccountSelector';
 import './assets/custom.css'
+
+// global message config
+message.config({
+  maxCount: 1,
+})
 
 function Main() {
   const [accountAddress, setAccountAddress] = useState(null);

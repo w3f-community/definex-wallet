@@ -72,13 +72,13 @@ export default function LendBorrowForm(props) {
           {...formItemLayout}
           label={'Interest'}
         >
-          <span className="ant-form-text">{item.interest_rate / (10 ** 6)} %</span>
+          <span className="ant-form-text">{item.interest_rate / (10 ** 8)} ‱</span>
         </Form.Item>
         <Form.Item
           {...formItemLayout}
           label={'Fee'}
         >
-          <span className="ant-form-text">{item.borrow_balance / (10 ** 8) * item.interest_rate}</span>
+          <span className="ant-form-text">{item.borrow_balance / (10 ** 8) * item.interest_rate / (10 ** 8)}</span>
         </Form.Item>
 
         <Form.Item {...tailFormItemLayout}>

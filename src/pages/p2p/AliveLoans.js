@@ -28,7 +28,6 @@ export default function P2p(props) {
         if (accountPair) {
             api.rpc.pToP.aliveLoans(10, 0).then(res => {
                 const loanArray = JSON.parse(res)
-                console.log(loanArray, 333333)
                 loanArray.forEach((item, index) => {
                     item.loan_asset_symbol = symbolsMapping[item.loan_asset_id]
                     item.collateral_asset_symbol = symbolsMapping[item.collateral_asset_id]
@@ -36,10 +35,8 @@ export default function P2p(props) {
                     item.borrow_asset_symbol = symbolsMapping[item.loan_asset_id]
                     item.borrow_asset_id = item.loan_asset_id
                     item.borrow_balance = item.loan_balance
-                    if (item.who === accountPair.address) {
-                        loanArray.splice(index, 1);
-                    }
                 })
+                console.log(44, loanArray)
                 setLoanList(loanArray);
             }).catch(error => {
                 console.log('errrr', error);
@@ -83,7 +80,7 @@ export default function P2p(props) {
         )
     },
     {
-        title: 'Due',
+        title: 'Due Height',
         dataIndex: 'due',
         key: 'due'
     },
@@ -113,7 +110,16 @@ export default function P2p(props) {
         dataIndex: 'interest_rate',
         key: 'interest_rate',
         render: (props, record) => (<div>
-            {record.interest_rate / (10 ** 6)} %
+            {record.interest_rate / (10 ** 8)} ‱
+        </div>)
+    },
+    {
+        title: 'Expire Time',
+        dataIndex: 'secs_left',
+        key: 'secs_left',
+        width: '260px',
+        render: (props, record) => (<div>
+            {new Date(record.secs_left * 1000 + (new Date().valueOf())).toUTCString()}
         </div>)
     },
     {
@@ -126,7 +132,11 @@ export default function P2p(props) {
         key: 'action',
         width: '300px',
         render: (props, record) => (
-            <Button onClick={() => { setSelectingItem(record); setLiquidateModal(true) }}>Liquidate</Button>
+            <div>
+                {record.can_be_liquidate && (
+                    <Button onClick={() => { setSelectingItem(record); setLiquidateModal(true) }}>Liquidate</Button>
+                )}
+            </div>
         )
     }
     ]

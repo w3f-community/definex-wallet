@@ -73,6 +73,12 @@ export default function MakeBorrowForm(props) {
     }
   }, [status, hideModal])
 
+  const interestChange = (event) => {
+    if (event.target.value) {
+      setInterestRate(parseInt(event.target.value))
+    }
+  }
+
   return (
     <Spin spinning={status === 'loading'}>
       <form>
@@ -128,7 +134,7 @@ export default function MakeBorrowForm(props) {
           {...formItemLayout}
           label={'Interest Rate'}
         >
-          <Input value={interestRate} onChange={event => setInterestRate(event.target.value)} suffix="% Per Day" />
+          <Input value={interestRate} onChange={interestChange} suffix="‱ Per Day" />
         </Form.Item>
         <Form.Item {...tailFormItemLayout}>
           <TxButton

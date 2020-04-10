@@ -71,7 +71,7 @@ export default function LiquidateBorrowForm(props) {
           {...formItemLayout}
           label={'Interest'}
         >
-          <span className="ant-form-text">{item.interest_rate / (10 ** 6)} %</span>
+          <span className="ant-form-text">{item.interest_rate / (10 ** 8)} ‱</span>
         </Form.Item>
         <Form.Item
           {...formItemLayout}

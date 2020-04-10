@@ -84,7 +84,7 @@ export default function P2p(props) {
         dataIndex: 'interest_rate',
         key: 'interest_rate',
         render: (props, record) => (<div>
-            {record.interest_rate / (10 ** 6)} %
+            {record.interest_rate / (10 ** 8)} ‱
         </div>)
     },
     {
@@ -131,6 +131,7 @@ export default function P2p(props) {
             <Card style={{ margin: '32px auto' }}>
                 <div className={'card-head'}>
                     <div className={'card-title'}>My Borrows</div>
+                    <Button type={'primary'} onClick={() => { setMakeModal(true) }}>Make</Button>
                 </div>
                 <Table columns={columns} rowKey={'id'} dataSource={userBorrowList} pagination={false} />
             </Card>

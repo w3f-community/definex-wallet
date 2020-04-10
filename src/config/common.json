@@ -57,6 +57,21 @@
       "interest_rate": "u64",
       "liquidation_type": "LiquidationType"
     },
+    "P2PLoanRPC": {
+      "id": "P2PLoanId",
+      "borrow_id": "P2PBorrowId",
+      "borrower_id": "AccountId",
+      "loaner_id": "AccountId",
+      "secs_left": "u64",
+      "collateral_asset_id": "AssetId",
+      "collateral_balance": "Balance",
+      "loan_balance": "Balance",
+      "loan_asset_id": "AssetId",
+      "status": "P2PLoanHealth",
+      "interest_rate": "u64",
+      "liquidation_type": "LiquidationType",
+      "can_be_liquidate": "bool"
+    },
     "P2PBorrow": {
       "id": "P2PBorrowId",
       "lock_id": "u128",
@@ -219,7 +234,7 @@
             "type": "Option<u64>"
           }
         ],
-        "type": "Vec<P2PLoan>"
+        "type": "Vec<P2PLoanRPC>"
       },
       "userLoans": {
         "params": [
@@ -236,7 +251,7 @@
             "type": "Option<u64>"
           }
         ],
-        "type": "Vec<P2PLoan>"
+        "type": "Vec<P2PLoanRPC>"
       },
       "aliveLoans": {
         "params": [
@@ -249,7 +264,7 @@
             "type": "Option<u64>"
           }
         ],
-        "type": "Vec<P2PLoan>"
+        "type": "Vec<P2PLoanRPC>"
       }
     }
   }

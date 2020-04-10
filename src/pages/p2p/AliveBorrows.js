@@ -26,23 +26,17 @@ export default function P2p(props) {
     }, [api.rpc.pToP, api.rpc.genericAsset]);
 
     useEffect(() => {
-        if (accountPair) {
-            api.rpc.pToP.aliveBorrows(10, 0).then(res => {
-                const borrowArray = JSON.parse(res)
-                borrowArray.forEach((item, index) => {
-                    item.borrow_asset_symbol = symbolsMapping[item.borrow_asset_id]
-                    item.collateral_asset_symbol = symbolsMapping[item.collateral_asset_id]
-                    // remove self
-                    if (item.who === accountPair.address) {
-                        borrowArray.splice(index, 1);
-                    }
-                })
-                setBorrowList(borrowArray);
-            }).catch(error => {
-                console.log('errrr', error);
+        api.rpc.pToP.aliveBorrows(10, 0).then(res => {
+            const borrowArray = JSON.parse(res)
+            borrowArray.forEach((item, index) => {
+                item.borrow_asset_symbol = symbolsMapping[item.borrow_asset_id]
+                item.collateral_asset_symbol = symbolsMapping[item.collateral_asset_id]
             })
-        }
-    }, [symbolsMapping, api.rpc.pToP, accountPair])
+            setBorrowList(borrowArray);
+        }).catch(error => {
+            console.log('errrr', error);
+        })
+    }, [symbolsMapping, api.rpc.pToP])
 
     const columns = [{
         title: 'Id',
@@ -94,7 +88,7 @@ export default function P2p(props) {
         dataIndex: 'interest_rate',
         key: 'interest_rate',
         render: (props, record) => (<div>
-            {record.interest_rate / (10 ** 6)} %
+            {record.interest_rate / (10 ** 8)} ‱
         </div>)
     },
     {
@@ -107,7 +101,13 @@ export default function P2p(props) {
         key: 'action',
         width: '300px',
         render: (props, record) => (
-            <Button onClick={() => { setSelectingItem(record); setLendModal(true) }}>Lend</Button>
+            <div>
+                {
+                    record.status === 'Alive' && record.who !== accountPair.address && (
+                        <Button onClick={() => { setSelectingItem(record); setLendModal(true) }}>Lend</Button>
+                    )
+                }
+            </div>
         )
     }
     ]
