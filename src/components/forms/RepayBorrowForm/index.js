@@ -66,19 +66,19 @@ export default function RepayBorrowForm(props) {
           {...formItemLayout}
           label={'Return'}
         >
-          <span className="ant-form-text">{item.borrow_balance}</span>
+          <span className="ant-form-text">{item.borrow_balance / (10 ** 8)} {item.borrow_asset_symbol}</span>
         </Form.Item>
         <Form.Item
           {...formItemLayout}
           label={'Interest'}
         >
-          <span className="ant-form-text">{item.interest_rate}</span>
+          <span className="ant-form-text">{item.interest_rate / (10 ** 6)} %</span>
         </Form.Item>
         <Form.Item
           {...formItemLayout}
           label={'Fee'}
         >
-          <span className="ant-form-text">{item.borrow_balance * item.interest_rate}</span>
+          <span className="ant-form-text">{item.borrow_balance / (10 ** 8) * item.interest_rate}</span>
         </Form.Item>
 
         <Form.Item {...tailFormItemLayout}>

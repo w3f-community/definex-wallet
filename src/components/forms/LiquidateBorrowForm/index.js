@@ -27,23 +27,23 @@ const formItemLayout = {
   },
 }
 
-export default function LendBorrowForm(props) {
+export default function LiquidateBorrowForm(props) {
   const { api } = useSubstrate();
-  const [borrowBalance, setborrowBalance] = useState(0);
+  // const [loanBalance, setLoanBalance] = useState(0);
   const [status, setStatus] = useState(null);
   const accountPair = props.accountPair;
   const item = props.item;
   const hideModal = props.hideModal;
 
-  useEffect(() => {
-    let unsubscribeAll = null;
-    api.query.genericAsset.freeBalance(item.borrow_asset_id, accountPair.address).then(res => {
-      setborrowBalance(String(res / (10 ** 8)))
-    }).then(unsub => {
-      unsubscribeAll = unsub;
-    })
-    return () => unsubscribeAll && unsubscribeAll();
-  }, [accountPair.address, api.query.genericAsset, item.borrow_asset_id])
+  // useEffect(() => {
+  //   let unsubscribeAll = null;
+  //   api.query.genericAsset.freeBalance(item.loan_asset_id, accountPair.address).then(res => {
+  //     setLoanBalance(String(res / (10 ** 8)))
+  //   }).then(unsub => {
+  //     unsubscribeAll = unsub;
+  //   })
+  //   return () => unsubscribeAll && unsubscribeAll();
+  // }, [accountPair.address, api.query.genericAsset, item.loan_asset_id])
 
   // hide modal when completed
   useEffect(() => {
@@ -57,16 +57,15 @@ export default function LendBorrowForm(props) {
       <form>
         <Form.Item
           {...formItemLayout}
-          label={'Balance'}
+          label={'Loan Balance'}
         >
-          <span className="ant-form-text">{borrowBalance} {item.borrow_asset_symbol}</span>
+          <span className="ant-form-text">{item.loan_balance / (10 ** 8)} {item.loan_asset_symbol}</span>
         </Form.Item>
-
         <Form.Item
           {...formItemLayout}
-          label={'Return'}
+          label={'Collateral Balance'}
         >
-          <span className="ant-form-text">{item.borrow_balance}</span>
+          <span className="ant-form-text">{item.collateral_balance / (10 ** 8)} {item.collateral_asset_symbol}</span>
         </Form.Item>
         <Form.Item
           {...formItemLayout}
@@ -76,20 +75,19 @@ export default function LendBorrowForm(props) {
         </Form.Item>
         <Form.Item
           {...formItemLayout}
-          label={'Fee'}
+          label={'Status'}
         >
-          <span className="ant-form-text">{item.borrow_balance / (10 ** 8) * item.interest_rate}</span>
+          <span className="ant-form-text">{item.status}</span>
         </Form.Item>
-
         <Form.Item {...tailFormItemLayout}>
           <TxButton
             accountPair={accountPair}
-            label='Lend'
+            label='Liquidate'
             setStatus={setStatus}
             type='TRANSACTION'
             attrs={{
               params: [item.id],
-              tx: api.tx.pToP.take
+              tx: api.tx.pToP.liquidate
             }}
           />
         </Form.Item>

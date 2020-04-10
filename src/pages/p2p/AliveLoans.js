@@ -1,16 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import { Table, Button, Modal, Tooltip, Card } from 'antd';
 import { useSubstrate } from '../../substrate-lib';
-import MakeBorrowForm from '../../components/forms/MakeBorrowForm';
-import LendBorrowForm from '../../components/forms/LendBorrowForm';
+import LiquidateBorrowForm from '../../components/forms/LiquidateBorrowForm';
 
 export default function P2p(props) {
     const { api } = useSubstrate();
     const [loanList, setLoanList] = useState(0);
     const [symbolsMapping, setSymbolsMapping] = useState({});
     const [selectingItem, setSelectingItem] = useState(0);
-    const [lendModalVisible, setLendModal] = useState(false);
-    const [makeModalVisible, setMakeModal] = useState(false);
+    const [liquidateModalVisible, setLiquidateModal] = useState(false);
     console.log(api)
 
     const accountPair = props.accountPair;
@@ -32,8 +30,12 @@ export default function P2p(props) {
                 const loanArray = JSON.parse(res)
                 console.log(loanArray, 333333)
                 loanArray.forEach((item, index) => {
-                    item.borrow_asset_symbol = symbolsMapping[item.borrow_asset_id]
+                    item.loan_asset_symbol = symbolsMapping[item.loan_asset_id]
                     item.collateral_asset_symbol = symbolsMapping[item.collateral_asset_id]
+                    // give borrow value
+                    item.borrow_asset_symbol = symbolsMapping[item.loan_asset_id]
+                    item.borrow_asset_id = item.loan_asset_id
+                    item.borrow_balance = item.loan_balance
                     if (item.who === accountPair.address) {
                         loanArray.splice(index, 1);
                     }
@@ -45,60 +47,86 @@ export default function P2p(props) {
         }
     }, [symbolsMapping, api.rpc.pToP, accountPair])
 
-    const columns = [{
+    const columns = [
+    {
         title: 'Id',
         dataIndex: 'id',
         key: 'id',
     },
     {
-        title: 'Who',
-        dataIndex: 'who',
-        key: 'who',
+        title: 'Borrow Id',
+        dataIndex: 'borrow_id',
+        key: 'borrow_id',
+    },
+    {
+        title: 'Borrower Id',
+        dataIndex: 'borrower_id',
+        key: 'borrower_id',
         ellipsis: true,
         width: '120px',
         render: (props, record) => (
-            <Tooltip placement="left" title={record.who}>
-                <span>{record.who}</span>
+            <Tooltip placement="left" title={record.borrower_id}>
+                <span>{record.borrower_id}</span>
             </Tooltip>
         )
-    }, {
+    },
+    {
+        title: 'Loaner Id',
+        dataIndex: 'loaner_id',
+        key: 'loaner_id',
+        ellipsis: true,
+        width: '120px',
+        render: (props, record) => (
+            <Tooltip placement="left" title={record.loaner_id}>
+                <span>{record.loaner_id}</span>
+            </Tooltip>
+        )
+    },
+    {
+        title: 'Due',
+        dataIndex: 'due',
+        key: 'due'
+    },
+    {
+        title: 'Collateral Balance',
+        dataIndex: 'collateral_balance',
+        key: 'collateral_balance',
+        render: (props, record) => (
+            <span>{record.collateral_balance / (10 ** 8)} {record.collateral_asset_symbol}</span>
+        )
+    },
+    {
+        title: 'Loan Balance',
+        dataIndex: 'loan_balance',
+        key: 'loan_balance',
+        render: (props, record) => (
+            <span>{record.loan_balance / (10 ** 8)} {record.loan_asset_symbol}</span>
+        )
+    },
+    {
         title: 'Status',
         dataIndex: 'status',
-        key: 'status',
-        render: (props, record) => (
-            <span>{record.status}</span>
-        )
+        key: 'status'
     },
     {
-        title: 'Collateral Balance Original',
-        dataIndex: 'collateral_balance_original',
-        key: 'collateral_balance_original',
-        render: (props, record) => (
-            <span>{record.collateral_balance_original / (10 ** 8)}</span>
-        )
+        title: 'Interest Rate',
+        dataIndex: 'interest_rate',
+        key: 'interest_rate',
+        render: (props, record) => (<div>
+            {record.interest_rate / (10 ** 6)} %
+        </div>)
     },
     {
-        title: 'Collateral Balance Available',
-        dataIndex: 'collateral_balance_available',
-        key: 'collateral_balance_available',
-        render: (props, record) => (
-            <span>{record.collateral_balance_available / (10 ** 8)}</span>
-        )
-    },
-    {
-        title: 'Loan Balance Total',
-        dataIndex: 'loan_balance_total',
-        key: 'loan_balance_total',
-        render: (props, record) => (
-            <span>{record.loan_balance_total / (10 ** 8)}</span>
-        )
+        title: 'Liquidation Type',
+        dataIndex: 'liquidation_type',
+        key: 'liquidation_type'
     },
     {
         title: 'Action',
         key: 'action',
         width: '300px',
         render: (props, record) => (
-            <Button onClick={() => { setSelectingItem(record); setLendModal(true) }}>Lend</Button>
+            <Button onClick={() => { setSelectingItem(record); setLiquidateModal(true) }}>Liquidate</Button>
         )
     }
     ]
@@ -108,27 +136,17 @@ export default function P2p(props) {
             <Card style={{ margin: '32px auto' }}>
                 <div className={'card-head'}>
                     <div className={'card-title'}>Alive Loans</div>
-                    <Button type={'primary'} onClick={() => { setMakeModal(true) }}>Make</Button>
                 </div>
                 <Table columns={columns} rowKey={'id'} dataSource={loanList} pagination={false} />
             </Card>
-            {makeModalVisible && <Modal
-                title={'Make'}
+            {liquidateModalVisible && <Modal
+                title={'Liquidate'}
                 visible={true}
                 closable
-                onCancel={() => { setMakeModal(false) }}
+                onCancel={() => { setLiquidateModal(false) }}
                 footer={null}
             >
-                <MakeBorrowForm hideModal={() => { setMakeModal(false) }} accountPair={accountPair} item={selectingItem} symbolsMapping={symbolsMapping} />
-            </Modal>}
-            {lendModalVisible && <Modal
-                title={'Lend'}
-                visible={true}
-                closable
-                onCancel={() => { setLendModal(false) }}
-                footer={null}
-            >
-                <LendBorrowForm hideModal={() => { setLendModal(false) }} accountPair={accountPair} item={selectingItem} />
+                <LiquidateBorrowForm hideModal={() => { setLiquidateModal(false) }} accountPair={accountPair} item={selectingItem} />
             </Modal>}
         </div>
     );

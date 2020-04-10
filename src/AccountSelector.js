@@ -25,8 +25,15 @@ function Main(props) {
     icon: 'user'
   }));
 
-  const initialAddress =
-    keyringOptions.length > 0 ? keyringOptions[0].value : '';
+  const customAddress = localStorage.getItem('address');
+
+  let initialAddress = ''
+
+  if (customAddress) {
+    initialAddress = customAddress
+  } else if (keyringOptions.length > 0) {
+    initialAddress = keyringOptions[0].value
+  }
 
   // Set the initial address
   useEffect(() => {
@@ -36,6 +43,8 @@ function Main(props) {
 
   const onChange = address => {
     // Update state with new account address
+    // Remember user's choice
+    localStorage.setItem('address', address)
     setAccountAddress(address);
     setAccountSelected(address);
   };

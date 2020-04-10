@@ -11,9 +11,9 @@ import {
 import AliveBorrows from './pages/p2p/AliveBorrows';
 import MyBorrows from './pages/p2p/MyBorrows';
 import AliveLoans from './pages/p2p/AliveLoans';
-import MyLoans from './pages/p2p/AliveBorrows';
+import MyLoans from './pages/p2p/MyLoans';
 import Assets from './pages/assets';
-import Test from './pages/test'
+import Test from './pages/test';
 
 import 'semantic-ui-css/semantic.min.css';
 import { SubstrateContextProvider, useSubstrate } from './substrate-lib';
@@ -55,7 +55,7 @@ function Main() {
         <Container>
           <Switch>
             <Route path="/" exact>
-              <Redirect to="/assets"/>
+              <Redirect to="/assets" />
             </Route>
             <Route path="/assets" exact>
               <Assets accountPair={accountPair} />
@@ -72,7 +72,6 @@ function Main() {
             <Route path="/my-loans">
               <MyLoans accountPair={accountPair} />
             </Route>
-          
             <Route path="/test">
               <Test accountPair={accountPair} />
             </Route>
