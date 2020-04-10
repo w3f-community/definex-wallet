@@ -38,6 +38,7 @@
       "_enum": [
         "Well",
         "ToBeLiquidated",
+        "Overdue",
         "Liquidated",
         "Dead",
         "Completed"

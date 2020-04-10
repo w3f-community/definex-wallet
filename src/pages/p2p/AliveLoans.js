@@ -36,7 +36,6 @@ export default function P2p(props) {
                     item.borrow_asset_id = item.loan_asset_id
                     item.borrow_balance = item.loan_balance
                 })
-                console.log(44, loanArray)
                 setLoanList(loanArray);
             }).catch(error => {
                 console.log('errrr', error);
@@ -81,8 +80,8 @@ export default function P2p(props) {
     },
     {
         title: 'Due Height',
-        dataIndex: 'due',
-        key: 'due'
+        dataIndex: 'due_height',
+        key: 'due_height'
     },
     {
         title: 'Collateral Balance',

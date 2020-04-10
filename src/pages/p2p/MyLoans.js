@@ -81,8 +81,8 @@ export default function P2p(props) {
         },
         {
             title: 'Due Height',
-            dataIndex: 'due',
-            key: 'due'
+            dataIndex: 'due_height',
+            key: 'due_height'
         },
         {
             title: 'Collateral Balance',

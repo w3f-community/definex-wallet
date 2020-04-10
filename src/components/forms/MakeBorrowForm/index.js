@@ -48,7 +48,6 @@ export default function MakeBorrowForm(props) {
   useEffect(() => {
     api.query.pToP.tradingPairs(res => {
       // temporarily get first trading pair
-      console.log('trading pairs', JSON.parse(res)[0])
       setTradingPairs(JSON.parse(res)[0])
     })
   }, [api.query.pToP])
@@ -74,9 +73,7 @@ export default function MakeBorrowForm(props) {
   }, [status, hideModal])
 
   const interestChange = (event) => {
-    if (event.target.value) {
-      setInterestRate(parseInt(event.target.value))
-    }
+    setInterestRate(parseInt(event.target.value ? event.target.value : 0))
   }
 
   return (
@@ -147,7 +144,7 @@ export default function MakeBorrowForm(props) {
               {
                 amount: Number(amount * (10 ** 8)),
                 terms: Number(terms),
-                interest_rate: Number(interestRate * (10 ** 6))
+                interest_rate: Number(interestRate * (10 ** 4))
               }
               ],
               tx: api.tx.pToP.make

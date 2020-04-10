@@ -57,16 +57,21 @@ export default function LendBorrowForm(props) {
       <form>
         <Form.Item
           {...formItemLayout}
-          label={'Balance'}
+          label={'Your Balance'}
         >
           <span className="ant-form-text">{borrowBalance} {item.borrow_asset_symbol}</span>
         </Form.Item>
-
         <Form.Item
           {...formItemLayout}
-          label={'Return'}
+          label={'Borrow Id'}
         >
-          <span className="ant-form-text">{item.borrow_balance}</span>
+          <span className="ant-form-text">{item.id}</span>
+        </Form.Item>
+        <Form.Item
+          {...formItemLayout}
+          label={'Lend Amount'}
+        >
+          <span className="ant-form-text">{item.borrow_balance / (10 ** 8)} {item.borrow_asset_symbol}</span>
         </Form.Item>
         <Form.Item
           {...formItemLayout}
@@ -76,9 +81,21 @@ export default function LendBorrowForm(props) {
         </Form.Item>
         <Form.Item
           {...formItemLayout}
+          label={'Terms'}
+        >
+          <span className="ant-form-text">{item.terms} Days</span>
+        </Form.Item>
+        {/* <Form.Item
+          {...formItemLayout}
           label={'Fee'}
         >
-          <span className="ant-form-text">{item.borrow_balance / (10 ** 8) * item.interest_rate / (10 ** 8)}</span>
+          <span className="ant-form-text">{item.borrow_balance / (10 ** 8) * item.interest_rate / (10 ** 8)}  {item.borrow_asset_symbol}</span>
+        </Form.Item> */}
+        <Form.Item
+          {...formItemLayout}
+          label={'Estimated profit'}
+        >
+          <span className="ant-form-text">{item.interest_rate / (10 ** 10) * item.terms * item.borrow_balance / (10 ** 8) } {item.borrow_asset_symbol}</span>
         </Form.Item>
 
         <Form.Item {...tailFormItemLayout}>
