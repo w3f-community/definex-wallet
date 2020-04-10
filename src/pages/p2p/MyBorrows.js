@@ -84,7 +84,7 @@ export default function P2p(props) {
         dataIndex: 'interest_rate',
         key: 'interest_rate',
         render: (props, record) => (<div>
-            {record.interest_rate / (10 ** 8)} ‱
+            {record.interest_rate / (10 ** 4)} ‱
         </div>)
     },
     {
