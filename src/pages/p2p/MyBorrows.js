@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { Table, Button, Divider, Modal, Card } from 'antd';
 import { useSubstrate } from '../../substrate-lib';
-import MakeBorrowForm from '../../components/forms/MakeBorrowForm';
-import AddBorrowForm from '../../components/forms/AddBorrowForm';
-import RepayBorrowForm from '../../components/forms/RepayBorrowForm';
-import CancelBorrowForm from '../../components/forms/CancelBorrowForm';
+import MakeBorrowForm from '../../components/forms/p2p/MakeBorrowForm';
+import AddBorrowForm from '../../components/forms/p2p/AddBorrowForm';
+import RepayBorrowForm from '../../components/forms/p2p/RepayBorrowForm';
+import CancelBorrowForm from '../../components/forms/p2p/CancelBorrowForm';
 // import Pagination from '../components/pagination'
 
 export default function P2p(props) {

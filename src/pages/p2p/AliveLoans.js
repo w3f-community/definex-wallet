@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Table, Button, Modal, Tooltip, Card } from 'antd';
 import { useSubstrate } from '../../substrate-lib';
-import LiquidateBorrowForm from '../../components/forms/LiquidateBorrowForm';
+import LiquidateBorrowForm from '../../components/forms/p2p/LiquidateBorrowForm';
 
 export default function P2p(props) {
     const { api } = useSubstrate();
