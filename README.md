@@ -19,6 +19,6 @@ yarn build
 
 ### TODO
 
-1. apply decimal.js
+1. custom errors
 2. refresh page after action
 3. add loading for list 

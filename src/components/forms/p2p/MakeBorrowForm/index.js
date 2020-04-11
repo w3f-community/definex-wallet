@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react'
 import { Form, Input, Spin } from 'antd'
-import { TxButton } from '../../../substrate-lib/components';
-import { useSubstrate } from '../../../substrate-lib';
+import { TxButton } from 'substrate-lib/components';
+import { useSubstrate } from 'substrate-lib';
+import { Decimal } from 'decimal.js'
 
 const tailFormItemLayout = {
   wrapperCol: {
@@ -57,7 +58,7 @@ export default function MakeBorrowForm(props) {
     if (tradingPairs.collateral) {
       let unsubscribeAll = null;
       api.query.genericAsset.freeBalance(tradingPairs.collateral, accountPair.address).then(res => {
-        setBalance(String(res / (10 ** 8)))
+        setBalance(String(new Decimal(Number(res)).dividedBy(10 ** 8)))
       }).then(unsub => {
         unsubscribeAll = unsub;
       })
@@ -140,11 +141,11 @@ export default function MakeBorrowForm(props) {
             setStatus={setStatus}
             type='TRANSACTION'
             attrs={{
-              params: [Number(collateralBalance * (10 ** 8)), tradingPairs,
+              params: [Number(new Decimal(collateralBalance).times(10 ** 8)), tradingPairs,
               {
-                amount: Number(amount * (10 ** 8)),
+                amount: Number(new Decimal(amount).times(10 ** 8)),
                 terms: Number(terms),
-                interest_rate: Number(interestRate * (10 ** 4))
+                interest_rate: Number(new Decimal(interestRate).times(10 ** 4))
               }
               ],
               tx: api.tx.pToP.make

@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react'
 import { Form, Spin } from 'antd'
-import { TxButton } from '../../../substrate-lib/components';
-import { useSubstrate } from '../../../substrate-lib';
+import { TxButton } from 'substrate-lib/components';
+import { useSubstrate } from 'substrate-lib';
+import { Decimal } from 'decimal.js'
 
 const tailFormItemLayout = {
   wrapperCol: {
@@ -38,7 +39,7 @@ export default function LendBorrowForm(props) {
   useEffect(() => {
     let unsubscribeAll = null;
     api.query.genericAsset.freeBalance(item.borrow_asset_id, accountPair.address).then(res => {
-      setborrowBalance(String(res / (10 ** 8)))
+      setborrowBalance(String(new Decimal(Number(res)).dividedBy(10 ** 8)))
     }).then(unsub => {
       unsubscribeAll = unsub;
     })
@@ -71,13 +72,13 @@ export default function LendBorrowForm(props) {
           {...formItemLayout}
           label={'Lend Amount'}
         >
-          <span className="ant-form-text">{item.borrow_balance / (10 ** 8)} {item.borrow_asset_symbol}</span>
+          <span className="ant-form-text">{String(new Decimal(item.borrow_balance).dividedBy(10 ** 8))} {item.borrow_asset_symbol}</span>
         </Form.Item>
         <Form.Item
           {...formItemLayout}
           label={'Interest'}
         >
-          <span className="ant-form-text">{item.interest_rate / (10 ** 4)} ‱</span>
+          <span className="ant-form-text">{String(new Decimal(item.interest_rate).dividedBy(10 ** 4))} ‱</span>
         </Form.Item>
         <Form.Item
           {...formItemLayout}
@@ -85,17 +86,11 @@ export default function LendBorrowForm(props) {
         >
           <span className="ant-form-text">{item.terms} Days</span>
         </Form.Item>
-        {/* <Form.Item
-          {...formItemLayout}
-          label={'Fee'}
-        >
-          <span className="ant-form-text">{item.borrow_balance / (10 ** 8) * item.interest_rate / (10 ** 8)}  {item.borrow_asset_symbol}</span>
-        </Form.Item> */}
         <Form.Item
           {...formItemLayout}
           label={'Estimated profit'}
         >
-          <span className="ant-form-text">{item.interest_rate / (10 ** 10) * item.terms * item.borrow_balance / (10 ** 8) } {item.borrow_asset_symbol}</span>
+          <span className="ant-form-text">{String(new Decimal(item.interest_rate).dividedBy(10 ** 10).times(item.terms).times(item.borrow_balance).dividedBy(10 ** 8))} {item.borrow_asset_symbol}</span>
         </Form.Item>
 
         <Form.Item {...tailFormItemLayout}>

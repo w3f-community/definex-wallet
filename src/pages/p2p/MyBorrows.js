@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { Table, Button, Divider, Modal, Card } from 'antd';
-import { useSubstrate } from '../../substrate-lib';
-import MakeBorrowForm from '../../components/forms/p2p/MakeBorrowForm';
-import AddBorrowForm from '../../components/forms/p2p/AddBorrowForm';
-import RepayBorrowForm from '../../components/forms/p2p/RepayBorrowForm';
-import CancelBorrowForm from '../../components/forms/p2p/CancelBorrowForm';
+import { useSubstrate } from 'substrate-lib';
+import MakeBorrowForm from 'components/forms/p2p/MakeBorrowForm';
+import AddBorrowForm from 'components/forms/p2p/AddBorrowForm';
+import RepayBorrowForm from 'components/forms/p2p/RepayBorrowForm';
+import CancelBorrowForm from 'components/forms/p2p/CancelBorrowForm';
+import { Decimal } from 'decimal.js'
 // import Pagination from '../components/pagination'
 
 export default function P2p(props) {
@@ -63,7 +64,7 @@ export default function P2p(props) {
         dataIndex: 'borrow_balance',
         key: 'borrow_balance',
         render: (props, record) => (
-            <span>{record.borrow_balance / (10 ** 8)} {record.borrow_asset_symbol}</span>
+            <span>{String(new Decimal(record.borrow_balance).dividedBy(10 ** 8))} {record.borrow_asset_symbol}</span>
         )
     },
     {
@@ -71,7 +72,7 @@ export default function P2p(props) {
         dataIndex: 'collateral_balance',
         key: 'collateral_balance',
         render: (props, record) => (
-            <span>{record.collateral_balance / (10 ** 8)} {record.collateral_asset_symbol}</span>
+            <span>{String(new Decimal(record.collateral_balance).dividedBy(10 ** 8))} {record.collateral_asset_symbol}</span>
         )
     },
     {
@@ -84,7 +85,7 @@ export default function P2p(props) {
         dataIndex: 'interest_rate',
         key: 'interest_rate',
         render: (props, record) => (<div>
-            {record.interest_rate / (10 ** 4)} ‱
+            {String(new Decimal(record.interest_rate).dividedBy(10 ** 4))} ‱
         </div>)
     },
     {

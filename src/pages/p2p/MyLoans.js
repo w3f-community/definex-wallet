@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { Table, Button, Modal, Tooltip, Card } from 'antd';
-import { useSubstrate } from '../../substrate-lib';
-import LiquidateBorrowForm from '../../components/forms/p2p/LiquidateBorrowForm';
+import { useSubstrate } from 'substrate-lib';
+import LiquidateBorrowForm from 'components/forms/p2p/LiquidateBorrowForm';
+import { Decimal } from 'decimal.js'
 
 export default function P2p(props) {
     const { api } = useSubstrate();
@@ -9,8 +10,6 @@ export default function P2p(props) {
     const [symbolsMapping, setSymbolsMapping] = useState({});
     const [selectingItem, setSelectingItem] = useState(0);
     const [liquidateModalVisible, setLiquidateModal] = useState(false);
-
-    console.log(api)
 
     const accountPair = props.accountPair;
 
@@ -32,10 +31,6 @@ export default function P2p(props) {
                 loanArray.forEach((item, index) => {
                     item.loan_asset_symbol = symbolsMapping[item.loan_asset_id]
                     item.collateral_asset_symbol = symbolsMapping[item.collateral_asset_id]
-                    // give borrow value
-                    // item.borrow_asset_symbol = symbolsMapping[item.loan_asset_id]
-                    // item.borrow_asset_id = item.loan_asset_id
-                    // item.borrow_balance = item.loan_balance
                 })
                 setLoanList(loanArray);
             }).catch(error => {
@@ -89,7 +84,7 @@ export default function P2p(props) {
             dataIndex: 'collateral_balance',
             key: 'collateral_balance',
             render: (props, record) => (
-                <span>{record.collateral_balance / (10 ** 8)} {record.collateral_asset_symbol}</span>
+                <span>{String(new Decimal(record.collateral_balance).dividedBy(10 ** 8))} {record.collateral_asset_symbol}</span>
             )
         },
         {
@@ -97,7 +92,7 @@ export default function P2p(props) {
             dataIndex: 'loan_balance',
             key: 'loan_balance',
             render: (props, record) => (
-                <span>{record.loan_balance / (10 ** 8)} {record.loan_asset_symbol}</span>
+                <span>{String(new Decimal(record.loan_balance).dividedBy(10 ** 8))} {record.loan_asset_symbol}</span>
             )
         },
         {
@@ -110,7 +105,7 @@ export default function P2p(props) {
             dataIndex: 'interest_rate',
             key: 'interest_rate',
             render: (props, record) => (<div>
-                {record.interest_rate / (10 ** 4)} ‱
+                {String(new Decimal(record.interest_rate).dividedBy(10 ** 4))} ‱
             </div>)
         },
         {
@@ -122,11 +117,6 @@ export default function P2p(props) {
                 {new Date(record.secs_left * 1000 + (new Date().valueOf())).toUTCString()}
             </div>)
         },
-        // {
-        //     title: 'Liquidation Type',
-        //     dataIndex: 'liquidation_type',
-        //     key: 'liquidation_type'
-        // },
         {
             title: 'Action',
             key: 'action',

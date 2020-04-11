@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react'
 import { Form, Spin } from 'antd'
-import { TxButton } from '../../../substrate-lib/components';
-import { useSubstrate } from '../../../substrate-lib';
+import { TxButton } from 'substrate-lib/components';
+import { useSubstrate } from 'substrate-lib';
+import { Decimal } from 'decimal.js'
 
 const tailFormItemLayout = {
   wrapperCol: {
@@ -35,16 +36,6 @@ export default function LiquidateBorrowForm(props) {
   const item = props.item;
   const hideModal = props.hideModal;
 
-  // useEffect(() => {
-  //   let unsubscribeAll = null;
-  //   api.query.genericAsset.freeBalance(item.loan_asset_id, accountPair.address).then(res => {
-  //     setLoanBalance(String(res / (10 ** 8)))
-  //   }).then(unsub => {
-  //     unsubscribeAll = unsub;
-  //   })
-  //   return () => unsubscribeAll && unsubscribeAll();
-  // }, [accountPair.address, api.query.genericAsset, item.loan_asset_id])
-
   // hide modal when completed
   useEffect(() => {
     if (status === 'complete') {
@@ -59,19 +50,19 @@ export default function LiquidateBorrowForm(props) {
           {...formItemLayout}
           label={'Loan Balance'}
         >
-          <span className="ant-form-text">{item.loan_balance / (10 ** 8)} {item.loan_asset_symbol}</span>
+          <span className="ant-form-text">{String(new Decimal(item.loan_balance).dividedBy(10 ** 8))} {item.loan_asset_symbol}</span>
         </Form.Item>
         <Form.Item
           {...formItemLayout}
           label={'Collateral Balance'}
         >
-          <span className="ant-form-text">{item.collateral_balance / (10 ** 8)} {item.collateral_asset_symbol}</span>
+          <span className="ant-form-text">{String(new Decimal(item.collateral_balance).dividedBy(10 ** 8))} {item.collateral_asset_symbol}</span>
         </Form.Item>
         <Form.Item
           {...formItemLayout}
           label={'Interest'}
         >
-          <span className="ant-form-text">{item.interest_rate / (10 ** 4)} ‱</span>
+          <span className="ant-form-text">{String(new Decimal(item.interest_rate).dividedBy(10 ** 4))} ‱</span>
         </Form.Item>
         <Form.Item
           {...formItemLayout}

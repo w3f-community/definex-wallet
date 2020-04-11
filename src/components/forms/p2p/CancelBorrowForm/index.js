@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { Form, Spin } from 'antd'
-import { TxButton } from '../../../substrate-lib/components';
-import { useSubstrate } from '../../../substrate-lib';
+import { TxButton } from 'substrate-lib/components';
+import { useSubstrate } from 'substrate-lib';
 
 const tailFormItemLayout = {
   wrapperCol: {
