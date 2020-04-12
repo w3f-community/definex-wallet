@@ -1,25 +1,25 @@
 import React, { useEffect, useState } from 'react';
 import { Grid, Form, Dropdown, Input } from 'semantic-ui-react';
 
-import { useSubstrate } from './substrate-lib';
-import { TxButton } from './substrate-lib/components';
+import { useSubstrate } from 'substrate-lib';
+import { TxButton } from 'substrate-lib/components';
 
 function Main (props) {
   const { api } = useSubstrate();
   const [modulesList, setModulesList] = useState([]);
   const [status, setStatus] = useState(null);
-  const [callableFunctionList, setCallableFunctionList] = useState([]);
-  const { accountPair } = props;
+  const [storageItemsList, setStorageItemsList] = useState([]);
 
-  const [formState, setFormState] = useState({
+  const initialState = {
     module: '',
-    callableFunction: '',
+    storageItem: '',
     input: ''
-  });
-  const { module, callableFunction, input } = formState;
+  };
+  const [formState, setFormState] = useState(initialState);
+  const { module, storageItem, input } = formState;
 
   useEffect(() => {
-    const modules = Object.keys(api.tx)
+    const modules = Object.keys(api.query)
       .sort()
       .map(module => ({
         key: module,
@@ -32,28 +32,34 @@ function Main (props) {
 
   useEffect(() => {
     if (module !== '') {
-      const callableFunctions = Object.keys(api.tx[module])
+      const storageItems = Object.keys(api.query[module])
         .sort()
-        .map(callable => ({
-          key: callable,
-          value: callable,
-          text: callable
+        .map(storage => ({
+          key: storage,
+          value: storage,
+          text: storage
         }));
 
-      setCallableFunctionList(callableFunctions);
+      setStorageItemsList(storageItems);
     }
   }, [api, module]);
 
-  const onChange = (_, data) =>
-    setFormState(formState => ({ ...formState, [data.state]: data.value }));
+  const onChange = (_, data) => {
+    setFormState(formState => {
+      return {
+        ...formState,
+        [data.state]: data.value
+      };
+    });
+  };
 
   return (
     <Grid.Column>
-      <h1>Extrinsics</h1>
+      <h1>Chain State</h1>
       <Form>
         <Form.Field>
           <Dropdown
-            placeholder='Select a module to call'
+            placeholder='Select a module to query'
             fluid
             label='Module'
             onChange={onChange}
@@ -61,18 +67,20 @@ function Main (props) {
             selection
             state='module'
             options={modulesList}
+            value={module}
           />
         </Form.Field>
         <Form.Field>
           <Dropdown
-            placeholder='Select a function to call'
+            placeholder='Select a storage item to query'
             fluid
-            label='Callable Function'
+            label='Storage Item'
             onChange={onChange}
             search
             selection
-            state='callableFunction'
-            options={callableFunctionList}
+            state='storageItem'
+            options={storageItemsList}
+            value={storageItem}
           />
         </Form.Field>
         <Form.Field>
@@ -83,17 +91,17 @@ function Main (props) {
             placeholder='May not be needed'
             state='input'
             type='text'
+            value={input}
           />
         </Form.Field>
         <Form.Field>
           <TxButton
-            accountPair={accountPair}
-            label='Call'
+            label='Query'
             setStatus={setStatus}
-            type='TRANSACTION'
+            type='QUERY'
             attrs={{
-              params: input ? [input] : null,
-              tx: api.tx[module] && api.tx[module][callableFunction]
+              params: [input],
+              tx: api.query[module] && api.query[module][storageItem]
             }}
           />
         </Form.Field>
@@ -103,7 +111,7 @@ function Main (props) {
   );
 }
 
-export default function Extrinsics (props) {
+export default function ChainState (props) {
   const { api } = useSubstrate();
-  return api.tx ? <Main {...props} /> : null;
+  return api.query ? <Main {...props} /> : null;
 }

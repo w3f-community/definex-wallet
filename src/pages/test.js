@@ -1,21 +1,20 @@
 import React from 'react'
-import Balances from '../Balances';
-import BlockNumber from '../BlockNumber';
-import ChainState from '../ChainState';
-import Events from '../Events';
-import Extrinsics from '../Extrinsics';
-import Metadata from '../Metadata';
-import NodeInfo from '../NodeInfo';
-import TemplateModule from '../TemplateModule';
-import Transfer from '../Transfer';
-import Upgrade from '../Upgrade';
+import Balances from 'components/tests/Balances';
+import BlockNumber from 'components/tests/BlockNumber';
+import ChainState from 'components/tests/ChainState';
+import Events from 'components/tests/Events';
+import Extrinsics from 'components/tests/Extrinsics';
+import Metadata from 'components/tests/Metadata';
+import NodeInfo from 'components/tests/NodeInfo';
+import TemplateModule from 'components/tests/TemplateModule';
+import Transfer from 'components/tests/Transfer';
+import Upgrade from 'components/tests/Upgrade';
 // import { useSubstrate } from '../substrate-lib';
-import { DeveloperConsole } from '../substrate-lib/components';
+import { DeveloperConsole } from 'substrate-lib/components';
 import { Container, Grid } from 'semantic-ui-react';
 
 export default function Text(props) {
-    console.log(props)
-    console.log('loooooading')
+
     const accountPair = props.accountPair
 
     return (
