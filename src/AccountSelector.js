@@ -93,6 +93,9 @@ function Main(props) {
               </AntMenu.Item>
             </AntMenu.ItemGroup>
           </AntMenu.SubMenu>
+          <AntMenu.Item key="saving">
+            <Link to="/saving" style={{ color: '#fff' }}>Saving</Link>
+          </AntMenu.Item>
         </AntMenu>
 
         <Menu.Menu position='right'>

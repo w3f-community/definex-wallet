@@ -14,9 +14,7 @@ import { DeveloperConsole } from 'substrate-lib/components';
 import { Container, Grid } from 'semantic-ui-react';
 
 export default function Text(props) {
-
     const accountPair = props.accountPair
-
     return (
         <Container>
             <Grid stackable columns='equal'>
