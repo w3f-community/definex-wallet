@@ -96,6 +96,9 @@ function Main(props) {
           <AntMenu.Item key="saving">
             <Link to="/saving" style={{ color: '#fff' }}>Saving</Link>
           </AntMenu.Item>
+          <AntMenu.Item key="user-loans">
+            <Link to="/user-loans" style={{ color: '#fff' }}>User Loans</Link>
+          </AntMenu.Item>
         </AntMenu>
 
         <Menu.Menu position='right'>

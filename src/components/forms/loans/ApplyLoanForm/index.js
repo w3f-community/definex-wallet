@@ -20,22 +20,23 @@ const tailFormItemLayout = {
 const formItemLayout = {
   labelCol: {
     xs: { span: 24 },
-    sm: { span: 6 },
+    sm: { span: 10 },
   },
   wrapperCol: {
     xs: { span: 24 },
-    sm: { span: 8 },
+    sm: { span: 14 },
   },
 }
 
-export default function SavingForm(props) {
+export default function ApplyLoanForm(props) {
   const { api } = useSubstrate();
   const [currentSavingInterestRate, setCurrentSavingInterestRate] = useState(0);
-  const [savingAmount, setSavingAmount] = useState(0)
-  const [assetId] = useState(0)
+  const [collateralAmount, setCollateralAmount] = useState(0)
+  const [loanAmount, setLoanAmount] = useState(0)
 
   const [status, setStatus] = useState(null);
   const accountPair = props.accountPair;
+  const hideModal = props.hideModal;
   const symbolsMapping = props.symbolsMapping;
 
   useEffect(() => {
@@ -49,9 +50,9 @@ export default function SavingForm(props) {
   // hide modal when completed
   useEffect(() => {
     if (status === 'complete') {
-      setSavingAmount(0)
+      hideModal()
     }
-  }, [status])
+  }, [status, hideModal])
 
   return (
     <Spin spinning={status === 'loading'}>
@@ -64,26 +65,25 @@ export default function SavingForm(props) {
         </Form.Item>
         <Form.Item
           {...formItemLayout}
-          label={'Asset'}
+          label={'Collaterlal Amount'}
         >
-          {symbolsMapping[assetId]}
-          {/* <Input value={assetId} onChange={event => setAssetId(event.target.value)} /> */}
+          <Input value={collateralAmount} onChange={event => setCollateralAmount(event.target.value)} suffix={symbolsMapping[1]} />
         </Form.Item>
         <Form.Item
           {...formItemLayout}
-          label={'Amount'}
+          label={'Loan Amount'}
         >
-          <Input value={savingAmount} onChange={event => setSavingAmount(event.target.value)} />
+          <Input value={loanAmount} onChange={event => setLoanAmount(event.target.value)} suffix={symbolsMapping[0]} />
         </Form.Item>
         <Form.Item {...tailFormItemLayout}>
           <TxButton
             accountPair={accountPair}
-            label='Staking'
+            label='Apply'
             setStatus={setStatus}
             type='TRANSACTION'
             attrs={{
-              params: [assetId, Number(new Decimal(savingAmount).times(10 ** 8))],
-              tx: api.tx.depositLoan.staking
+              params: [Number(new Decimal(collateralAmount).times(10 ** 8)), Number(new Decimal(loanAmount).times(10 ** 8))],
+              tx: api.tx.depositLoan.applyLoan
             }}
           />
         </Form.Item>

@@ -15,6 +15,7 @@ import AliveLoans from './pages/p2p/AliveLoans';
 import MyLoans from './pages/p2p/MyLoans';
 import Assets from './pages/assets';
 import Saving from './pages/saving';
+import UserLoans from './pages/userLoans'
 import Test from './pages/test';
 
 import 'semantic-ui-css/semantic.min.css';
@@ -81,6 +82,9 @@ function Main() {
             </Route>
             <Route path="/saving">
               <Saving accountPair={accountPair} />
+            </Route>
+            <Route path="/user-loans">
+              <UserLoans accountPair={accountPair} />
             </Route>
             <Route path="/test">
               <Test accountPair={accountPair} />

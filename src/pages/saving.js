@@ -35,8 +35,9 @@ export default function Saving(props) {
     return (
         <div>
             <Card style={{ margin: '32px auto' }} tabList={tabList} activeTabKey={tabKey} onTabChange={key => { setTabKey(key) }}>
-                {tabKey === 'saving' && <SavingForm accountPair={accountPair}/>}
-                {tabKey === 'redeem' && <RedeemForm accountPair={accountPair}/>}
+                {/* currently only support dusd, asset id is 0 */}
+                {tabKey === 'saving' && <SavingForm symbolsMapping={symbolsMapping} accountPair={accountPair}/>}
+                {tabKey === 'redeem' && <RedeemForm symbolsMapping={symbolsMapping} accountPair={accountPair}/>}
             </Card>
         </div>
     );
