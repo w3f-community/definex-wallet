@@ -33,11 +33,28 @@ export default function ApplyLoanForm(props) {
   const [currentSavingInterestRate, setCurrentSavingInterestRate] = useState(0);
   const [collateralAmount, setCollateralAmount] = useState(0)
   const [loanAmount, setLoanAmount] = useState(0)
+  const [btcBalance, setBtcBalance] = useState(0)
+  const [poolBalance, setPoolBalance] = useState(0)
 
   const [status, setStatus] = useState(null);
   const accountPair = props.accountPair;
   const hideModal = props.hideModal;
   const symbolsMapping = props.symbolsMapping;
+
+  useEffect(() => {
+    api.query.genericAsset.freeBalance(1, accountPair.address).then(res => {
+      setBtcBalance(String(new Decimal(Number(res)).dividedBy(10 ** 8)))
+    })
+  }, [accountPair, api.query.genericAsset])
+
+  useEffect(() => {
+    api.query.depositLoan.collectionAccountId(res => {
+      const poolAddress = String(res);
+      api.query.genericAsset.freeBalance(0, poolAddress).then(res => {
+        setPoolBalance(String(new Decimal(Number(res)).dividedBy(10 ** 8)))
+      })
+    })
+  }, [accountPair, api.query.genericAsset, api.query.depositLoan])
 
   useEffect(() => {
     if (accountPair) {
@@ -65,9 +82,21 @@ export default function ApplyLoanForm(props) {
         </Form.Item>
         <Form.Item
           {...formItemLayout}
+          label={'BTC Balance'}
+        >
+          <span className="ant-form-text">{btcBalance} {symbolsMapping[1]}</span>
+        </Form.Item>
+        <Form.Item
+          {...formItemLayout}
           label={'Collaterlal Amount'}
         >
           <Input value={collateralAmount} onChange={event => setCollateralAmount(event.target.value)} suffix={symbolsMapping[1]} />
+        </Form.Item>
+        <Form.Item
+          {...formItemLayout}
+          label={'Collection Poll Balance'}
+        >
+          <span className="ant-form-text">{poolBalance} {symbolsMapping[0]}</span>
         </Form.Item>
         <Form.Item
           {...formItemLayout}
