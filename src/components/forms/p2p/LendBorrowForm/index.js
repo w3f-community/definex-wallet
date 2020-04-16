@@ -90,7 +90,6 @@ export default function LendBorrowForm(props) {
           {...formItemLayout}
           label={'Estimated profit'}
         >
-          {item.interest_rate} nn
           <span className="ant-form-text">{String(new Decimal(item.interest_rate).dividedBy(10 ** 8).times(item.terms).times(item.borrow_balance).dividedBy(10 ** 8))} {item.borrow_asset_symbol}</span>
         </Form.Item>
 

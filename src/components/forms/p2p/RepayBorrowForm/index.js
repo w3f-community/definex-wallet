@@ -39,7 +39,7 @@ export default function RepayBorrowForm(props) {
   useEffect(() => {
     let unsubscribeAll = null;
     api.query.genericAsset.freeBalance(item.borrow_asset_id, accountPair.address).then(res => {
-      setborrowBalance(String(new Decimal(Number(res)).dividedBy(10 ** 8)))
+      setborrowBalance(String(new Decimal(Number(res)).div(10 ** 8)))
     }).then(unsub => {
       unsubscribeAll = unsub;
     })
@@ -67,13 +67,25 @@ export default function RepayBorrowForm(props) {
           {...formItemLayout}
           label={'Borrow Balance'}
         >
-          <span className="ant-form-text">{String(new Decimal(item.borrow_balance).dividedBy(10 ** 8))} {item.borrow_asset_symbol}</span>
+          <span className="ant-form-text">{String(new Decimal(item.borrow_balance).div(10 ** 8))} {item.borrow_asset_symbol}</span>
+        </Form.Item>
+        <Form.Item
+          {...formItemLayout}
+          label={'Interest Rate'}
+        >
+          <span className="ant-form-text">{String(new Decimal(item.interest_rate).div(10 ** 4))} ‱</span>
         </Form.Item>
         <Form.Item
           {...formItemLayout}
           label={'Interest'}
         >
-          <span className="ant-form-text">{String(new Decimal(item.interest_rate).dividedBy(10 ** 4))} ‱</span>
+          <span className="ant-form-text">{String(new Decimal(item.interest_rate).div(10 ** 8).times(item.terms).times(item.borrow_balance).div(10 ** 8))} {item.borrow_asset_symbol}</span>
+        </Form.Item>
+        <Form.Item
+          {...formItemLayout}
+          label={'Total'}
+        >
+          <span className="ant-form-text">{String(new Decimal(item.interest_rate).div(10 ** 8).times(item.terms).times(item.borrow_balance).div(10 ** 8).add(new Decimal(item.borrow_balance).div(10 ** 8)))} {item.borrow_asset_symbol}</span>
         </Form.Item>
         <Form.Item {...tailFormItemLayout}>
           <TxButton
