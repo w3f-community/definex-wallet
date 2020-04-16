@@ -2,14 +2,22 @@ import React, { useEffect, useState } from 'react';
 import { Table, Button, Modal, Tooltip, Card, Divider } from 'antd';
 import { useSubstrate } from 'substrate-lib';
 import ApplyLoanForm from 'components/forms/loans/ApplyLoanForm';
+import AddCollateralForm from 'components/forms/loans/AddCollateralForm';
+import DrawForm from 'components/forms/loans/DrawForm';
+import RepayLoanForm from 'components/forms/loans/RepayLoanForm';
+import MarkLiquidatedForm from 'components/forms/loans/MarkLiquidatedForm';
 import { Decimal } from 'decimal.js'
 
-export default function P2p(props) {
+export default function UserLoans(props) {
     const { api } = useSubstrate();
     const [loanList, setLoanList] = useState(0);
     const [symbolsMapping, setSymbolsMapping] = useState({});
-    // const [selectingItem, setSelectingItem] = useState(0);
+    const [selectingItem, setSelectingItem] = useState(0);
     const [applyLoanModalVisible, setApplyLoanModal] = useState(false);
+    const [addCollateralModalVisible, setAddCollateralModal] = useState(false);
+    const [drawModalVisible, setDrawModal] = useState(false);
+    const [repayLoanModalVisible, setRepayLoanModal] = useState(false);
+    const [markLiquidatedModalVisible, setMarkLiquidatedModal] = useState(false);
 
     const accountPair = props.accountPair;
 
@@ -28,11 +36,6 @@ export default function P2p(props) {
         if (accountPair) {
             api.rpc.depositLoan.userLoans(accountPair.address, 10, 0).then(res => {
                 const loanArray = JSON.parse(res)
-                console.log('loan array', loanArray)
-                // loanArray.forEach((item, index) => {
-                //     item.loan_asset_symbol = symbolsMapping[item.loan_asset_id]
-                //     item.collateral_asset_symbol = symbolsMapping[item.collateral_asset_id]
-                // })
                 setLoanList(loanArray);
             }).catch(error => {
                 console.log('errrr', error);
@@ -93,13 +96,13 @@ export default function P2p(props) {
             width: '560px',
             render: (props, record) => (
                 <div>
-                    <Button>Add Collateral</Button>
+                    <Button onClick={() => { setSelectingItem(record); setAddCollateralModal(true); }}>Add Collateral</Button>
                     <Divider type="vertical" />
-                    <Button>Draw</Button>
+                    <Button onClick={() => { setSelectingItem(record); setDrawModal(true); }}>Draw</Button>
                     <Divider type="vertical" />
-                    <Button>Repay Loan</Button>
+                    <Button onClick={() => { setSelectingItem(record); setRepayLoanModal(true); }}>Repay Loan</Button>
                     <Divider type="vertical" />
-                    <Button>Mark Liquidated</Button>
+                    <Button onClick={() => { setSelectingItem(record); setMarkLiquidatedModal(true); }}>Mark Liquidated</Button>
                 </div>
             )
         }
@@ -122,6 +125,42 @@ export default function P2p(props) {
                 footer={null}
             >
                 <ApplyLoanForm symbolsMapping={symbolsMapping} hideModal={() => { setApplyLoanModal(false) }} accountPair={accountPair} />
+            </Modal>}
+            {addCollateralModalVisible && <Modal
+                title={'Add Collateral'}
+                visible={true}
+                closable
+                onCancel={() => { setAddCollateralModal(false) }}
+                footer={null}
+            >
+                <AddCollateralForm symbolsMapping={symbolsMapping} item={selectingItem} hideModal={() => { setAddCollateralModal(false) }} accountPair={accountPair} />
+            </Modal>}
+            {drawModalVisible && <Modal
+                title={'Draw'}
+                visible={true}
+                closable
+                onCancel={() => { setDrawModal(false) }}
+                footer={null}
+            >
+                <DrawForm symbolsMapping={symbolsMapping} item={selectingItem} hideModal={() => { setDrawModal(false) }} accountPair={accountPair} />
+            </Modal>}
+            {repayLoanModalVisible && <Modal
+                title={'Repay Loan'}
+                visible={true}
+                closable
+                onCancel={() => { setRepayLoanModal(false) }}
+                footer={null}
+            >
+                <RepayLoanForm symbolsMapping={symbolsMapping} item={selectingItem} hideModal={() => { setRepayLoanModal(false) }} accountPair={accountPair} />
+            </Modal>}
+            {markLiquidatedModalVisible && <Modal
+                title={'Mark Liquidated'}
+                visible={true}
+                closable
+                onCancel={() => { setMarkLiquidatedModal(false) }}
+                footer={null}
+            >
+                <MarkLiquidatedForm symbolsMapping={symbolsMapping} item={selectingItem} hideModal={() => { setMarkLiquidatedModal(false) }} accountPair={accountPair} />
             </Modal>}
         </div>
     );
