@@ -10,7 +10,7 @@ export default function P2p(props) {
     const [symbolsMapping, setSymbolsMapping] = useState({});
     const [selectingItem, setSelectingItem] = useState(0);
     const [liquidateModalVisible, setLiquidateModal] = useState(false);
-
+    let [refreshKey, setRefreshKey] = useState(1);
     const accountPair = props.accountPair;
 
     useEffect(() => {
@@ -37,7 +37,7 @@ export default function P2p(props) {
                 console.log('errrr', error);
             })
         }
-    }, [symbolsMapping, api.rpc.pToP, accountPair])
+    }, [symbolsMapping, api.rpc.pToP, accountPair, refreshKey])
 
     const columns = [
         {
@@ -146,7 +146,7 @@ export default function P2p(props) {
                 onCancel={() => { setLiquidateModal(false) }}
                 footer={null}
             >
-                <LiquidateBorrowForm hideModal={() => { setLiquidateModal(false) }} accountPair={accountPair} item={selectingItem} />
+                <LiquidateBorrowForm hideModal={() => { setRefreshKey(++refreshKey); setLiquidateModal(false) }} accountPair={accountPair} item={selectingItem} />
             </Modal>}
         </div>
     );

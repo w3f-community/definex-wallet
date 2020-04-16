@@ -17,6 +17,7 @@ export default function P2p(props) {
     const [repayModalVisible, setRepayModal] = useState(false);
     const [cancelModalVisible, setCancelModal] = useState(false);
     const [makeModalVisible, setMakeModal] = useState(false);
+    let [refreshKey, setRefreshKey] = useState(1);
 
     const accountPair = props.accountPair;
 
@@ -44,7 +45,7 @@ export default function P2p(props) {
                 console.log('errrr', error);
             })
         }
-    }, [symbolsMapping, api.rpc.pToP, accountPair])
+    }, [symbolsMapping, api.rpc.pToP, accountPair, refreshKey])
 
     const columns = [{
         title: 'Id',
@@ -143,7 +144,7 @@ export default function P2p(props) {
                 onCancel={() => { setMakeModal(false) }}
                 footer={null}
             >
-                <MakeBorrowForm hideModal={() => { setMakeModal(false) }} accountPair={accountPair} item={selectingItem} symbolsMapping={symbolsMapping} />
+                <MakeBorrowForm hideModal={() => { setRefreshKey(++refreshKey); setMakeModal(false) }} accountPair={accountPair} item={selectingItem} symbolsMapping={symbolsMapping} />
             </Modal>}
             {addModalVisible && <Modal
                 title={'Add'}
@@ -152,7 +153,7 @@ export default function P2p(props) {
                 onCancel={() => { setAddModal(false) }}
                 footer={null}
             >
-                <AddBorrowForm hideModal={() => { setAddModal(false) }} accountPair={accountPair} item={selectingItem} />
+                <AddBorrowForm hideModal={() => { setRefreshKey(++refreshKey); setAddModal(false) }} accountPair={accountPair} item={selectingItem} />
             </Modal>}
             {repayModalVisible && <Modal
                 title={'Repay'}
@@ -161,7 +162,7 @@ export default function P2p(props) {
                 onCancel={() => { setRepayModal(false) }}
                 footer={null}
             >
-                <RepayBorrowForm hideModal={() => { setRepayModal(false) }} accountPair={accountPair} item={selectingItem} />
+                <RepayBorrowForm hideModal={() => { setRefreshKey(++refreshKey); setRepayModal(false) }} accountPair={accountPair} item={selectingItem} />
             </Modal>}
             {cancelModalVisible && <Modal
                 title={'Cancel'}
@@ -170,7 +171,7 @@ export default function P2p(props) {
                 onCancel={() => { setCancelModal(false) }}
                 footer={null}
             >
-                <CancelBorrowForm hideModal={() => { setCancelModal(false) }} accountPair={accountPair} item={selectingItem} />
+                <CancelBorrowForm hideModal={() => { setRefreshKey(++refreshKey); setCancelModal(false) }} accountPair={accountPair} item={selectingItem} />
             </Modal>}
         </div>
     );

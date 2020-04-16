@@ -18,6 +18,7 @@ export default function UserLoans(props) {
     const [drawModalVisible, setDrawModal] = useState(false);
     const [repayLoanModalVisible, setRepayLoanModal] = useState(false);
     const [markLiquidatedModalVisible, setMarkLiquidatedModal] = useState(false);
+    let [refreshKey, setRefreshKey] = useState(1);
 
     const accountPair = props.accountPair;
 
@@ -41,7 +42,7 @@ export default function UserLoans(props) {
                 console.log('errrr', error);
             })
         }
-    }, [symbolsMapping, api.rpc.depositLoan, accountPair])
+    }, [symbolsMapping, api.rpc.depositLoan, accountPair, refreshKey])
 
     const columns = [
         {
@@ -124,7 +125,7 @@ export default function UserLoans(props) {
                 onCancel={() => { setApplyLoanModal(false) }}
                 footer={null}
             >
-                <ApplyLoanForm symbolsMapping={symbolsMapping} hideModal={() => { setApplyLoanModal(false) }} accountPair={accountPair} />
+                <ApplyLoanForm symbolsMapping={symbolsMapping} hideModal={() => { setRefreshKey(++refreshKey); setApplyLoanModal(false) }} accountPair={accountPair} />
             </Modal>}
             {addCollateralModalVisible && <Modal
                 title={'Add Collateral'}
@@ -133,7 +134,7 @@ export default function UserLoans(props) {
                 onCancel={() => { setAddCollateralModal(false) }}
                 footer={null}
             >
-                <AddCollateralForm symbolsMapping={symbolsMapping} item={selectingItem} hideModal={() => { setAddCollateralModal(false) }} accountPair={accountPair} />
+                <AddCollateralForm symbolsMapping={symbolsMapping} item={selectingItem} hideModal={() => { setRefreshKey(++refreshKey); setAddCollateralModal(false) }} accountPair={accountPair} />
             </Modal>}
             {drawModalVisible && <Modal
                 title={'Draw'}
@@ -142,7 +143,7 @@ export default function UserLoans(props) {
                 onCancel={() => { setDrawModal(false) }}
                 footer={null}
             >
-                <DrawForm symbolsMapping={symbolsMapping} item={selectingItem} hideModal={() => { setDrawModal(false) }} accountPair={accountPair} />
+                <DrawForm symbolsMapping={symbolsMapping} item={selectingItem} hideModal={() => { setRefreshKey(++refreshKey); setDrawModal(false) }} accountPair={accountPair} />
             </Modal>}
             {repayLoanModalVisible && <Modal
                 title={'Repay Loan'}
@@ -151,7 +152,7 @@ export default function UserLoans(props) {
                 onCancel={() => { setRepayLoanModal(false) }}
                 footer={null}
             >
-                <RepayLoanForm symbolsMapping={symbolsMapping} item={selectingItem} hideModal={() => { setRepayLoanModal(false) }} accountPair={accountPair} />
+                <RepayLoanForm symbolsMapping={symbolsMapping} item={selectingItem} hideModal={() => { setRefreshKey(++refreshKey); setRepayLoanModal(false) }} accountPair={accountPair} />
             </Modal>}
             {markLiquidatedModalVisible && <Modal
                 title={'Mark Liquidated'}
@@ -160,7 +161,7 @@ export default function UserLoans(props) {
                 onCancel={() => { setMarkLiquidatedModal(false) }}
                 footer={null}
             >
-                <MarkLiquidatedForm symbolsMapping={symbolsMapping} item={selectingItem} hideModal={() => { setMarkLiquidatedModal(false) }} accountPair={accountPair} />
+                <MarkLiquidatedForm symbolsMapping={symbolsMapping} item={selectingItem} hideModal={() => { setRefreshKey(++refreshKey); setMarkLiquidatedModal(false) }} accountPair={accountPair} />
             </Modal>}
         </div>
     );

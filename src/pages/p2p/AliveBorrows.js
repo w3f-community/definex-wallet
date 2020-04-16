@@ -12,7 +12,7 @@ export default function P2p(props) {
     const [selectingItem, setSelectingItem] = useState(0);
     const [lendModalVisible, setLendModal] = useState(false);
     const [makeModalVisible, setMakeModal] = useState(false);
-
+    let [refreshKey, setRefreshKey] = useState(1);
     const accountPair = props.accountPair;
 
     useEffect(() => {
@@ -29,7 +29,7 @@ export default function P2p(props) {
     useEffect(() => {
         api.rpc.pToP.aliveBorrows(10, 0).then(res => {
             const borrowArray = JSON.parse(res)
-            borrowArray.forEach((item, index) => {
+            borrowArray.forEach((item) => {
                 item.borrow_asset_symbol = symbolsMapping[item.borrow_asset_id]
                 item.collateral_asset_symbol = symbolsMapping[item.collateral_asset_id]
             })
@@ -37,7 +37,7 @@ export default function P2p(props) {
         }).catch(error => {
             console.log('errrr', error);
         })
-    }, [symbolsMapping, api.rpc.pToP])
+    }, [symbolsMapping, api.rpc.pToP, refreshKey])
 
     const columns = [{
         title: 'Id',
@@ -129,7 +129,7 @@ export default function P2p(props) {
                 onCancel={() => { setMakeModal(false) }}
                 footer={null}
             >
-                <MakeBorrowForm hideModal={() => { setMakeModal(false) }} accountPair={accountPair} item={selectingItem} symbolsMapping={symbolsMapping} />
+                <MakeBorrowForm hideModal={() => { setRefreshKey(++refreshKey); setMakeModal(false) }} accountPair={accountPair} item={selectingItem} symbolsMapping={symbolsMapping} />
             </Modal>}
             {lendModalVisible && <Modal
                 title={'Lend'}
@@ -138,7 +138,7 @@ export default function P2p(props) {
                 onCancel={() => { setLendModal(false) }}
                 footer={null}
             >
-                <LendBorrowForm hideModal={() => { setLendModal(false) }} accountPair={accountPair} item={selectingItem} />
+                <LendBorrowForm hideModal={() => { setRefreshKey(++refreshKey); setLendModal(false) }} accountPair={accountPair} item={selectingItem} />
             </Modal>}
         </div>
     );
