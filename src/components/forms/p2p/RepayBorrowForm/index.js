@@ -65,7 +65,7 @@ export default function RepayBorrowForm(props) {
 
         <Form.Item
           {...formItemLayout}
-          label={'Return'}
+          label={'Borrow Balance'}
         >
           <span className="ant-form-text">{String(new Decimal(item.borrow_balance).dividedBy(10 ** 8))} {item.borrow_asset_symbol}</span>
         </Form.Item>

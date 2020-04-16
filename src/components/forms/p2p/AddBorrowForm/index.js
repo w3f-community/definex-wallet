@@ -77,7 +77,7 @@ export default function AddBorrowForm(props) {
             setStatus={setStatus}
             type='TRANSACTION'
             attrs={{
-              params: [item.id, new Decimal(collateralAmount).times(10 ** 8)],
+              params: [item.id, Number(new Decimal(collateralAmount).times(10 ** 8))],
               tx: api.tx.pToP.add
             }}
           />

@@ -16,8 +16,3 @@ yarn start
 ```bash
 yarn build
 ```
-
-### TODO
-
-1. custom errors
-2. add loading for list 
