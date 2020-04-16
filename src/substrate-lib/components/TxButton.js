@@ -4,6 +4,30 @@ import { web3FromSource } from '@polkadot/extension-dapp';
 
 import { useSubstrate } from '../';
 
+const customErrorMapping = {
+  0: 'Paused',
+  1: 'MinBorrowTerms',
+  2: 'MinBorrowInterestRate',
+  3: 'CanNotReserve',
+  4: 'MultipleAliveBorrows',
+  5: 'BorrowNotAlive',
+  6: 'TradingPairNotAllowed',
+  7: 'NotOwnerOfBorrow',
+  8: 'UnknownBorrowId',
+  9: 'UnknownLoanId',
+  10: 'NoLockedBalance',
+  11: 'InitialCollateralRateFail',
+  12: 'NotEnoughBalance',
+  13: 'TradingPairPriceMissing',
+  14: 'BorrowNotLoaned',
+  15: 'LTVNotMeet',
+  16: 'ShouldNotBeLiquidated',
+  17: 'ShouldBeLiquidated',
+  18: 'LoanNotWell',
+  19: 'AddCollateralNotallowed',
+  20: 'FailToreserve',
+}
+
 export default function TxButton({
   accountPair = null,
   label,
@@ -62,7 +86,12 @@ export default function TxButton({
         })
         .catch(e => {
           setStatus('error');
-          message.error(e.toString());
+          let errorMessage = e.toString()
+          if (errorMessage.indexOf('Custom') > -1) {
+            const errorRaw = errorMessage.match(/{([^}]+)}/g)
+            errorMessage = 'Error: ' + customErrorMapping[JSON.parse(errorRaw).Custom]
+          }
+          message.error(errorMessage);
           console.error(e);
         });
     }

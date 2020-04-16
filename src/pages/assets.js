@@ -8,7 +8,6 @@ import UsdtIcon from '../assets/usdt.png'
 
 export default function P2p(props) {
     const { api } = useSubstrate();
-    console.log('api is', api);
     const [assetsList, setAssetsList] = useState(0);
     const [symbolsMapping, setSymbolsMapping] = useState({});
     const accountPair = props.accountPair;
