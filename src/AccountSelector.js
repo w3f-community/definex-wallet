@@ -12,9 +12,10 @@ import { Link, useLocation } from 'react-router-dom'
 import { useSubstrate } from './substrate-lib';
 
 function Main(props) {
-  const { keyring } = useSubstrate();
+  const { keyring, api } = useSubstrate();
   const { setAccountAddress } = props;
   const [accountSelected, setAccountSelected] = useState('');
+  const [currentBlockNumber, setCurrentBlockNumber] = useState();
   const currentLocation = useLocation()
 
   // Get the list of accounts we possess the private key for
@@ -34,6 +35,16 @@ function Main(props) {
   } else if (keyringOptions.length > 0) {
     initialAddress = keyringOptions[0].value
   }
+
+  useEffect(() => {
+    let unsubscribe = null
+    api.derive.chain.bestNumber(number => {
+      setCurrentBlockNumber(Number(number))
+    }).then(unsub => {
+      unsubscribe = unsub
+    })
+    return () => unsubscribe && unsubscribe()
+  }, [api.derive.chain])
 
   // Set the initial address
   useEffect(() => {
@@ -102,8 +113,14 @@ function Main(props) {
             </AntMenu.Item>
           </AntMenu.SubMenu>
         </AntMenu>
-
         <Menu.Menu position='right'>
+          {
+            currentBlockNumber && (
+              <div style={{ color: '#fff', lineHeight: '38px', marginRight: '16px' }}>
+                Block Number: {currentBlockNumber}
+              </div>
+            )
+          }
           {!accountSelected ? (
             <span>
               Add your account with the{' '}
