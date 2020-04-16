@@ -93,12 +93,14 @@ function Main(props) {
               </AntMenu.Item>
             </AntMenu.ItemGroup>
           </AntMenu.SubMenu>
-          <AntMenu.Item key="saving">
-            <Link to="/saving" style={{ color: '#fff' }}>Saving</Link>
-          </AntMenu.Item>
-          <AntMenu.Item key="user-loans">
-            <Link to="/user-loans" style={{ color: '#fff' }}>User Loans</Link>
-          </AntMenu.Item>
+          <AntMenu.SubMenu title={'Savings'} style={{ color: '#fff' }}>
+            <AntMenu.Item key="saving">
+              <Link to="/saving">Saving</Link>
+            </AntMenu.Item>
+            <AntMenu.Item key="user-loans">
+              <Link to="/user-loans">User Loans</Link>
+            </AntMenu.Item>
+          </AntMenu.SubMenu>
         </AntMenu>
 
         <Menu.Menu position='right'>

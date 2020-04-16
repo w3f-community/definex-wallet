@@ -56,7 +56,7 @@ export default function MarkLiquidatedForm(props) {
           {...formItemLayout}
           label={'Auction Balance'}
         >
-          <Input value={auctionBalance} onChange={event => setAuctionBalance(event.target.value)} suffix={symbolsMapping[1]} />
+          <Input value={auctionBalance} onChange={event => setAuctionBalance(event.target.value)} suffix={symbolsMapping[0]} />
         </Form.Item>
         <Form.Item {...tailFormItemLayout}>
           <TxButton

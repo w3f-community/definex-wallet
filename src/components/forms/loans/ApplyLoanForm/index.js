@@ -42,7 +42,7 @@ export default function ApplyLoanForm(props) {
   useEffect(() => {
     if (accountPair) {
       api.query.depositLoan.loanInterestRateCurrent().then(res => {
-        setCurrentSavingInterestRate(JSON.parse(res))
+        setCurrentSavingInterestRate(String(new Decimal(Number(res)).div(10 ** 6)))
       })
     }
   }, [api.query.depositLoan, accountPair]);
@@ -61,7 +61,7 @@ export default function ApplyLoanForm(props) {
           {...formItemLayout}
           label={'Current Saving Interest Rate'}
         >
-          <span className="ant-form-text">{currentSavingInterestRate}</span>
+          <span className="ant-form-text">{currentSavingInterestRate} %</span>
         </Form.Item>
         <Form.Item
           {...formItemLayout}

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Card } from 'antd';
-import { useSubstrate } from '../substrate-lib';
+import { useSubstrate } from 'substrate-lib';
 import SavingForm from 'components/forms/saving/SavingForm'
 import RedeemForm from 'components/forms/saving/RedeemForm'
 
