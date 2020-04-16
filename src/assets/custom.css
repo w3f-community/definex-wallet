@@ -21,6 +21,46 @@ body{
     color: #fff;
 }
 
+/**
+  override default color
+**/
+
+.ant-btn-primary{
+    background-color: #00c1aa;
+    border-color: #00c1aa;
+}
+
+.ant-menu-horizontal > .ant-menu-item:hover, .ant-menu-horizontal > .ant-menu-submenu:hover, .ant-menu-horizontal > .ant-menu-item-active, .ant-menu-horizontal > .ant-menu-submenu-active, .ant-menu-horizontal > .ant-menu-item-open, .ant-menu-horizontal > .ant-menu-submenu-open, .ant-menu-horizontal > .ant-menu-item-selected, .ant-menu-horizontal > .ant-menu-submenu-selected{
+    border-bottom: 2px solid #00c1aa;
+}
+
+.ant-tabs-nav .ant-tabs-tab-active{
+    color: #00c1aa;
+}
+
+.ant-menu-item-selected > a, .ant-menu-item-selected > a:hover{
+    color: #00c1aa;
+}
+
+.ant-menu-item > a:hover{
+    color: #00c1aa;
+}
+
+.ant-tabs-ink-bar{
+    background-color: #00c1aa;
+}
+
+.ant-menu-horizontal > .ant-menu-submenu-selected{
+    border-bottom: 2px solid #00c1aa;
+}
+
+
+
+.ant-btn-primary:hover, .ant-btn-primary:focus{
+    background-color: #04b6a1;
+    border-color: #04b6a1;
+}
+
 @media only screen and (min-width: 1200px){
     .ui.container{
         width: 95%;

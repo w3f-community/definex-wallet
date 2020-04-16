@@ -155,7 +155,7 @@ export default function UserLoans(props) {
                 <RepayLoanForm symbolsMapping={symbolsMapping} item={selectingItem} hideModal={() => { setRefreshKey(++refreshKey); setRepayLoanModal(false) }} accountPair={accountPair} />
             </Modal>}
             {markLiquidatedModalVisible && <Modal
-                title={'Mark Liquidated'}
+                title={'Liquidate Loan'}
                 visible={true}
                 closable
                 onCancel={() => { setMarkLiquidatedModal(false) }}

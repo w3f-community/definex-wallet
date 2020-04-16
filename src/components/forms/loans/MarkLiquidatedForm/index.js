@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react'
-import { Form, Input, Spin } from 'antd'
+import { Form, Spin } from 'antd'
 import { TxButton } from 'substrate-lib/components';
 import { useSubstrate } from 'substrate-lib';
-import { Decimal } from 'decimal.js'
 
 const tailFormItemLayout = {
   wrapperCol: {
@@ -30,11 +29,9 @@ const formItemLayout = {
 
 export default function MarkLiquidatedForm(props) {
   const { api } = useSubstrate();
-  const [auctionBalance, setAuctionBalance] = useState(0)
   const [status, setStatus] = useState(null);
   const accountPair = props.accountPair;
   const hideModal = props.hideModal;
-  const symbolsMapping = props.symbolsMapping;
   const item = props.item;
   // hide modal when completed
   useEffect(() => {
@@ -52,20 +49,14 @@ export default function MarkLiquidatedForm(props) {
         >
           <span className="ant-form-text">{item.id}</span>
         </Form.Item>
-        <Form.Item
-          {...formItemLayout}
-          label={'Auction Balance'}
-        >
-          <Input value={auctionBalance} onChange={event => setAuctionBalance(event.target.value)} suffix={symbolsMapping[0]} />
-        </Form.Item>
         <Form.Item {...tailFormItemLayout}>
           <TxButton
             accountPair={accountPair}
-            label='Mark'
+            label='Liquidate'
             setStatus={setStatus}
             type='TRANSACTION'
             attrs={{
-              params: [item.id, Number(new Decimal(auctionBalance).times(10 ** 8))],
+              params: [item.id],
               tx: api.tx.depositLoan.markLiquidated
             }}
           />
