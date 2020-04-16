@@ -44,7 +44,7 @@ export default function RedeemForm(props) {
         api.query.depositLoan.valueOfTokens,
         [api.query.depositLoan.userDtoken, accountPair.address],
       ], ([valueOfTokens, userDtoken]) => {
-        setYourBalance(Number(new Decimal(Number(userDtoken)).times(Number(valueOfTokens)).div(10 ** 8).div(10 ** 8)))
+        setYourBalance(Number(new Decimal(Number(userDtoken)).times(Number(valueOfTokens)).div(10 ** 8).div(10 ** 8).toFixed(8)))
       })
     }
   }, [api, api.query.depositLoan, accountPair]);

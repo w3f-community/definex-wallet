@@ -59,7 +59,7 @@ export default function ApplyLoanForm(props) {
       <form>
         <Form.Item
           {...formItemLayout}
-          label={'Current Saving Interest Rate'}
+          label={'Loan Interest Rate'}
         >
           <span className="ant-form-text">{currentSavingInterestRate} %</span>
         </Form.Item>

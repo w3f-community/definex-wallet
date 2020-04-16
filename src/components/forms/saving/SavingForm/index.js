@@ -31,16 +31,26 @@ const formItemLayout = {
 export default function SavingForm(props) {
   const { api } = useSubstrate();
   const [currentSavingInterestRate, setCurrentSavingInterestRate] = useState(0);
-  const [savingAmount, setSavingAmount] = useState(0)
-  const [assetId] = useState(0)
+  const [balance, setBalance] = useState(0);
+  const [savingAmount, setSavingAmount] = useState(0);
+  const [assetId] = useState(0);
 
   const [status, setStatus] = useState(null);
   const accountPair = props.accountPair;
   const symbolsMapping = props.symbolsMapping;
 
+  // get user's asset 0 balance
   useEffect(() => {
     if (accountPair) {
-      api.query.depositLoan.loanInterestRateCurrent().then(res => {
+      api.query.genericAsset.freeBalance(assetId, accountPair.address).then(res => {
+        setBalance(String(new Decimal(Number(res)).dividedBy(10 ** 8)))
+      })
+    }
+  }, [accountPair, api.query.genericAsset, assetId])
+
+  useEffect(() => {
+    if (accountPair) {
+      api.query.depositLoan.savingInterestRate().then(res => {
         setCurrentSavingInterestRate(String(new Decimal(Number(res)).div(10 ** 6)))
       })
     }
@@ -61,6 +71,12 @@ export default function SavingForm(props) {
           label={'Current Saving Interest Rate'}
         >
           <span className="ant-form-text">{currentSavingInterestRate} %</span>
+        </Form.Item>
+        <Form.Item
+          {...formItemLayout}
+          label={'Free Balance'}
+        >
+          <span className="ant-form-text">{balance} {symbolsMapping[assetId]}</span>
         </Form.Item>
         <Form.Item
           {...formItemLayout}
