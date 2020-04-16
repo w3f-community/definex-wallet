@@ -45,6 +45,7 @@ export default function P2p(props) {
             title: 'Id',
             dataIndex: 'id',
             key: 'id',
+            width: '50px'
         },
         {
             title: 'Borrow Id',
@@ -126,7 +127,6 @@ export default function P2p(props) {
         {
             title: 'Action',
             key: 'action',
-            width: '300px',
             render: (props, record) => (
                 <div>
                     {record.can_be_liquidate && (

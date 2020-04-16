@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Table, Button, Divider, Modal, Card } from 'antd';
+import { Table, Button, Modal, Card } from 'antd';
 import { useSubstrate } from 'substrate-lib';
 import MakeBorrowForm from 'components/forms/p2p/MakeBorrowForm';
 import AddBorrowForm from 'components/forms/p2p/AddBorrowForm';
@@ -51,6 +51,7 @@ export default function P2p(props) {
         title: 'Id',
         dataIndex: 'id',
         key: 'id',
+        width: '50px'
     },
     {
         title: 'Status',
@@ -97,7 +98,6 @@ export default function P2p(props) {
     {
         title: 'Action',
         key: 'action',
-        width: '300px',
         render: (props, record) => (
             <div>
                 {
@@ -110,7 +110,6 @@ export default function P2p(props) {
                 {
                     record.status === 'Taken' && (
                         <span>
-                            <Divider type="vertical" />
                             <Button onClick={() => { setSelectingItem(record); setRepayModal(true) }}>Repay</Button>
                         </span>
                     )
@@ -118,7 +117,6 @@ export default function P2p(props) {
                 {
                     record.status === 'Alive' && (
                         <span>
-                            <Divider type="vertical" />
                             <Button onClick={() => { setSelectingItem(record); setCancelModal(true) }}>Cancel</Button>
                         </span>
                     )

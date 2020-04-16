@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Table, Button, Modal, Tooltip, Card, Divider } from 'antd';
+import { Table, Button, Modal, Tooltip, Card } from 'antd';
 import { useSubstrate } from 'substrate-lib';
 import ApplyLoanForm from 'components/forms/loans/ApplyLoanForm';
 import AddCollateralForm from 'components/forms/loans/AddCollateralForm';
@@ -49,6 +49,7 @@ export default function UserLoans(props) {
             title: 'Id',
             dataIndex: 'id',
             key: 'id',
+            width: '50px'
         },
         {
             title: 'Who',
@@ -94,16 +95,12 @@ export default function UserLoans(props) {
         {
             title: 'Action',
             key: 'action',
-            width: '560px',
             render: (props, record) => (
                 <div>
                     <Button onClick={() => { setSelectingItem(record); setAddCollateralModal(true); }}>Add Collateral</Button>
-                    <Divider type="vertical" />
                     <Button onClick={() => { setSelectingItem(record); setDrawModal(true); }}>Draw</Button>
-                    <Divider type="vertical" />
                     <Button onClick={() => { setSelectingItem(record); setRepayLoanModal(true); }}>Repay Loan</Button>
-                    <Divider type="vertical" />
-                    <Button onClick={() => { setSelectingItem(record); setMarkLiquidatedModal(true); }}>Mark Liquidated</Button>
+                    <Button onClick={() => { setSelectingItem(record); setMarkLiquidatedModal(true); }}>Liquidate Loan</Button>
                 </div>
             )
         }
