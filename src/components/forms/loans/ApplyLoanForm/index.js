@@ -111,7 +111,8 @@ export default function ApplyLoanForm(props) {
             setStatus={setStatus}
             type='TRANSACTION'
             attrs={{
-              params: [Number(new Decimal(collateralAmount).times(10 ** 8)), Number(new Decimal(loanAmount).times(10 ** 8))],
+              params: [collateralAmount && Number(new Decimal(collateralAmount).times(10 ** 8)),
+              loanAmount && Number(new Decimal(loanAmount).times(10 ** 8))],
               tx: api.tx.depositLoan.applyLoan
             }}
           />

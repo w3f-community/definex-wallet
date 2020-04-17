@@ -66,7 +66,7 @@ export default function DrawForm(props) {
             setStatus={setStatus}
             type='TRANSACTION'
             attrs={{
-              params: [item.id, Number(new Decimal(amount).times(10 ** 8))],
+              params: [item.id, amount && Number(new Decimal(amount).times(10 ** 8))],
               tx: api.tx.depositLoan.draw
             }}
           />

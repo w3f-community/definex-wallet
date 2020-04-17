@@ -73,10 +73,6 @@ export default function MakeBorrowForm(props) {
     }
   }, [status, hideModal])
 
-  const interestChange = (event) => {
-    setInterestRate(parseInt(event.target.value ? event.target.value : 0))
-  }
-
   return (
     <Spin spinning={status === 'loading'}>
       <form>
@@ -132,7 +128,7 @@ export default function MakeBorrowForm(props) {
           {...formItemLayout}
           label={'Interest Rate'}
         >
-          <Input value={interestRate} onChange={interestChange} suffix="‱ Per Day" />
+          <Input value={interestRate} onChange={event => setInterestRate(event.target.value)} suffix="‱ Per Day" />
         </Form.Item>
         <Form.Item {...tailFormItemLayout}>
           <TxButton
@@ -141,11 +137,12 @@ export default function MakeBorrowForm(props) {
             setStatus={setStatus}
             type='TRANSACTION'
             attrs={{
-              params: [Number(new Decimal(collateralBalance).times(10 ** 8)), tradingPairs,
+              params: [collateralBalance && Number(new Decimal(collateralBalance).times(10 ** 8)),
+              tradingPairs,
               {
-                amount: Number(new Decimal(amount).times(10 ** 8)),
+                amount: amount && Number(new Decimal(amount).times(10 ** 8)),
                 terms: Number(terms),
-                interest_rate: Number(new Decimal(interestRate).times(10 ** 4))
+                interest_rate: interestRate && Number(new Decimal(interestRate).times(10 ** 4))
               }
               ],
               tx: api.tx.pToP.make

@@ -98,7 +98,8 @@ export default function SavingForm(props) {
             setStatus={setStatus}
             type='TRANSACTION'
             attrs={{
-              params: [assetId, Number(new Decimal(savingAmount).times(10 ** 8))],
+              params: [assetId,
+              savingAmount && Number(new Decimal(savingAmount).times(10 ** 8))],
               tx: api.tx.depositLoan.staking
             }}
           />

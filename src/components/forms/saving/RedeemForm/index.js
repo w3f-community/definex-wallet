@@ -85,7 +85,8 @@ export default function RedeemForm(props) {
             setStatus={setStatus}
             type='TRANSACTION'
             attrs={{
-              params: [assetId, Number(new Decimal(redeemAmount).times(10 ** 8))],
+              params: [assetId,
+              redeemAmount && Number(new Decimal(redeemAmount).times(10 ** 8))],
               tx: api.tx.depositLoan.redeem
             }}
           />
