@@ -1,15 +1,22 @@
 import React, { useEffect, useState } from 'react';
-import { Table, Card } from 'antd';
+import { Table, Card, Button, Modal } from 'antd';
 import { useSubstrate } from '../substrate-lib';
 
 import BtcIcon from '../assets/btc.png'
 import UsdtIcon from '../assets/usdt.png'
+import DfxIcon from '../assets/dfx.png'
+
+import TransferForm from 'components/forms/assets/TransferForm';
+
 // import Pagination from '../components/pagination'
 
 export default function P2p(props) {
     const { api } = useSubstrate();
     const [assetsList, setAssetsList] = useState(0);
     const [symbolsMapping, setSymbolsMapping] = useState({});
+    const [transferModalVisible, setTransferModal] = useState(false)
+    const [selectingItem, setSelectingItem] = useState(0);
+    let [refreshKey, setRefreshKey] = useState(1);
     const accountPair = props.accountPair;
 
     useEffect(() => {
@@ -25,11 +32,18 @@ export default function P2p(props) {
 
     useEffect(() => {
         if (accountPair) {
+            let assetArray = []
+            // Get generic asset
             api.rpc.genericAsset.userAssets(accountPair.address).then(res => {
-                setAssetsList(JSON.parse(res))
+                assetArray = JSON.parse(res)
+                // Get DFX asset
+                api.query.system.account(accountPair.address).then(result => {
+                    assetArray.push({ asset_id: '', symbol: 'DFX', balance: Number(result.data.free), isMain: true })
+                    setAssetsList(assetArray)
+                })
             })
         }
-    }, [api.rpc.pToP, api.rpc.genericAsset, symbolsMapping, accountPair]);
+    }, [api.rpc.pToP, api.rpc.genericAsset, api.query.system, symbolsMapping, accountPair, refreshKey]);
 
     const columns = [
         {
@@ -43,6 +57,9 @@ export default function P2p(props) {
                     )}
                     {record.symbol === 'DUSD' && (
                         <img src={UsdtIcon} alt="DUSD Icon" style={{ width: '30px', height: '30px', marginRight: '8px' }} />
+                    )}
+                     {record.symbol === 'DFX' && (
+                        <img src={DfxIcon} alt="DFX Icon" style={{ width: '30px', height: '30px', marginRight: '8px' }} />
                     )}
                     {record.symbol}
                 </div>
@@ -61,6 +78,14 @@ export default function P2p(props) {
             render: (props, record) => (
                 <span>{record.balance / (10 ** 8)} {record.symbol}</span>
             )
+        },
+        {
+            title: 'Action',
+            dataIndex: 'action',
+            key: 'action',
+            render: (props, record) => (
+                <Button onClick={() => { setSelectingItem(record); setTransferModal(true) }}>Transfer</Button>
+            )
         }
     ]
 
@@ -72,6 +97,15 @@ export default function P2p(props) {
                 </div>
                 <Table columns={columns} rowKey={'asset_id'} dataSource={assetsList} pagination={false} />
             </Card>
+            {transferModalVisible && <Modal
+                title={'Transfer'}
+                visible={true}
+                closable
+                onCancel={() => { setTransferModal(false) }}
+                footer={null}
+            >
+                <TransferForm hideModal={() => { setRefreshKey(++refreshKey); setTransferModal(false) }} accountPair={accountPair} item={selectingItem} symbolsMapping={symbolsMapping} />
+            </Modal>}
         </div>
     );
 }
