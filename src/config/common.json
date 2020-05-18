@@ -83,7 +83,7 @@
     },
     "P2PBorrowStatus": {
       "_enum": [
-        "Alive",
+        "Available",
         "Taken",
         "Canceled",
         "Completed",
@@ -114,11 +114,10 @@
     },
     "PriceInUSDT": "u64",
     "LoanHealth": {
-      "_enum": {
-        "Well": null,
-        "Warning": "LTV",
-        "Liquidating": "LTV"
-      }
+      "_enum": [
+        "Well",
+        "Liquidating"
+      ]
     },
     "LoanPackageStatus": {
       "_enum": [
@@ -212,7 +211,7 @@
         ],
         "type": "Vec<P2PBorrow>"
       },
-      "aliveBorrows": {
+      "availableBorrows": {
         "params": [
           {
             "name": "size",
@@ -255,7 +254,7 @@
         ],
         "type": "Vec<P2PLoanRPC>"
       },
-      "aliveLoans": {
+      "availableLoans": {
         "params": [
           {
             "name": "size",
