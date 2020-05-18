@@ -117,7 +117,7 @@ export default function P2p(props) {
         <div>
             <Card style={{ margin: '32px auto' }}>
                 <div className={'card-head'}>
-                    <div className={'card-title'}>Alive Borrows</div>
+                    <div className={'card-title'}>Available Borrows</div>
                     <Button type={'primary'} onClick={() => { setMakeModal(true) }}>Make</Button>
                 </div>
                 <Table columns={columns} rowKey={'id'} dataSource={borrowList} pagination={false} />

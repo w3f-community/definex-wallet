@@ -68,13 +68,13 @@ function Main() {
             <Route path="/assets" exact>
               <Assets accountPair={accountPair} />
             </Route>
-            <Route path="/alive-borrows">
+            <Route path="/available-borrows">
               <AliveBorrows accountPair={accountPair} />
             </Route>
             <Route path="/my-borrows">
               <MyBorrows accountPair={accountPair} />
             </Route>
-            <Route path="/alive-loans">
+            <Route path="/available-loans">
               <AliveLoans accountPair={accountPair} />
             </Route>
             <Route path="/my-loans">

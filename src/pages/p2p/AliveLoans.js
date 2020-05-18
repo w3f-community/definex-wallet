@@ -141,7 +141,7 @@ export default function P2p(props) {
         <div>
             <Card style={{ margin: '32px auto' }}>
                 <div className={'card-head'}>
-                    <div className={'card-title'}>Alive Loans</div>
+                    <div className={'card-title'}>Available Loans</div>
                 </div>
                 <Table columns={columns} rowKey={'id'} dataSource={loanList} pagination={false} />
             </Card>
