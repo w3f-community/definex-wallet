@@ -143,13 +143,13 @@ function Main(props) {
           {
             currentBlockNumber && (
               <div style={{ color: '#fff', lineHeight: '38px', marginRight: '16px' }}>
-                Block Number: {currentBlockNumber}
+                {t('common.blockNumber')}: {currentBlockNumber}
               </div>
             )
           }
           {!accountSelected ? (
             <span>
-              Add your account with the{' '}
+              {t('hint.addExtension')}{' '}
               <a
                 target='_blank'
                 rel='noopener noreferrer'
