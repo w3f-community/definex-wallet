@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { Form, Input, Spin } from 'antd'
+import { useTranslation } from 'react-i18next'
 import { TxButton } from 'substrate-lib/components';
 import { useSubstrate } from 'substrate-lib';
 import { Decimal } from 'decimal.js'
@@ -35,6 +36,7 @@ export default function ApplyLoanForm(props) {
   const [loanAmount, setLoanAmount] = useState(0)
   const [btcBalance, setBtcBalance] = useState(0)
   const [poolBalance, setPoolBalance] = useState(0)
+  const { t } = useTranslation()
 
   const [status, setStatus] = useState(null);
   const accountPair = props.accountPair;
@@ -76,38 +78,38 @@ export default function ApplyLoanForm(props) {
       <form>
         <Form.Item
           {...formItemLayout}
-          label={'Loan Interest Rate'}
+          label={t('form.loanInterestRate')}
         >
           <span className="ant-form-text">{currentSavingInterestRate} %</span>
         </Form.Item>
         <Form.Item
           {...formItemLayout}
-          label={'BTC Balance'}
+          label={t('form.btcBalance')}
         >
           <span className="ant-form-text">{btcBalance} {symbolsMapping[1]}</span>
         </Form.Item>
         <Form.Item
           {...formItemLayout}
-          label={'Collaterlal Amount'}
+          label={t('form.collaterlalAmount')}
         >
           <Input value={collateralAmount} onChange={event => setCollateralAmount(event.target.value)} suffix={symbolsMapping[1]} />
         </Form.Item>
         <Form.Item
           {...formItemLayout}
-          label={'Collection Poll Balance'}
+          label={t('form.collectionPoolBalance')}
         >
           <span className="ant-form-text">{poolBalance} {symbolsMapping[0]}</span>
         </Form.Item>
         <Form.Item
           {...formItemLayout}
-          label={'Loan Amount'}
+          label={t('form.loanAmount')}
         >
           <Input value={loanAmount} onChange={event => setLoanAmount(event.target.value)} suffix={symbolsMapping[0]} />
         </Form.Item>
         <Form.Item {...tailFormItemLayout}>
           <TxButton
             accountPair={accountPair}
-            label='Apply'
+            label={t('action.apply')}
             setStatus={setStatus}
             type='TRANSACTION'
             attrs={{

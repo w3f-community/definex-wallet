@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { Form, Input, Spin } from 'antd'
+import { useTranslation } from 'react-i18next'
 import { TxButton } from 'substrate-lib/components';
 import { useSubstrate } from 'substrate-lib';
 import { Decimal } from 'decimal.js'
@@ -35,6 +36,7 @@ export default function AddCollateralForm(props) {
   const accountPair = props.accountPair;
   const hideModal = props.hideModal;
   const symbolsMapping = props.symbolsMapping;
+  const { t } = useTranslation()
   const item = props.item;
 
   // hide modal when completed
@@ -49,20 +51,20 @@ export default function AddCollateralForm(props) {
       <form>
         <Form.Item
           {...formItemLayout}
-          label={'Loan Id'}
+          label={t('form.loanId')}
         >
           <span className="ant-form-text">{item.id}</span>
         </Form.Item>
         <Form.Item
           {...formItemLayout}
-          label={'Amount'}
+          label={t('form.amount')}
         >
           <Input value={amount} onChange={event => setAmount(event.target.value)} suffix={symbolsMapping[1]} />
         </Form.Item>
         <Form.Item {...tailFormItemLayout}>
           <TxButton
             accountPair={accountPair}
-            label='Add'
+            label={t('action.add')}
             setStatus={setStatus}
             type='TRANSACTION'
             attrs={{

@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react'
+import { useTranslation } from 'react-i18next'
 import { Form, Input, Spin } from 'antd'
 import { TxButton } from 'substrate-lib/components';
 import { useSubstrate } from 'substrate-lib';
@@ -41,6 +42,7 @@ export default function MakeBorrowForm(props) {
 
   const [tradingPairs, setTradingPairs] = useState({});
   const [status, setStatus] = useState(null);
+  const { t } = useTranslation()
   const accountPair = props.accountPair;
   const symbolsMapping = props.symbolsMapping;
   const hideModal = props.hideModal;
@@ -79,7 +81,7 @@ export default function MakeBorrowForm(props) {
         {tradingPairs && (
           <Form.Item
             {...formItemLayout}
-            label={'Collateral'}
+            label={t('form.collateral')}
           >
             <span className="ant-form-text">
               {symbolsMapping[tradingPairs.collateral]}
@@ -90,7 +92,7 @@ export default function MakeBorrowForm(props) {
           tradingPairs && (
             <Form.Item
               {...formItemLayout}
-              label={'Borrow'}
+              label={t('form.borrow')}
             >
               <span className="ant-form-text">
                 {symbolsMapping[tradingPairs.borrow]}
@@ -100,7 +102,7 @@ export default function MakeBorrowForm(props) {
         }
         <Form.Item
           {...formItemLayout}
-          label={'Balance'}
+          label={t('form.balance')}
         >
           <span className="ant-form-text">
             {balance} {symbolsMapping[tradingPairs.collateral]}
@@ -108,32 +110,32 @@ export default function MakeBorrowForm(props) {
         </Form.Item>
         <Form.Item
           {...formItemLayout}
-          label={'Collateral Balance'}
+          label={t('form.collateralBalance')}
         >
           <Input value={collateralBalance} onChange={event => { setCollateralBalance(event.target.value) }} />
         </Form.Item>
         <Form.Item
           {...formItemLayout}
-          label={'Borrow Amont'}
+          label={t('form.borrowAmount')}
         >
           <Input value={amount} onChange={event => setAmount(event.target.value)} />
         </Form.Item>
         <Form.Item
           {...formItemLayout}
-          label={'Terms'}
+          label={t('form.terms')}
         >
-          <Input value={terms} onChange={event => setTerms(event.target.value)} suffix="Days" />
+          <Input value={terms} onChange={event => setTerms(event.target.value)} suffix={t('common.days')} />
         </Form.Item>
         <Form.Item
           {...formItemLayout}
-          label={'Interest Rate'}
+          label={t('form.interestRate')}
         >
           <Input value={interestRate} onChange={event => setInterestRate(event.target.value)} suffix="‱ Per Day" />
         </Form.Item>
         <Form.Item {...tailFormItemLayout}>
           <TxButton
             accountPair={accountPair}
-            label='Make'
+            label={t('action.make')}
             setStatus={setStatus}
             type='TRANSACTION'
             attrs={{

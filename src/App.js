@@ -7,6 +7,7 @@ import {
   Route
 } from 'react-router-dom';
 import { message } from 'antd'
+import './i18n'
 
 // imoprt pages here
 import AvailableBorrows from './pages/p2p/AvailableBorrows';

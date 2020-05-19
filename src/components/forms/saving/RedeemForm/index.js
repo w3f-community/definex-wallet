@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { Form, Input, Spin } from 'antd'
 import { TxButton } from 'substrate-lib/components';
 import { useSubstrate } from 'substrate-lib';
+import { useTranslation } from 'react-i18next'
 import { Decimal } from 'decimal.js'
 
 const tailFormItemLayout = {
@@ -33,8 +34,8 @@ export default function RedeemForm(props) {
   const [yourBalance, setYourBalance] = useState(0);
   const [redeemAmount, setRedeemAmount] = useState(0)
   const [assetId] = useState(0)
-
   const [status, setStatus] = useState(null);
+  const { t } = useTranslation()
   const accountPair = props.accountPair;
   const symbolsMapping = props.symbolsMapping;
 
@@ -61,27 +62,26 @@ export default function RedeemForm(props) {
       <form>
         <Form.Item
           {...formItemLayout}
-          label={'Your Balance'}
+          label={t('form.yourBalance')}
         >
           <span className="ant-form-text">{yourBalance} {symbolsMapping[assetId]}</span>
         </Form.Item>
         <Form.Item
           {...formItemLayout}
-          label={'Asset'}
+          label={t('form.asset')}
         >
           {symbolsMapping[assetId]}
-          {/* <Input value={assetId} onChange={event => setAssetId(event.target.value)} /> */}
         </Form.Item>
         <Form.Item
           {...formItemLayout}
-          label={'Amount'}
+          label={t('form.amount')}
         >
           <Input value={redeemAmount} onChange={event => setRedeemAmount(event.target.value)} />
         </Form.Item>
         <Form.Item {...tailFormItemLayout}>
           <TxButton
             accountPair={accountPair}
-            label='Redeem'
+            label={t('action.redeem')}
             setStatus={setStatus}
             type='TRANSACTION'
             attrs={{

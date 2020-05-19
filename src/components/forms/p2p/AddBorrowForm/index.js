@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { Form, Input, Spin } from 'antd'
 import { TxButton } from 'substrate-lib/components';
+import { useTranslation } from 'react-i18next'
 import { useSubstrate } from 'substrate-lib';
 import { Decimal } from 'decimal.js'
 
@@ -35,6 +36,7 @@ export default function AddBorrowForm(props) {
   const [status, setStatus] = useState(null);
   const accountPair = props.accountPair;
   const item = props.item;
+  const { t } = useTranslation()
   const hideModal = props.hideModal;
 
   useEffect(() => {
@@ -59,13 +61,13 @@ export default function AddBorrowForm(props) {
       <form>
         <Form.Item
           {...formItemLayout}
-          label={'Balance'}
+          label={t('form.balance')}
         >
           <span className="ant-form-text">{collateralBalance} {item.collateral_asset_symbol}</span>
         </Form.Item>
         <Form.Item
           {...formItemLayout}
-          label={'Add Collateral'}
+          label={t('form.addCollateral')}
         >
           <Input value={collateralAmount} onChange={event => setCollateralAmount(event.target.value)} />
         </Form.Item>
@@ -73,7 +75,7 @@ export default function AddBorrowForm(props) {
         <Form.Item {...tailFormItemLayout}>
           <TxButton
             accountPair={accountPair}
-            label='Add'
+            label={t('action.add')}
             setStatus={setStatus}
             type='TRANSACTION'
             attrs={{

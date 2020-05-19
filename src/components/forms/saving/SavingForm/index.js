@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { Form, Input, Spin } from 'antd'
 import { TxButton } from 'substrate-lib/components';
 import { useSubstrate } from 'substrate-lib';
+import { useTranslation } from 'react-i18next'
 import { Decimal } from 'decimal.js'
 
 const tailFormItemLayout = {
@@ -34,6 +35,8 @@ export default function SavingForm(props) {
   const [balance, setBalance] = useState(0);
   const [savingAmount, setSavingAmount] = useState(0);
   const [assetId] = useState(0);
+
+  const { t } = useTranslation()
 
   const [status, setStatus] = useState(null);
   const accountPair = props.accountPair;
@@ -68,33 +71,33 @@ export default function SavingForm(props) {
       <form>
         <Form.Item
           {...formItemLayout}
-          label={'Current Saving Interest Rate'}
+          label={t('form.currentSavingInterestRate')}
         >
           <span className="ant-form-text">{currentSavingInterestRate} %</span>
         </Form.Item>
         <Form.Item
           {...formItemLayout}
-          label={'Free Balance'}
+          label={t('form.freeBalance')}
         >
           <span className="ant-form-text">{balance} {symbolsMapping[assetId]}</span>
         </Form.Item>
         <Form.Item
           {...formItemLayout}
-          label={'Asset'}
+          label={t('form.asset')}
         >
           {symbolsMapping[assetId]}
           {/* <Input value={assetId} onChange={event => setAssetId(event.target.value)} /> */}
         </Form.Item>
         <Form.Item
           {...formItemLayout}
-          label={'Amount'}
+          label={t('form.amount')}
         >
           <Input value={savingAmount} onChange={event => setSavingAmount(event.target.value)} />
         </Form.Item>
         <Form.Item {...tailFormItemLayout}>
           <TxButton
             accountPair={accountPair}
-            label='Staking'
+            label={t('action.save')}
             setStatus={setStatus}
             type='TRANSACTION'
             attrs={{

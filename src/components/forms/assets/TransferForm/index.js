@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { Form, Input, Spin } from 'antd'
 import { TxButton } from 'substrate-lib/components';
 import { useSubstrate } from 'substrate-lib';
+import { useTranslation } from 'react-i18next'
 import { Decimal } from 'decimal.js'
 
 const tailFormItemLayout = {
@@ -37,11 +38,11 @@ export default function TransferForm(props) {
 
   const [status, setStatus] = useState(null);
   const accountPair = props.accountPair;
+  const { t } = useTranslation()
   const symbolsMapping = props.symbolsMapping;
   const hideModal = props.hideModal;
 
   const currentAsset = props.item
-  console.log('curr', currentAsset)
 
   // hide modal when completed
   useEffect(() => {
@@ -55,7 +56,7 @@ export default function TransferForm(props) {
       <form>
         <Form.Item
           {...formItemLayout}
-          label={'Current Address'}
+          label={t('form.currentAddress')}
         >
           <span className="ant-form-text">
             {accountPair.address}
@@ -63,7 +64,7 @@ export default function TransferForm(props) {
         </Form.Item>
         <Form.Item
           {...formItemLayout}
-          label={'Balance'}
+          label={t('form.balance')}
         >
           <span className="ant-form-text">
             {currentAsset.balance / (10 ** 8)} {currentAsset.isMain ? 'DFX' : symbolsMapping[currentAsset.asset_id]}
@@ -71,14 +72,14 @@ export default function TransferForm(props) {
         </Form.Item>
         <Form.Item
           {...formItemLayout}
-          label={'Transfer Amount'}
+          label={t('form.transferAmount')}
         >
           <Input value={amount} onChange={event => setAmount(event.target.value)} suffix={currentAsset.isMain ? 'DFX' : symbolsMapping[currentAsset.asset_id]} />
         </Form.Item>
 
         <Form.Item
           {...formItemLayout}
-          label={'Receiver Address'}
+          label={t('form.receiverAddress')}
         >
           <Input value={receiverAddress} onChange={event => setReceiverAddress(event.target.value)} />
         </Form.Item>
@@ -86,7 +87,7 @@ export default function TransferForm(props) {
         <Form.Item {...tailFormItemLayout}>
           <TxButton
             accountPair={accountPair}
-            label='Transfer'
+            label={t('action.transfer')}
             setStatus={setStatus}
             type='TRANSACTION'
             attrs={currentAsset.isMain ? {

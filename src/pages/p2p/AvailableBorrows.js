@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Table, Button, Modal, Tooltip, Card } from 'antd';
+import { useTranslation } from 'react-i18next'
 import { useSubstrate } from 'substrate-lib';
 import MakeBorrowForm from 'components/forms/p2p/MakeBorrowForm';
 import LendBorrowForm from 'components/forms/p2p/LendBorrowForm';
@@ -12,6 +13,7 @@ export default function P2p(props) {
     const [selectingItem, setSelectingItem] = useState(0);
     const [lendModalVisible, setLendModal] = useState(false);
     const [makeModalVisible, setMakeModal] = useState(false);
+    const { t } = useTranslation()
     let [refreshKey, setRefreshKey] = useState(1);
     const accountPair = props.accountPair;
 
@@ -46,7 +48,7 @@ export default function P2p(props) {
         width: '50px'
     },
     {
-        title: 'Who',
+        title: t('table.who'),
         dataIndex: 'who',
         key: 'who',
         ellipsis: true,
@@ -57,7 +59,7 @@ export default function P2p(props) {
             </Tooltip>
         )
     }, {
-        title: 'Status',
+        title: t('table.status'),
         dataIndex: 'status',
         key: 'status',
         render: (props, record) => (
@@ -65,7 +67,7 @@ export default function P2p(props) {
         )
     },
     {
-        title: 'Borrow Balance',
+        title: t('table.borrowBalance'),
         dataIndex: 'borrow_balance',
         key: 'borrow_balance',
         render: (props, record) => (
@@ -73,7 +75,7 @@ export default function P2p(props) {
         )
     },
     {
-        title: 'Collateral Balance',
+        title: t('table.collateralBalance'),
         dataIndex: 'collateral_balance',
         key: 'collateral_balance',
         render: (props, record) => (
@@ -81,12 +83,12 @@ export default function P2p(props) {
         )
     },
     {
-        title: 'Terms',
+        title: t('table.terms'),
         dataIndex: 'terms',
         key: 'terms',
     },
     {
-        title: 'Interest Rate',
+        title: t('table.interestRate'),
         dataIndex: 'interest_rate',
         key: 'interest_rate',
         render: (props, record) => (<div>
@@ -94,18 +96,18 @@ export default function P2p(props) {
         </div>)
     },
     {
-        title: 'Loan Id',
+        title: t('table.loanId'),
         dataIndex: 'loan_id',
         key: 'loan_id',
     },
     {
-        title: 'Action',
+        title: t('table.action'),
         key: 'action',
         render: (props, record) => (
             <div>
                 {
                     record.status === 'Available' && record.who !== accountPair.address && (
-                        <Button onClick={() => { setSelectingItem(record); setLendModal(true) }}>Lend</Button>
+                        <Button onClick={() => { setSelectingItem(record); setLendModal(true) }}>{t('action.lend')}</Button>
                     )
                 }
             </div>
@@ -117,13 +119,13 @@ export default function P2p(props) {
         <div>
             <Card style={{ margin: '32px auto' }}>
                 <div className={'card-head'}>
-                    <div className={'card-title'}>Available Borrows</div>
-                    <Button type={'primary'} onClick={() => { setMakeModal(true) }}>Make</Button>
+                    <div className={'card-title'}>{t('p2p.availableBorrows')}</div>
+                    <Button type={'primary'} onClick={() => { setMakeModal(true) }}>{t('action.make')}</Button>
                 </div>
                 <Table columns={columns} rowKey={'id'} dataSource={borrowList} pagination={false} />
             </Card>
             {makeModalVisible && <Modal
-                title={'Make'}
+                title={t('action.make')}
                 visible={true}
                 closable
                 onCancel={() => { setMakeModal(false) }}
@@ -132,7 +134,7 @@ export default function P2p(props) {
                 <MakeBorrowForm hideModal={() => { setRefreshKey(++refreshKey); setMakeModal(false) }} accountPair={accountPair} item={selectingItem} symbolsMapping={symbolsMapping} />
             </Modal>}
             {lendModalVisible && <Modal
-                title={'Lend'}
+                title={t('action.lend')}
                 visible={true}
                 closable
                 onCancel={() => { setLendModal(false) }}

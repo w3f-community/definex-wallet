@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { Form, Spin } from 'antd'
+import { useTranslation } from 'react-i18next'
 import { TxButton } from 'substrate-lib/components';
 import { useSubstrate } from 'substrate-lib';
 
@@ -32,6 +33,7 @@ export default function RepayLoanForm(props) {
 
   const [status, setStatus] = useState(null);
   const accountPair = props.accountPair;
+  const { t } = useTranslation()
   const hideModal = props.hideModal;
   const item = props.item;
 
@@ -47,14 +49,14 @@ export default function RepayLoanForm(props) {
       <form>
         <Form.Item
           {...formItemLayout}
-          label={'Loan Id'}
+          label={t('form.loanId')}
         >
           <span className="ant-form-text">{item.id}</span>
         </Form.Item>
         <Form.Item {...tailFormItemLayout}>
           <TxButton
             accountPair={accountPair}
-            label='Repay'
+            label={t('form.repay')}
             setStatus={setStatus}
             type='TRANSACTION'
             attrs={{

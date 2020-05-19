@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { Form, Spin } from 'antd'
+import { useTranslation } from 'react-i18next'
 import { TxButton } from 'substrate-lib/components';
 import { useSubstrate } from 'substrate-lib';
 
@@ -32,6 +33,7 @@ export default function MarkLiquidatedForm(props) {
   const [status, setStatus] = useState(null);
   const accountPair = props.accountPair;
   const hideModal = props.hideModal;
+  const { t } = useTranslation()
   const item = props.item;
   // hide modal when completed
   useEffect(() => {
@@ -45,14 +47,14 @@ export default function MarkLiquidatedForm(props) {
       <form>
         <Form.Item
           {...formItemLayout}
-          label={'Loan Id'}
+          label={t('form.loanId')}
         >
           <span className="ant-form-text">{item.id}</span>
         </Form.Item>
         <Form.Item {...tailFormItemLayout}>
           <TxButton
             accountPair={accountPair}
-            label='Liquidate'
+            label={t('form.liquidate')}
             setStatus={setStatus}
             type='TRANSACTION'
             attrs={{

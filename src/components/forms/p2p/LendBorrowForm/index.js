@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react'
+import { useTranslation } from 'react-i18next'
 import { Form, Spin } from 'antd'
 import { TxButton } from 'substrate-lib/components';
 import { useSubstrate } from 'substrate-lib';
@@ -33,6 +34,7 @@ export default function LendBorrowForm(props) {
   const [borrowBalance, setborrowBalance] = useState(0);
   const [status, setStatus] = useState(null);
   const accountPair = props.accountPair;
+  const { t } = useTranslation()
   const item = props.item;
   const hideModal = props.hideModal;
 
@@ -58,37 +60,37 @@ export default function LendBorrowForm(props) {
       <form>
         <Form.Item
           {...formItemLayout}
-          label={'Your Balance'}
+          label={t('form.yourBalance')}
         >
           <span className="ant-form-text">{borrowBalance} {item.borrow_asset_symbol}</span>
         </Form.Item>
         <Form.Item
           {...formItemLayout}
-          label={'Borrow Id'}
+          label={t('form.borrowId')}
         >
           <span className="ant-form-text">{item.id}</span>
         </Form.Item>
         <Form.Item
           {...formItemLayout}
-          label={'Lend Amount'}
+          label={t('form.lendAmount')}
         >
           <span className="ant-form-text">{String(new Decimal(item.borrow_balance).dividedBy(10 ** 8))} {item.borrow_asset_symbol}</span>
         </Form.Item>
         <Form.Item
           {...formItemLayout}
-          label={'Interest'}
+          label={t('form.interest')}
         >
           <span className="ant-form-text">{String(new Decimal(item.interest_rate).dividedBy(10 ** 4))} ‱</span>
         </Form.Item>
         <Form.Item
           {...formItemLayout}
-          label={'Terms'}
+          label={t('form.terms')}
         >
           <span className="ant-form-text">{item.terms} Days</span>
         </Form.Item>
         <Form.Item
           {...formItemLayout}
-          label={'Estimated profit'}
+          label={t('form.estimatedProfit')}
         >
           <span className="ant-form-text">{String(new Decimal(item.interest_rate).dividedBy(10 ** 8).times(item.terms).times(item.borrow_balance).dividedBy(10 ** 8))} {item.borrow_asset_symbol}</span>
         </Form.Item>
@@ -96,7 +98,7 @@ export default function LendBorrowForm(props) {
         <Form.Item {...tailFormItemLayout}>
           <TxButton
             accountPair={accountPair}
-            label='Lend'
+            label={t('action.lend')}
             setStatus={setStatus}
             type='TRANSACTION'
             attrs={{

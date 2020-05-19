@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react'
+import { useTranslation } from 'react-i18next'
 import { Form, Spin } from 'antd'
 import { TxButton } from 'substrate-lib/components';
 import { useSubstrate } from 'substrate-lib';
@@ -33,6 +34,7 @@ export default function LiquidateBorrowForm(props) {
   // const [loanBalance, setLoanBalance] = useState(0);
   const [status, setStatus] = useState(null);
   const [discount, setDiscount] = useState(100);
+  const { t } = useTranslation()
   const accountPair = props.accountPair;
   const item = props.item;
   const hideModal = props.hideModal;
@@ -60,38 +62,38 @@ export default function LiquidateBorrowForm(props) {
       <form>
         <Form.Item
           {...formItemLayout}
-          label={'Loan Balance'}
+          label={t('form.loanBalance')}
         >
           <span className="ant-form-text">{String(new Decimal(item.loan_balance).div(10 ** 8))} {item.loan_asset_symbol}</span>
         </Form.Item>
         <Form.Item
           {...formItemLayout}
-          label={'Discout'}
+          label={t('form.discout')}
         >
           <span className="ant-form-text">{discount} %</span>
         </Form.Item>
         <Form.Item
           {...formItemLayout}
-          label={'Collateral Balance'}
+          label={t('form.collateralBalance')}
         >
           <span className="ant-form-text">{String(new Decimal(item.collateral_balance).div(10 ** 8))} {item.collateral_asset_symbol}</span>
         </Form.Item>
         <Form.Item
           {...formItemLayout}
-          label={'Interest'}
+          label={t('form.interest')}
         >
           <span className="ant-form-text">{String(new Decimal(item.interest_rate).div(10 ** 4))} ‱</span>
         </Form.Item>
         <Form.Item
           {...formItemLayout}
-          label={'Status'}
+          label={t('form.status')}
         >
           <span className="ant-form-text">{item.status}</span>
         </Form.Item>
         <Form.Item {...tailFormItemLayout}>
           <TxButton
             accountPair={accountPair}
-            label='Liquidate'
+            label={t('action.liquidate')}
             setStatus={setStatus}
             type='TRANSACTION'
             attrs={{

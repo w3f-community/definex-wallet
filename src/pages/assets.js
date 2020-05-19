@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Table, Card, Button, Modal } from 'antd';
+import { useTranslation } from 'react-i18next'
 import { useSubstrate } from '../substrate-lib';
 
 import BtcIcon from '../assets/btc.png'
@@ -18,6 +19,7 @@ export default function P2p(props) {
     const [transferModalVisible, setTransferModal] = useState(false)
     const [selectingItem, setSelectingItem] = useState(0);
     let [refreshKey, setRefreshKey] = useState(1);
+    const { t } = useTranslation()
     const accountPair = props.accountPair;
 
     useEffect(() => {
@@ -49,7 +51,7 @@ export default function P2p(props) {
 
     const columns = [
         {
-            title: 'Symbol',
+            title: t('table.symbol'),
             dataIndex: 'symbol',
             key: 'symbol',
             render: (props, record) => (
@@ -65,13 +67,13 @@ export default function P2p(props) {
             )
         },
         {
-            title: 'Asset Id',
+            title: t('table.assetId'),
             dataIndex: 'asset_id',
             key: 'asset_id',
         },
 
         {
-            title: 'Balance',
+            title: t('table.balance'),
             dataIndex: 'balance',
             key: 'balance',
             render: (props, record) => (
@@ -79,18 +81,18 @@ export default function P2p(props) {
             )
         },
         {
-            title: 'Action',
+            title: t('table.action'),
             dataIndex: 'action',
             key: 'action',
             render: (props, record) => (
-                <Button onClick={() => { setSelectingItem(record); setTransferModal(true) }}>Transfer</Button>
+                <Button onClick={() => { setSelectingItem(record); setTransferModal(true) }}>{t('action.transfer')}</Button>
             )
         }
     ]
 
     const originalColumns = [
         {
-            title: 'Symbol',
+            title: t('table.symbol'),
             dataIndex: 'symbol',
             key: 'symbol',
             render: (props, record) => (
@@ -103,7 +105,7 @@ export default function P2p(props) {
             )
         },
         {
-            title: 'Balance',
+            title: t('table.balance'),
             dataIndex: 'balance',
             key: 'balance',
             render: (props, record) => (
@@ -111,7 +113,7 @@ export default function P2p(props) {
             )
         },
         {
-            title: 'Action',
+            title: t('table.action'),
             dataIndex: 'action',
             key: 'action',
             render: (props, record) => (
@@ -124,11 +126,11 @@ export default function P2p(props) {
         <div>
             <Card style={{ margin: '32px auto' }}>
                 <div className={'card-head'}>
-                    <div className={'card-title'}>Generic Assets</div>
+                    <div className={'card-title'}>{t('assets.generic')}</div>
                 </div>
                 <Table columns={columns} rowKey={'symbol'} dataSource={assetsList} pagination={false} style={{ marginBottom: '32px' }} />
                 <div className={'card-head'}>
-                    <div className={'card-title'}>Balance</div>
+                    <div className={'card-title'}>{t('assets.balance')}</div>
                 </div>
                 <Table columns={originalColumns} rowKey={'symbol'} dataSource={originalAssetsList} pagination={false} />
             </Card>

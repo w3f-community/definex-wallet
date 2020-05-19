@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Table, Button, Modal, Tooltip, Card } from 'antd';
 import { useSubstrate } from 'substrate-lib';
+import { useTranslation } from 'react-i18next'
 import ApplyLoanForm from 'components/forms/loans/ApplyLoanForm';
 import AddCollateralForm from 'components/forms/loans/AddCollateralForm';
 import DrawForm from 'components/forms/loans/DrawForm';
@@ -19,6 +20,7 @@ export default function UserLoans(props) {
     const [repayLoanModalVisible, setRepayLoanModal] = useState(false);
     const [markLiquidatedModalVisible, setMarkLiquidatedModal] = useState(false);
     let [refreshKey, setRefreshKey] = useState(1);
+    const { t } = useTranslation();
 
     const accountPair = props.accountPair;
 
@@ -52,7 +54,7 @@ export default function UserLoans(props) {
             width: '50px'
         },
         {
-            title: 'Who',
+            title: t('table.who'),
             dataIndex: 'who',
             key: 'who',
             ellipsis: true,
@@ -64,7 +66,7 @@ export default function UserLoans(props) {
             )
         },
         {
-            title: 'Collateral Balance Original',
+            title: t('table.collateralBalanceOriginal'),
             dataIndex: 'collateral_balance_original',
             key: 'collateral_balance_original',
             render: (props, record) => (
@@ -72,7 +74,7 @@ export default function UserLoans(props) {
             )
         },
         {
-            title: 'Collateral Balance Available',
+            title: t('table.collateralBalanceAvailable'),
             dataIndex: 'collateral_balance_available',
             key: 'collateral_balance_available',
             render: (props, record) => (
@@ -80,7 +82,7 @@ export default function UserLoans(props) {
             )
         },
         {
-            title: 'Loan Balance Total',
+            title: t('table.loanBalanceTotal'),
             dataIndex: 'loan_balance_total',
             key: 'loan_balance_total',
             render: (props, record) => (
@@ -88,19 +90,19 @@ export default function UserLoans(props) {
             )
         },
         {
-            title: 'Status',
+            title: t('table.status'),
             dataIndex: 'status',
             key: 'status'
         },
         {
-            title: 'Action',
+            title: t('table.action'),
             key: 'action',
             render: (props, record) => (
                 <div>
-                    <Button onClick={() => { setSelectingItem(record); setAddCollateralModal(true); }}>Add Collateral</Button>
-                    <Button onClick={() => { setSelectingItem(record); setDrawModal(true); }}>Draw</Button>
-                    <Button onClick={() => { setSelectingItem(record); setRepayLoanModal(true); }}>Repay Loan</Button>
-                    <Button onClick={() => { setSelectingItem(record); setMarkLiquidatedModal(true); }}>Liquidate Loan</Button>
+                    <Button onClick={() => { setSelectingItem(record); setAddCollateralModal(true); }}>{t('action.addCollateral')}</Button>
+                    <Button onClick={() => { setSelectingItem(record); setDrawModal(true); }}>{t('action.draw')}</Button>
+                    <Button onClick={() => { setSelectingItem(record); setRepayLoanModal(true); }}>{t('action.repayLoan')}</Button>
+                    <Button onClick={() => { setSelectingItem(record); setMarkLiquidatedModal(true); }}>{t('action.liquidateLoan')}</Button>
                 </div>
             )
         }
@@ -110,13 +112,13 @@ export default function UserLoans(props) {
         <div>
             <Card style={{ margin: '32px auto' }}>
                 <div className={'card-head'}>
-                    <div className={'card-title'}>User Loans</div>
-                    <Button type={'primary'} onClick={() => { setApplyLoanModal(true) }}>Apply</Button>
+                    <div className={'card-title'}>{t('p2p.userLoans')}</div>
+                    <Button type={'primary'} onClick={() => { setApplyLoanModal(true) }}>{t('action.apply')}</Button>
                 </div>
                 <Table columns={columns} rowKey={'id'} dataSource={loanList} pagination={false} />
             </Card>
             {applyLoanModalVisible && <Modal
-                title={'Apply Loan'}
+                title={t('action.applyLoan')}
                 visible={true}
                 closable
                 onCancel={() => { setApplyLoanModal(false) }}
@@ -125,7 +127,7 @@ export default function UserLoans(props) {
                 <ApplyLoanForm symbolsMapping={symbolsMapping} hideModal={() => { setRefreshKey(++refreshKey); setApplyLoanModal(false) }} accountPair={accountPair} />
             </Modal>}
             {addCollateralModalVisible && <Modal
-                title={'Add Collateral'}
+                title={t('action.addCollateral')}
                 visible={true}
                 closable
                 onCancel={() => { setAddCollateralModal(false) }}
@@ -134,7 +136,7 @@ export default function UserLoans(props) {
                 <AddCollateralForm symbolsMapping={symbolsMapping} item={selectingItem} hideModal={() => { setRefreshKey(++refreshKey); setAddCollateralModal(false) }} accountPair={accountPair} />
             </Modal>}
             {drawModalVisible && <Modal
-                title={'Draw'}
+                title={t('action.draw')}
                 visible={true}
                 closable
                 onCancel={() => { setDrawModal(false) }}
@@ -143,7 +145,7 @@ export default function UserLoans(props) {
                 <DrawForm symbolsMapping={symbolsMapping} item={selectingItem} hideModal={() => { setRefreshKey(++refreshKey); setDrawModal(false) }} accountPair={accountPair} />
             </Modal>}
             {repayLoanModalVisible && <Modal
-                title={'Repay Loan'}
+                title={t('action.repayLoan')}
                 visible={true}
                 closable
                 onCancel={() => { setRepayLoanModal(false) }}
@@ -152,7 +154,7 @@ export default function UserLoans(props) {
                 <RepayLoanForm symbolsMapping={symbolsMapping} item={selectingItem} hideModal={() => { setRefreshKey(++refreshKey); setRepayLoanModal(false) }} accountPair={accountPair} />
             </Modal>}
             {markLiquidatedModalVisible && <Modal
-                title={'Liquidate Loan'}
+                title={t('action.liquidateLoan')}
                 visible={true}
                 closable
                 onCancel={() => { setMarkLiquidatedModal(false) }}

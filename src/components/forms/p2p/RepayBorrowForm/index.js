@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react'
+import { useTranslation } from 'react-i18next'
 import { Form, Spin } from 'antd'
 import { TxButton } from 'substrate-lib/components';
 import { useSubstrate } from 'substrate-lib';
@@ -32,6 +33,7 @@ export default function RepayBorrowForm(props) {
   const { api } = useSubstrate();
   const [borrowBalance, setborrowBalance] = useState(0);
   const [status, setStatus] = useState(null);
+  const { t } = useTranslation()
   const accountPair = props.accountPair;
   const item = props.item;
   const hideModal = props.hideModal;
@@ -58,39 +60,39 @@ export default function RepayBorrowForm(props) {
       <form>
         <Form.Item
           {...formItemLayout}
-          label={'Balance'}
+          label={t('form.balance')}
         >
           <span className="ant-form-text">{borrowBalance} {item.borrow_asset_symbol}</span>
         </Form.Item>
 
         <Form.Item
           {...formItemLayout}
-          label={'Borrow Balance'}
+          label={t('form.borrowBalance')}
         >
           <span className="ant-form-text">{String(new Decimal(item.borrow_balance).div(10 ** 8))} {item.borrow_asset_symbol}</span>
         </Form.Item>
         <Form.Item
           {...formItemLayout}
-          label={'Interest Rate'}
+          label={t('form.interestRate')}
         >
           <span className="ant-form-text">{String(new Decimal(item.interest_rate).div(10 ** 4))} ‱</span>
         </Form.Item>
         <Form.Item
           {...formItemLayout}
-          label={'Interest'}
+          label={t('form.interest')}
         >
           <span className="ant-form-text">{String(new Decimal(item.interest_rate).div(10 ** 8).times(item.terms).times(item.borrow_balance).div(10 ** 8))} {item.borrow_asset_symbol}</span>
         </Form.Item>
         <Form.Item
           {...formItemLayout}
-          label={'Total'}
+          label={t('form.total')}
         >
           <span className="ant-form-text">{String(new Decimal(item.interest_rate).div(10 ** 8).times(item.terms).times(item.borrow_balance).div(10 ** 8).add(new Decimal(item.borrow_balance).div(10 ** 8)))} {item.borrow_asset_symbol}</span>
         </Form.Item>
         <Form.Item {...tailFormItemLayout}>
           <TxButton
             accountPair={accountPair}
-            label='Repay'
+            label={t('action.repay')}
             setStatus={setStatus}
             type='TRANSACTION'
             attrs={{

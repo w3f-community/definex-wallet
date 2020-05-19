@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { Form, Spin } from 'antd'
+import { useTranslation } from 'react-i18next'
 import { TxButton } from 'substrate-lib/components';
 import { useSubstrate } from 'substrate-lib';
 
@@ -31,6 +32,7 @@ export default function CancelBorrowForm(props) {
   const { api } = useSubstrate();
   const [status, setStatus] = useState(null);
   const accountPair = props.accountPair;
+  const { t } = useTranslation()
   const item = props.item;
   const hideModal = props.hideModal;
 
@@ -46,15 +48,15 @@ export default function CancelBorrowForm(props) {
       <form>
         <Form.Item
           {...formItemLayout}
-          label={'Cancel'}
+          label={t('form.cancel')}
         >
-          <span className="ant-form-text">Are you sure to cancel borrow_id {item.id}?</span>
+          <span className="ant-form-text">{t('hint.confirmCancel')} borrow_id {item.id}?</span>
         </Form.Item>
 
         <Form.Item {...tailFormItemLayout}>
           <TxButton
             accountPair={accountPair}
-            label='Cancel'
+            label={t('action.cancel')}
             setStatus={setStatus}
             type='TRANSACTION'
             attrs={{

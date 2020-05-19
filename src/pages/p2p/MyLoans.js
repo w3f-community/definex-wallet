@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Table, Button, Modal, Tooltip, Card } from 'antd';
 import { useSubstrate } from 'substrate-lib';
+import { useTranslation } from 'react-i18next'
 import LiquidateBorrowForm from 'components/forms/p2p/LiquidateBorrowForm';
 import { Decimal } from 'decimal.js'
 
@@ -11,6 +12,7 @@ export default function P2p(props) {
     const [selectingItem, setSelectingItem] = useState(0);
     const [liquidateModalVisible, setLiquidateModal] = useState(false);
     let [refreshKey, setRefreshKey] = useState(1);
+    const { t } = useTranslation()
     const accountPair = props.accountPair;
 
     useEffect(() => {
@@ -47,12 +49,12 @@ export default function P2p(props) {
             width: '50px'
         },
         {
-            title: 'Borrow Id',
+            title: t('table.borrowId'),
             dataIndex: 'borrow_id',
             key: 'borrow_id',
         },
         {
-            title: 'Borrower Id',
+            title: t('table.borrowerId'),
             dataIndex: 'borrower_id',
             key: 'borrower_id',
             ellipsis: true,
@@ -64,7 +66,7 @@ export default function P2p(props) {
             )
         },
         {
-            title: 'Loaner Id',
+            title: t('table.loanerId'),
             dataIndex: 'loaner_id',
             key: 'loaner_id',
             ellipsis: true,
@@ -76,12 +78,12 @@ export default function P2p(props) {
             )
         },
         {
-            title: 'Due Height',
+            title: t('table.dueHeight'),
             dataIndex: 'due_height',
             key: 'due_height'
         },
         {
-            title: 'Collateral Balance',
+            title: t('table.collateralBalance'),
             dataIndex: 'collateral_balance',
             key: 'collateral_balance',
             render: (props, record) => (
@@ -89,7 +91,7 @@ export default function P2p(props) {
             )
         },
         {
-            title: 'Loan Balance',
+            title: t('table.loanBalance'),
             dataIndex: 'loan_balance',
             key: 'loan_balance',
             render: (props, record) => (
@@ -97,12 +99,12 @@ export default function P2p(props) {
             )
         },
         {
-            title: 'Status',
+            title: t('table.status'),
             dataIndex: 'status',
             key: 'status'
         },
         {
-            title: 'Interest Rate',
+            title: t('table.interestRate'),
             dataIndex: 'interest_rate',
             key: 'interest_rate',
             render: (props, record) => (<div>
@@ -110,7 +112,7 @@ export default function P2p(props) {
             </div>)
         },
         {
-            title: 'Expire Time',
+            title: t('table.expireTime'),
             dataIndex: 'secs_left',
             key: 'secs_left',
             width: '260px',
@@ -119,12 +121,12 @@ export default function P2p(props) {
             </div>)
         },
         {
-            title: 'Action',
+            title: t('table.action'),
             key: 'action',
             render: (props, record) => (
                 <div>
                     {record.can_be_liquidate && (
-                        <Button onClick={() => { setSelectingItem(record); setLiquidateModal(true) }}>Liquidate</Button>
+                        <Button onClick={() => { setSelectingItem(record); setLiquidateModal(true) }}>{t('action.liquidate')}</Button>
                     )}
                 </div>
             )
@@ -135,12 +137,12 @@ export default function P2p(props) {
         <div>
             <Card style={{ margin: '32px auto' }}>
                 <div className={'card-head'}>
-                    <div className={'card-title'}>My Loans</div>
+                    <div className={'card-title'}>{t('p2p.myLoans')}</div>
                 </div>
                 <Table columns={columns} rowKey={'id'} dataSource={loanList} pagination={false} />
             </Card>
             {liquidateModalVisible && <Modal
-                title={'Liquidate'}
+                title={t('action.liquidate')}
                 visible={true}
                 closable
                 onCancel={() => { setLiquidateModal(false) }}
