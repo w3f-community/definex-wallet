@@ -27,7 +27,7 @@ export default function P2p(props) {
 
     useEffect(() => {
         if (accountPair) {
-            api.rpc.pToP.aliveLoans(10, 0).then(res => {
+            api.rpc.pToP.availableLoans(10, 0).then(res => {
                 const loanArray = JSON.parse(res)
                 loanArray.forEach((item, index) => {
                     item.loan_asset_symbol = symbolsMapping[item.loan_asset_id]

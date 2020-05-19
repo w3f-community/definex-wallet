@@ -9,9 +9,9 @@ import {
 import { message } from 'antd'
 
 // imoprt pages here
-import AliveBorrows from './pages/p2p/AliveBorrows';
+import AvailableBorrows from './pages/p2p/AvailableBorrows';
 import MyBorrows from './pages/p2p/MyBorrows';
-import AliveLoans from './pages/p2p/AliveLoans';
+import AvailableLoans from './pages/p2p/AvailableLoans';
 import MyLoans from './pages/p2p/MyLoans';
 import Assets from './pages/assets';
 import Saving from './pages/savings/saving';
@@ -69,13 +69,13 @@ function Main() {
               <Assets accountPair={accountPair} />
             </Route>
             <Route path="/available-borrows">
-              <AliveBorrows accountPair={accountPair} />
+              <AvailableBorrows accountPair={accountPair} />
             </Route>
             <Route path="/my-borrows">
               <MyBorrows accountPair={accountPair} />
             </Route>
             <Route path="/available-loans">
-              <AliveLoans accountPair={accountPair} />
+              <AvailableLoans accountPair={accountPair} />
             </Route>
             <Route path="/my-loans">
               <MyLoans accountPair={accountPair} />

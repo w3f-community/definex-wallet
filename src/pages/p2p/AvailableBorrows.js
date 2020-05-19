@@ -27,7 +27,7 @@ export default function P2p(props) {
     }, [api.rpc.pToP, api.rpc.genericAsset]);
 
     useEffect(() => {
-        api.rpc.pToP.aliveBorrows(10, 0).then(res => {
+        api.rpc.pToP.availableBorrows(10, 0).then(res => {
             const borrowArray = JSON.parse(res)
             borrowArray.forEach((item) => {
                 item.borrow_asset_symbol = symbolsMapping[item.borrow_asset_id]
@@ -104,7 +104,7 @@ export default function P2p(props) {
         render: (props, record) => (
             <div>
                 {
-                    record.status === 'Alive' && record.who !== accountPair.address && (
+                    record.status === 'Available' && record.who !== accountPair.address && (
                         <Button onClick={() => { setSelectingItem(record); setLendModal(true) }}>Lend</Button>
                     )
                 }

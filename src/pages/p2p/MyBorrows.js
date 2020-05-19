@@ -101,7 +101,7 @@ export default function P2p(props) {
         render: (props, record) => (
             <div>
                 {
-                    (record.status === 'Taken' || record.status === 'Alive') && (
+                    (record.status === 'Taken' || record.status === 'Available') && (
                         <span>
                             <Button onClick={() => { setSelectingItem(record); setAddModal(true) }}>Add</Button>
                         </span>
@@ -115,7 +115,7 @@ export default function P2p(props) {
                     )
                 }
                 {
-                    record.status === 'Alive' && (
+                    record.status === 'Available' && (
                         <span>
                             <Button onClick={() => { setSelectingItem(record); setCancelModal(true) }}>Cancel</Button>
                         </span>
