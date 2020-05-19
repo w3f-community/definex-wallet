@@ -50,11 +50,11 @@ function Main(props) {
     return () => unsubscribe && unsubscribe()
   }, [api.derive.chain])
 
-  //watch language change
+  // watch language change
   useEffect(() => {
     i18n.changeLanguage(language)
     localStorage.setItem('language', language)
-  }, [language])
+  }, [language, i18n])
 
   // Set the initial address
   useEffect(() => {
@@ -73,10 +73,10 @@ function Main(props) {
   const languageMenu = (
     <AntMenu>
       <AntMenu.Item>
-        <a onClick={() => { setLanguage('zh') }}>简体中文</a>
+        <a href="#" onClick={() => { setLanguage('zh') }}>简体中文</a>
       </AntMenu.Item>
       <AntMenu.Item>
-        <a onClick={() => { setLanguage('en') }}>English</a>
+        <a href="#" onClick={() => { setLanguage('en') }}>English</a>
       </AntMenu.Item>
     </AntMenu>
   )
@@ -135,10 +135,9 @@ function Main(props) {
           </AntMenu.SubMenu>
         </AntMenu>
         <Menu.Menu position='right'>
-
-        <AntDropdown overlay={languageMenu}>
-            <div style={{ color: '#fff', lineHeight: '38px', marginRight: '16px', cursor: 'pointer'}}>
-              {language == 'zh' ? '简体中文 ∨' : 'English ∨'}
+          <AntDropdown overlay={languageMenu}>
+            <div style={{ color: '#fff', lineHeight: '38px', marginRight: '16px', cursor: 'pointer' }}>
+              {language === 'zh' ? '简体中文 ∨' : 'English ∨'}
             </div>
           </AntDropdown>
           {
@@ -148,7 +147,6 @@ function Main(props) {
               </div>
             )
           }
-
           {!accountSelected ? (
             <span>
               Add your account with the{' '}
