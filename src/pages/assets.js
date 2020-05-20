@@ -117,7 +117,7 @@ export default function P2p(props) {
             dataIndex: 'action',
             key: 'action',
             render: (props, record) => (
-                <Button onClick={() => { setSelectingItem(record); setTransferModal(true) }}>Transfer</Button>
+                <Button onClick={() => { setSelectingItem(record); setTransferModal(true) }}>{t('action.transfer')}</Button>
             )
         }
     ]
