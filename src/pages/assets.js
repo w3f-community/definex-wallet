@@ -135,7 +135,7 @@ export default function P2p(props) {
                 <Table columns={originalColumns} rowKey={'symbol'} dataSource={originalAssetsList} pagination={false} />
             </Card>
             {transferModalVisible && <Modal
-                title={'Transfer'}
+                title={t('action.transfer')}
                 visible={true}
                 closable
                 onCancel={() => { setTransferModal(false) }}

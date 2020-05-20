@@ -132,7 +132,7 @@ export default function P2p(props) {
             render: (props, record) => (
                 <div>
                     {record.can_be_liquidate && (
-                        <Button onClick={() => { setSelectingItem(record); setLiquidateModal(true) }}>Liquidate</Button>
+                        <Button onClick={() => { setSelectingItem(record); setLiquidateModal(true) }}>{t('action.liquidate')}</Button>
                     )}
                 </div>
             )
