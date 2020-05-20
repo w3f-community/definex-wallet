@@ -16,7 +16,7 @@ const resources = {
       'nav.userLoans': '用户借出',
       'common.days': '天',
       'common.blockNumber': '最新区块',
-      'table.symbol': '符号',
+      'table.symbol': '币种',
       'table.assetId': '资产 Id',
       'table.balance': '余额',
       'table.action': '操作',
