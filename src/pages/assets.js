@@ -130,7 +130,7 @@ export default function P2p(props) {
                 <div className={'card-head'}>
                     <div className={'card-title'}>{t('assets.generic')}</div>
                 </div>
-                <Table columns={columns} rowKey={'symbol'} dataSource={assetsList} pagination={false} style={{ marginBottom: '32px' }} />
+                <Table scroll={isMobile ? { x: true } : {}} columns={columns} rowKey={'symbol'} dataSource={assetsList} pagination={false} style={{ marginBottom: '32px' }} />
                 <div className={'card-head'}>
                     <div className={'card-title'}>{t('assets.balance')}</div>
                 </div>
