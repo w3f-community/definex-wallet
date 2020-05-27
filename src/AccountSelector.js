@@ -85,6 +85,7 @@ function Main(props) {
     <Menu
       attached='top'
       tabular
+      className="page-header"
       style={{
         backgroundColor: '#000',
         borderColor: '#fff',
@@ -99,7 +100,7 @@ function Main(props) {
           }}>
             {/* TODO: change a way to import */}
             <Link to="/assets">
-              <img src="/logo.png" alt="logo" style={{ width: '100px', marginRight: '12px' }} />
+              <img src="/logo.png" className="logo-img" alt="logo" style={{ width: '100px', marginRight: '12px' }} />
             </Link>
           </div>
         </Menu.Menu>
@@ -142,34 +143,37 @@ function Main(props) {
           </AntDropdown>
           {
             currentBlockNumber && (
-              <div style={{ color: '#fff', lineHeight: '38px', marginRight: '16px' }}>
+              <div className="block-number" style={{ color: '#fff', lineHeight: '38px', marginRight: '16px' }}>
                 {t('common.blockNumber')}: {currentBlockNumber}
               </div>
             )
           }
-          {!accountSelected ? (
-            <span>
-              {t('hint.addExtension')}{' '}
-              <a
-                target='_blank'
-                rel='noopener noreferrer'
-                href='https://github.com/polkadot-js/extension'
-              >
-                Polkadot JS Extension
+          <div className="account-select">
+            {!accountSelected ? (
+              <span>
+                {t('hint.addExtension')}{' '}
+                <a
+                  target='_blank'
+                  rel='noopener noreferrer'
+                  href='https://github.com/polkadot-js/extension'
+                >
+                  Polkadot JS Extension
               </a>
-            </span>
-          ) : null}
-          <Dropdown
-            search
-            selection
-            clearable
-            placeholder='Select an account'
-            options={keyringOptions}
-            onChange={(_, dropdown) => {
-              onChange(dropdown.value);
-            }}
-            value={accountSelected}
-          />
+              </span>
+            ) : null}
+            <Dropdown
+              search
+              selection
+              clearable
+              placeholder='Select an account'
+              options={keyringOptions}
+              onChange={(_, dropdown) => {
+                onChange(dropdown.value);
+              }}
+              value={accountSelected}
+            />
+          </div>
+
         </Menu.Menu>
       </Container>
     </Menu>

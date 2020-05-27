@@ -108,6 +108,8 @@ export default function UserLoans(props) {
         }
     ]
 
+    const isMobile = document.body.offsetWidth < 992;
+
     return (
         <div>
             <Card style={{ margin: '32px auto' }}>
@@ -115,7 +117,7 @@ export default function UserLoans(props) {
                     <div className={'card-title'}>{t('p2p.userLoans')}</div>
                     <Button type={'primary'} onClick={() => { setApplyLoanModal(true) }}>{t('action.apply')}</Button>
                 </div>
-                <Table columns={columns} rowKey={'id'} dataSource={loanList} pagination={false} />
+                <Table scroll={isMobile ? { x: true } : {}} columns={columns} rowKey={'id'} dataSource={loanList} pagination={false} />
             </Card>
             {applyLoanModalVisible && <Modal
                 title={t('action.applyLoan')}

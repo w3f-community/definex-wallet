@@ -122,6 +122,8 @@ export default function P2p(props) {
         }
     ]
 
+    const isMobile = document.body.offsetWidth < 992;
+
     return (
         <div>
             <Card style={{ margin: '32px auto' }}>
@@ -132,7 +134,7 @@ export default function P2p(props) {
                 <div className={'card-head'}>
                     <div className={'card-title'}>{t('assets.balance')}</div>
                 </div>
-                <Table columns={originalColumns} rowKey={'symbol'} dataSource={originalAssetsList} pagination={false} />
+                <Table scroll={isMobile ? { x: true } : {}} columns={originalColumns} rowKey={'symbol'} dataSource={originalAssetsList} pagination={false} />
             </Card>
             {transferModalVisible && <Modal
                 title={t('action.transfer')}

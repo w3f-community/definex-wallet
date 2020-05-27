@@ -71,3 +71,18 @@ body{
         width: 95%;
     }
 }
+
+@media screen and (max-width: 992px){
+    .page-header .account-select{
+        display: none !important;
+    }
+
+    .page-header .block-number{
+        display: none !important;
+    }
+    .page-header .logo-img{
+        width: 76px !important;
+        margin-right: 0 !important;
+    }
+
+}

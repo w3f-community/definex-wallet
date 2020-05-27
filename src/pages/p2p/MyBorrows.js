@@ -128,6 +128,8 @@ export default function P2p(props) {
     }
     ]
 
+    const isMobile = document.body.offsetWidth < 992;
+
     return (
         <div>
             <Card style={{ margin: '32px auto' }}>
@@ -135,7 +137,7 @@ export default function P2p(props) {
                     <div className={'card-title'}>{t('p2p.myBorrows')}</div>
                     <Button type={'primary'} onClick={() => { setMakeModal(true) }}>{t('action.make')}</Button>
                 </div>
-                <Table columns={columns} rowKey={'id'} dataSource={userBorrowList} pagination={false} />
+                <Table columns={columns} scroll={isMobile ? { x: true } : {}} rowKey={'id'} dataSource={userBorrowList} pagination={false} />
             </Card>
             {makeModalVisible && <Modal
                 title={t('action.make')}

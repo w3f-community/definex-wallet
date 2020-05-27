@@ -139,13 +139,15 @@ export default function P2p(props) {
         }
     ]
 
+    const isMobile = document.body.offsetWidth < 992;
+
     return (
         <div>
             <Card style={{ margin: '32px auto' }}>
                 <div className={'card-head'}>
                     <div className={'card-title'}>{t('p2p.availableLoans')}</div>
                 </div>
-                <Table columns={columns} rowKey={'id'} dataSource={loanList} pagination={false} />
+                <Table columns={columns} scroll={isMobile ? { x: true } : {}} rowKey={'id'} dataSource={loanList} pagination={false} />
             </Card>
             {liquidateModalVisible && <Modal
                 title={t('action.liquidate')}
